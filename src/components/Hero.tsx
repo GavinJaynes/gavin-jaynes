@@ -60,7 +60,7 @@ function AsciiPlaceholder({ visible }: { visible: boolean }) {
     <pre
       aria-hidden
       className={`absolute inset-0 overflow-hidden font-mono text-zinc-400 leading-[1.15] select-none pointer-events-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
-      style={{ fontSize: "clamp(5.5px, 1.05vw, 8px)" }}
+      style={{ fontSize: "1.74cqw" }}
     >
       {ASCII_ART}
     </pre>
@@ -98,7 +98,7 @@ export function Hero() {
         </div>
 
         {/* Image */}
-        <div className="relative flex-1 min-h-0 overflow-hidden">
+        <div className="relative flex-1 min-h-0 overflow-hidden [container-type:inline-size]">
           <AsciiPlaceholder visible={!imageLoaded} />
           <img
             src="/me.png"
@@ -187,7 +187,7 @@ export function Hero() {
         </div>
 
         {/* Right photo */}
-        <div className="relative w-[46%] flex-none overflow-hidden">
+        <div className="relative w-[46%] flex-none overflow-hidden [container-type:inline-size]">
           <div className="absolute inset-y-0 left-0 z-10 w-32 bg-linear-to-r from-stone-50 to-transparent" />
           <AsciiPlaceholder visible={!imageLoaded} />
           <img
