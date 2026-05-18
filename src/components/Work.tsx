@@ -17,18 +17,11 @@ const roles = [
       "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
   },
   {
-    period: "2016 - 2022",
-    role: "Senior Frontend Engineer",
-    company: "Enterprise DXP",
+    period: "2013 - 2022",
+    role: "Frontend Engineer → Senior",
+    company: "Enterprise & Agency",
     description:
-      "Led frontend modernisation of a 14-year-old enterprise CMS deployed across government and higher education. Drove the team from a legacy codebase to a modern React + TypeScript stack. Later moved into the Centre of Excellence as Quality & Standards Manager.",
-  },
-  {
-    period: "2013 - 2015",
-    role: "Frontend Engineer",
-    company: "Agency / Early Career",
-    description:
-      "Built large-scale membership sites, eCommerce platforms, and client-facing products across London agencies. First years shipping at pace across multiple industries and client types.",
+      "Nine years across London agencies and Australian enterprise. Membership platforms, eCommerce, government-scale CMS. The foundation.",
   },
 ]
 

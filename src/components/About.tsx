@@ -5,7 +5,7 @@ const points = [
   { label: "~15 years", detail: "Writing production code" },
   { label: "4 years", detail: "Deep in DeFi & Web3" },
   { label: "Enterprise scale", detail: "Squiz Matrix, gov & higher-ed" },
-  { label: "AI-augmented", detail: "Every day, not as a gimmick" },
+  { label: "AI products", detail: "Built and shipped, not just a user" },
   { label: "Standards-driven", detail: "Workflow, process & craft matter" },
   { label: "Seen it all", detail: "Flash, jQuery, TypeScript, the AI wave" },
 ]
@@ -74,14 +74,6 @@ export function About() {
           ))}
         </div>
 
-        {/* Closing */}
-        <p className="font-sans text-sm text-zinc-400 italic mt-10 max-w-xl leading-relaxed">
-          I've done the enterprise thing. I know the rituals, the standups, the
-          sprint reviews. I've also co-founded two startups, shipped DeFi
-          products to thousands of users, and built a live trading system from
-          scratch. I'm passionate about standards, workflow, and craft,
-          and I'm ready for whatever's next.
-        </p>
       </div>
     </section>
   )

@@ -18,8 +18,8 @@ const projects = [
     name: "Algo Trading System",
     type: "Systems / Trading",
     description:
-      "Live algorithmic trading engine running perpetual futures on HyperLiquid. Dual-pipeline architecture: a Decision Engine scoring RSI, funding, and momentum signals in parallel with a DBCRC breakout scanner. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket placement.",
-    highlights: ["Live on HyperLiquid", "Dual-pipeline architecture", "Dynamic risk sizing", "Telegram alerts + structured logging"],
+      "Autonomous trading system for HyperLiquid perpetual futures. Trade via natural language through Telegram, or let it run: every 4 hours it scores RSI, funding, and momentum signals alongside a DBCRC breakout scanner, then decides whether to act. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket management.",
+    highlights: ["Natural language trading via Telegram", "Autonomous 4-hour signal cycle", "Dual-pipeline decision architecture", "Full execution layer on HyperLiquid"],
     tech: ["Python", "HyperLiquid SDK", "cron", "Hetzner VPS", "Telegram Bot API"],
     chains: ["HyperLiquid"],
     url: null,

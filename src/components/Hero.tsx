@@ -15,13 +15,61 @@ const ALL_STATS = [
   { value: "12", label: "Rebrands survived" },
 ]
 
+const ASCII_ART = `...............................................::--:................................................
+...........................................:-=*#**%%+--:............................................
+.........................................:-+#%@@@@@@%%%##*=.........................................
+......................................:--+#%%#%%@%%@@@@@%**=........................................
+......................................-=*%@%%%@@@@%@@@@@@@@%##=:....................................
+.....................................:=*#%%%%%#*++++**#%@@@%#+*+-...................................
+.....................................:+#%%#+--::::::---=+#%@@%%#=...................................
+.....................................-%%%*-::::::::::----=+#%%%#*-..................................
+.....................................=%%*=:::::::::::----==+#%#+-:..................................
+....................................-#%#*-::::::::::::---==+*%@%+:..................................
+...................................:+%@%+-::--==-::::::-==+++#@#-...................................
+....................................=%%*-:::::----::--=++++++#%=....................................
+....................................-+#*-:--=*##**=:-*#*****+*+:....................................
+...................................:--==::::--====-:-=***+***+*=....................................
+....................................--=-:::::::::::::=+++===++*-....................................
+....................................:-=--::::::::::::=++==-=+++:....................................
+.....................................--=-::::::::-===*#*+===++-.....................................
+......................................:---::::--=+*###%%#*+++=:.....................................
+.......................................:=--::-++++++++*###***-......................................
+.......................................:++=---=-:::=+++++**#+:......................................
+.......................................:+#*===--::-=+*++*###-.......................................
+.......................................:-=**++*====+++*#%%*-........................................
+.......................................----+*###*######%%+:.........................................
+.....................................---::--=++*###%##%%#=..........................................
+...................................:-==-:::--========*##*+-:........................................
+.....................................-=-:::---------=+****+=--::....................................
+.......................................:::----------=+***#+------:::................................
+..........................................:-----====+=+*##+--:---:::::::............................
+...........................:...:.....:........:-=***==**=--::::::::::::::::.........................
+.............................:........::...........::::::::::::::::::::::::::.......................
+..........................::..:::.......:..............::::::::::::::.:::.::-:......................
+...........................::..:::......::.........:...::::::::::::::..::..:::......................
+............................::..::.......::....::...:...::::::::.:::::.::..:::-.....................
+`
+
 function pickTwo<T>(arr: T[]): T[] {
   const shuffled = [...arr].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, 2)
 }
 
+function AsciiPlaceholder({ visible }: { visible: boolean }) {
+  return (
+    <pre
+      aria-hidden
+      className={`absolute inset-0 overflow-hidden font-mono text-zinc-400 leading-[1.15] select-none pointer-events-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
+      style={{ fontSize: "clamp(5.5px, 1.05vw, 8px)" }}
+    >
+      {ASCII_ART}
+    </pre>
+  )
+}
+
 export function Hero() {
   const [colored, setColored] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
   const [stats] = useState(() => pickTwo(ALL_STATS))
 
   useEffect(() => {
@@ -45,20 +93,22 @@ export function Hero() {
             Hello
           </h1>
           <p className="font-sans mt-1.5 text-sm leading-snug text-zinc-400 max-w-xs animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
-            Frontend engineer. DeFi native. Algo trading systems. AI-augmented.
+            Frontend engineer. DeFi native. Algo trading systems. AI products.
           </p>
         </div>
 
-        {/* Image — grows to fill all remaining space, clipped so whitespace in photo file doesn't show */}
+        {/* Image */}
         <div className="relative flex-1 min-h-0 overflow-hidden">
+          <AsciiPlaceholder visible={!imageLoaded} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
-            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter] duration-1000 ${colored ? "grayscale-0" : "grayscale"}`}
+            onLoad={() => setImageLoaded(true)}
+            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${colored ? "grayscale-0" : "grayscale"} ${imageLoaded ? "opacity-100" : "opacity-0"}`}
           />
         </div>
 
-        {/* Buttons — full width, side by side, pinned to bottom */}
+        {/* Buttons */}
         <div className="grid grid-cols-2 animate-in fade-in duration-700 delay-500 fill-mode-both">
           <a
             href="#projects"
@@ -101,14 +151,8 @@ export function Hero() {
                 </div>
               ))}
             </div>
-            <p className="font-sans mt-5 text-xs text-zinc-400 italic max-w-sm leading-relaxed">
-              The numbers might be made up, but the experience is real.{" "}
-              <button
-                onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-                className="underline underline-offset-2 hover:text-zinc-700 transition-colors"
-              >
-                Find out more below.
-              </button>
+            <p className="font-mono mt-5 text-[10px] tracking-[0.2em] text-zinc-400">
+              * figures unaudited
             </p>
           </div>
 
@@ -121,7 +165,7 @@ export function Hero() {
               Hello
             </h1>
             <p className="font-sans mt-6 max-w-sm text-lg leading-relaxed text-zinc-400">
-              Frontend engineer. DeFi native. Algo trading systems. AI-augmented.
+              Frontend engineer. DeFi native. Algo trading systems. AI products.
             </p>
           </div>
 
@@ -143,12 +187,14 @@ export function Hero() {
         </div>
 
         {/* Right photo */}
-        <div className="relative w-[46%] flex-none">
+        <div className="relative w-[46%] flex-none overflow-hidden">
           <div className="absolute inset-y-0 left-0 z-10 w-32 bg-linear-to-r from-stone-50 to-transparent" />
+          <AsciiPlaceholder visible={!imageLoaded} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
-            className={`h-full w-full object-cover object-top transition-[filter] duration-1000 ${colored ? "grayscale-0" : "grayscale"}`}
+            onLoad={() => setImageLoaded(true)}
+            className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${colored ? "grayscale-0" : "grayscale"} ${imageLoaded ? "opacity-100" : "opacity-0"}`}
           />
         </div>
       </div>
