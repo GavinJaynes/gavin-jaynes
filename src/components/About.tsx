@@ -38,7 +38,7 @@ export function About() {
             Anyone who has been at this a while knows it's about more than a CV.
             Real experience is built in the hours nobody sees: the problem you
             sat with for three days, the 2am breakthrough, back at it again by 6.
-            The coffee. The frustration. And then the moment it works: a release
+            The countless cups of coffee. The frustration. And then the moment it works: a release
             pipeline rolling out to thousands, a transition that finally feels
             right, an API response shaped exactly the way it should be.
           </p>
@@ -51,8 +51,6 @@ export function About() {
             jQuery got mocked. Angular happened twice. Every cycle has believers
             and casualties, I've made it through enough of them to know how to
             move rather than just react. AI is different in scale, not in kind.
-            I use it every day. It makes me faster and more useful. That's the
-            whole point.
           </p>
         </div>
 
