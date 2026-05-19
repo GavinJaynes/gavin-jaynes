@@ -65,9 +65,9 @@ function AsciiPlaceholder({ visible }: { visible: boolean }) {
     <pre
       aria-hidden
       className={`absolute top-0 left-1/2 -translate-x-1/2 h-full overflow-hidden font-mono text-zinc-400 leading-[1.15] select-none pointer-events-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
-      style={{ fontSize: "1.74cqw" }}
+      style={{ fontSize: "max(1.74cqw, 2.5dvh)" }}
     >
-      {ASCII_ART + ASCII_ART}
+      {ASCII_ART}
     </pre>
   )
 }

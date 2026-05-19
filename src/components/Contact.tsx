@@ -31,7 +31,7 @@ export function Contact() {
           Let's talk.
         </h2>
 
-        <div className="grid sm:grid-cols-2 gap-px bg-zinc-800">
+        <div className="grid sm:grid-cols-3 gap-px bg-zinc-800">
           {links.map(({ label, value, href }) => (
             <a
               key={label}
