@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    .bg { fill: #000000; }
+    .fg { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #ffffff; }
+      .fg { fill: #000000; }
+    }
+  </style>
+  <rect class="bg" width="100" height="100"/>
+  <text
+    class="fg"
+    x="50"
+    y="67"
+    text-anchor="middle"
+    font-family="'Helvetica Neue', Arial, sans-serif"
+    font-weight="700"
+    font-size="42"
+    letter-spacing="-1"
+  >GJ</text>
+</svg>
