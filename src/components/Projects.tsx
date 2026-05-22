@@ -1,5 +1,6 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
+import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const projects = [
   {
@@ -133,7 +134,7 @@ export function Projects() {
           )}
         >
           <p className="font-mono text-xs tracking-[0.25em] uppercase text-zinc-400 mb-6">
-            02: Projects
+            <EncryptedText text="02: Projects" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
           </p>
           <h2
             className="font-display font-bold text-zinc-900 leading-tight"

@@ -1,5 +1,6 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
+import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const roles = [
   {
@@ -79,7 +80,7 @@ export function Work() {
           )}
         >
           <p className="font-mono text-xs tracking-[0.25em] text-chart-1 uppercase mb-6">
-            01: Selected Work
+            <EncryptedText text="01: Selected Work" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
           </p>
           <h2
             className="font-display font-bold text-white leading-tight"

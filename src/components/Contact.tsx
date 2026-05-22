@@ -1,5 +1,6 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
+import { EncryptedText } from "@/components/ui/encrypted-text"
 const links = [
   { label: "Email", value: "gavin.jaynes@gmail.com", href: "mailto:gavin.jaynes@gmail.com" },
   { label: "LinkedIn", value: "linkedin.com/in/gavin-jaynes", href: "https://www.linkedin.com/in/gavin-jaynes-45a0192b/" },
@@ -21,14 +22,14 @@ export function Contact() {
         )}
       >
         <p className="font-mono text-xs tracking-[0.25em] text-chart-1 uppercase mb-6">
-          03: Contact
+          <EncryptedText text="04: Contact" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
         </p>
 
         <h2
           className="font-display font-bold text-white leading-none mb-16"
           style={{ fontSize: "clamp(2.5rem, 7vw, 5.5rem)" }}
         >
-          Let's talk.
+          <EncryptedText text="Let's talk." revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
         </h2>
 
         <div className="grid sm:grid-cols-3 gap-px bg-zinc-800">

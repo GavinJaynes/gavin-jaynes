@@ -1,5 +1,6 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
+import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const points = [
   { label: "~15 years", detail: "Writing production code" },
@@ -18,7 +19,7 @@ export function About() {
     <section id="about" className="bg-white px-8 py-28">
       <div className="mx-auto max-w-4xl">
         <p className="font-mono text-xs tracking-[0.25em] text-zinc-400 uppercase mb-6">
-          About
+          <EncryptedText text="03: About" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
         </p>
 
         {/* Intro — the emotional pitch */}

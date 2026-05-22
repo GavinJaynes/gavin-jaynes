@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Nav } from "@/components/Nav"
 import { Button } from "@/components/ui/button"
+import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const ALL_STATS = [
   { value: "5,657", label: "Slack messages replied to" },
@@ -156,7 +157,7 @@ export function Hero() {
             className="font-display font-bold leading-none tracking-tight text-zinc-900 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
             style={{ fontSize: "clamp(4rem, 19vw, 7rem)" }}
           >
-            Hello
+            <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
           </h1>
           <p className="font-sans mt-1.5 text-sm leading-snug text-zinc-400 max-w-xs animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
             Frontend engineer. DeFi native. Algo trading systems. AI products.
@@ -229,7 +230,7 @@ export function Hero() {
               className="font-display font-bold leading-none tracking-tight text-zinc-900"
               style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}
             >
-              Hello
+              <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
             </h1>
             <p className="font-sans mt-6 max-w-sm text-lg leading-relaxed text-zinc-400">
               Frontend engineer. DeFi native. Algo trading systems. AI products.
