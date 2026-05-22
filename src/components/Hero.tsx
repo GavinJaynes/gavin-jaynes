@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { Nav } from "@/components/Nav"
 import { Button } from "@/components/ui/button"
 import { EncryptedText } from "@/components/ui/encrypted-text"
@@ -60,16 +60,84 @@ const PATCH_COLS = 60
 const PATCH_ROWS = 82
 const PATCH_TOTAL = PATCH_COLS * PATCH_ROWS
 
-// Full-screen placeholder while image loads
-function AsciiPlaceholder({ visible }: { visible: boolean }) {
+// Characters that feel like ASCII art noise
+const ASCII_CHARSET = ":-=+*#%@"
+
+function randomAsciiChar() {
+  return ASCII_CHARSET[Math.floor(Math.random() * ASCII_CHARSET.length)]
+}
+
+// Animates random chars resolving into the real ASCII art face
+function AsciiReveal({ onComplete, visible }: { onComplete: () => void; visible: boolean }) {
+  const preRef = useRef<HTMLPreElement>(null)
+  const onCompleteRef = useRef(onComplete)
+  onCompleteRef.current = onComplete
+
+  useEffect(() => {
+    const chars = ASCII_ART.split("")
+
+    // Start scrambled — dots are background so leave them, only scramble face chars
+    const display = chars.map(c => (c === "\n" || c === " " || c === ".") ? c : randomAsciiChar())
+
+    // Only reveal actual face characters — dots stay as-is throughout
+    const revealable: number[] = []
+    chars.forEach((c, i) => {
+      if (c !== "\n" && c !== " " && c !== ".") revealable.push(i)
+    })
+
+    // Fisher-Yates shuffle for random reveal order
+    for (let i = revealable.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[revealable[i], revealable[j]] = [revealable[j], revealable[i]]
+    }
+
+    let revealedCount = 0
+    const REVEAL_PER_FRAME = 28   // ~2s reveal at 60fps for ~3400 chars
+    let lastFlipTime = 0
+    const FLIP_INTERVAL = 40      // ms between random flips of unrevealed chars
+    let rafId: number
+
+    const tick = (now: number) => {
+      // Lock in the next batch of real characters
+      const end = Math.min(revealedCount + REVEAL_PER_FRAME, revealable.length)
+      for (let i = revealedCount; i < end; i++) {
+        const idx = revealable[i]
+        display[idx] = chars[idx]
+      }
+      revealedCount = end
+
+      // Keep unrevealed chars flipping
+      if (now - lastFlipTime >= FLIP_INTERVAL) {
+        for (let i = revealedCount; i < revealable.length; i++) {
+          display[revealable[i]] = randomAsciiChar()
+        }
+        lastFlipTime = now
+      }
+
+      // Direct DOM update — zero React re-renders
+      if (preRef.current) {
+        preRef.current.textContent = display.join("")
+      }
+
+      if (revealedCount >= revealable.length) {
+        onCompleteRef.current()
+        return
+      }
+
+      rafId = requestAnimationFrame(tick)
+    }
+
+    rafId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(rafId)
+  }, []) // intentionally runs once on mount
+
   return (
     <pre
+      ref={preRef}
       aria-hidden
       className={`absolute top-0 left-1/2 -translate-x-1/2 h-full overflow-hidden font-mono text-zinc-400 leading-[1.15] select-none pointer-events-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
       style={{ fontSize: "max(1.74cqw, 2.5dvh)" }}
-    >
-      {ASCII_ART}
-    </pre>
+    />
   )
 }
 
@@ -81,11 +149,9 @@ function AsciiGlitch({ active }: { active: boolean }) {
   const activateCell = (i: number) => {
     const el = cellRefs.current[i]
     if (!el) return
-    // Clear any existing expiry timer
     const existing = timers.current.get(i)
     if (existing) clearTimeout(existing)
     el.style.opacity = String(0.2 + Math.random() * 0.3)
-    // Auto-fade after 400ms
     timers.current.set(i, setTimeout(() => {
       if (cellRefs.current[i]) cellRefs.current[i]!.style.opacity = "0"
       timers.current.delete(i)
@@ -135,14 +201,15 @@ function AsciiGlitch({ active }: { active: boolean }) {
 }
 
 export function Hero() {
-  const [colored, setColored] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [asciiComplete, setAsciiComplete] = useState(false)
   const [stats] = useState(() => pickTwo(ALL_STATS))
 
-  useEffect(() => {
-    const t = setTimeout(() => setColored(true), 1000)
-    return () => clearTimeout(t)
-  }, [])
+  // Image reveals only after both conditions are met:
+  // the ASCII animation has finished AND the image has loaded
+  const showImage = imageLoaded && asciiComplete
+
+  const handleAsciiComplete = useCallback(() => setAsciiComplete(true), [])
 
   return (
     <section className="flex min-h-svh flex-col overflow-hidden bg-stone-50">
@@ -166,14 +233,14 @@ export function Hero() {
 
         {/* Image */}
         <div className="relative flex-1 min-h-0 overflow-hidden [container-type:inline-size]">
-          <AsciiPlaceholder visible={!imageLoaded} />
+          <AsciiReveal onComplete={handleAsciiComplete} visible={!showImage} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
             onLoad={() => setImageLoaded(true)}
-            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${colored ? "grayscale-0" : "grayscale"} ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
           />
-          <AsciiGlitch active={imageLoaded} />
+          <AsciiGlitch active={showImage} />
         </div>
 
         {/* Buttons */}
@@ -256,14 +323,14 @@ export function Hero() {
 
         {/* Right photo */}
         <div className="relative w-[46%] flex-none overflow-hidden [container-type:inline-size]">
-          <AsciiPlaceholder visible={!imageLoaded} />
+          <AsciiReveal onComplete={handleAsciiComplete} visible={!showImage} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
             onLoad={() => setImageLoaded(true)}
-            className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${colored ? "grayscale-0" : "grayscale"} ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+            className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
           />
-          <AsciiGlitch active={imageLoaded} />
+          <AsciiGlitch active={showImage} />
           <div className="absolute inset-y-0 left-0 z-20 w-32 bg-linear-to-r from-stone-50 to-transparent" />
         </div>
       </div>
