@@ -5,9 +5,9 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Menu01Icon } from "@hugeicons/core-free-icons"
 
 const links = [
+  { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
   { label: "Projects", href: "#projects" },
-  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ]
 
