@@ -10,7 +10,7 @@ const projects = [
     description:
       "Co-founded and led a full DeFi product suite: swap, bridge, staking, yield farming, and NFT platform, then spun out INDX, a novel on-chain index protocol. Users send USDC and receive proportional exposure to a basket of up to 20 tokens via real swaps. No proxies, no synthetics.",
     highlights: ["$1M+ revenue", "4 chains deployed", "~$50K TVL at peak", "Community in the thousands"],
-    tech: ["React", "TypeScript", "Wagmi", "Viem", "The Graph", "Moralis", "Solidity"],
+    tech: ["Next.js", "React", "TypeScript", "Wagmi", "Viem", "TanStack Query", "The Graph", "Moralis", "Solidity"],
     chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
     url: null,
   },

@@ -15,14 +15,14 @@ const roles = [
     role: "Co-founder & Lead Engineer",
     company: "Web3 Product Suite",
     description:
-      "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
+      "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Built on Next.js with SSR and mixed rendering strategies. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
   },
   {
     period: "2013 - 2022",
     role: "Frontend Engineer → Senior",
     company: "Enterprise & Agency",
     description:
-      "Nine years across London agencies and Australian enterprise. Membership platforms, eCommerce, government-scale CMS. The foundation.",
+      "Nine years across London agencies and Australian enterprise. SSR-first delivery across Next.js, Nuxt, and Astro, test pipelines from unit to E2E, performance-critical government properties, and the component systems and discipline that come from building at institutional scale. The foundation.",
   },
 ]
 

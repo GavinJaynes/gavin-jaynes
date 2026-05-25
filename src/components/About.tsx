@@ -6,8 +6,8 @@ const points = [
   { label: "~15 years", detail: "Writing production code" },
   { label: "4 years", detail: "Deep in DeFi & Web3" },
   { label: "Enterprise scale", detail: "Squiz Matrix, gov & higher-ed" },
-  { label: "AI products", detail: "Built and shipped, not just a user" },
-  { label: "Standards-driven", detail: "WCAG AAA, workflow, process & craft" },
+  { label: "AI engineering", detail: "Builds AI products and codes with AI daily — ships faster because of it" },
+  { label: "Standards-driven", detail: "WCAG AAA, design systems, reusable components & craft" },
   { label: "Seen it all", detail: "Flash, jQuery, TypeScript, the AI wave" },
 ]
 
