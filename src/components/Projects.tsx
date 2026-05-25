@@ -30,9 +30,9 @@ const projects = [
     name: "ClawOps",
     type: "SaaS / AI",
     description:
-      "Commercial AI assistant SaaS: users get a personal Telegram bot on a dedicated VPS. Automated server provisioning via Hetzner API and SSH, Stripe embedded checkout with subscription webhooks, per-customer OpenRouter API keys with spending caps, and a novel multi-AI coordination pattern.",
-    highlights: ["Automated VPS provisioning", "Stripe subscriptions + webhooks", "Per-customer API key management", "Multi-AI coordination pattern"],
-    tech: ["React", "Vite", "Convex", "Stripe", "Hetzner API", "OpenRouter", "Telegram Bot API"],
+      "Commercial SaaS AI assistant platform built on OpenClaw. Each customer gets a personal Telegram bot on a dedicated Hetzner VPS, live in minutes. The Companions platform is the real differentiator — installable AI personality layers with domain-specific knowledge, QMD-indexed persistent memory, their own data stores, third-party API integrations, and dedicated visual dashboard UIs. First companion: Entertainment Buddy (alpha), tracking taste profiles, artists, movies, gig history, and SoundCloud sets with smart recommendations.",
+    highlights: ["Companions: installable AI skill layers", "End-to-end automated provisioning", "Smart model switching across 600+ models", "Entertainment Buddy companion in alpha"],
+    tech: ["React", "Vite", "Convex", "TypeScript", "Stripe", "Hetzner API", "OpenRouter", "Telegram Bot API", "QMD"],
     chains: [],
     url: "https://clawops.io",
   },
@@ -60,7 +60,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-1">
                 <h3 className="font-display font-bold text-zinc-900 text-lg">{project.name}</h3>
-                <span className="font-mono text-[10px] text-chart-1 border border-chart-1/40 px-2 py-0.5 tracking-widest uppercase rounded-sm">
+                <span className="font-mono text-[10px] text-chart-5 border border-chart-5/40 px-2 py-0.5 tracking-widest uppercase rounded-sm">
                   {project.type}
                 </span>
               </div>
@@ -86,7 +86,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
           <ul className="space-y-3 mb-6">
             {project.highlights.map((h) => (
               <li key={h} className="flex items-start gap-3">
-                <span className="text-chart-1 mt-1 text-xs shrink-0">▸</span>
+                <span className="text-chart-5 mt-1 text-xs shrink-0">▸</span>
                 <span className="font-sans text-sm text-zinc-500">{h}</span>
               </li>
             ))}
@@ -107,7 +107,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 mt-4 font-mono text-xs text-chart-1 hover:opacity-70 tracking-wide transition-opacity"
+              className="inline-flex items-center gap-1.5 mt-4 font-mono text-xs text-chart-5 hover:opacity-70 tracking-wide transition-opacity"
             >
               Visit site ↗
             </a>

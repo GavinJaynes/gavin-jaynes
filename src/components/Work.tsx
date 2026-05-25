@@ -6,9 +6,9 @@ const roles = [
   {
     period: "2024 - Present",
     role: "Founder",
-    company: "OpenClaw",
+    company: "ClawOps",
     description:
-      "Built a commercial AI assistant platform from scratch: React, Convex, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. Developed a novel multi-AI coordination pattern, two agents collaborating async via shared markdown files.",
+      "Built a commercial SaaS AI assistant platform on top of OpenClaw. A monorepo: React frontend, Convex backend, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. The key differentiator is the Companions platform — installable AI personality layers with persistent memory, their own data stores, API integrations, and visual dashboard UIs.",
   },
   {
     period: "2022 - 2024",
