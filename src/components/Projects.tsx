@@ -19,8 +19,8 @@ const projects = [
     name: "Algo Trading System",
     type: "Systems / Trading",
     description:
-      "Autonomous trading system for HyperLiquid perpetual futures. Trade via natural language through Telegram, or let it run: every 4 hours it scores RSI, funding, and momentum signals alongside a DBCRC breakout scanner, then decides whether to act. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket management.",
-    highlights: ["Natural language trading via Telegram", "Autonomous 4-hour signal cycle", "Dual-pipeline decision architecture", "Full execution layer on HyperLiquid"],
+      "Autonomous trading system for HyperLiquid perpetual futures, and the MVP prototype for a future ClawOps Trading Companion. Trade via natural language through Telegram, or let it run: every 4 hours it scores RSI, funding, and momentum signals alongside a DBRCI breakout scanner, then decides whether to act. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket management.",
+    highlights: ["Natural language trading via Telegram", "Autonomous 4-hour signal cycle", "Full execution layer on HyperLiquid", "ClawOps Trading Companion prototype"],
     tech: ["Python", "HyperLiquid SDK", "cron", "Hetzner VPS", "Telegram Bot API"],
     chains: ["HyperLiquid"],
     url: null,
