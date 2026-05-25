@@ -4,7 +4,7 @@ import { EncryptedText } from "@/components/ui/encrypted-text"
 const links = [
   { label: "Email", value: "gavin.jaynes@gmail.com", href: "mailto:gavin.jaynes@gmail.com" },
   { label: "LinkedIn", value: "linkedin.com/in/gavin-jaynes", href: "https://www.linkedin.com/in/gavin-jaynes-45a0192b/" },
-  { label: "X / Twitter", value: "@gavinjaynes", href: "https://x.com/gavinjaynes" },
+  { label: "X / Twitter", value: "@GarlicBl", href: "https://x.com/GarlicBl" },
 ]
 
 export function Contact() {
