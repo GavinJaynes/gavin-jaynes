@@ -220,14 +220,17 @@ export function Hero() {
 
         {/* Hello + tagline */}
         <div className="px-6 pt-2 pb-2">
-          <h1
+          <div
             className="font-display font-bold leading-none tracking-tight text-zinc-900 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
             style={{ fontSize: "clamp(4rem, 19vw, 7rem)" }}
           >
             <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
+          </div>
+          <h1 className="font-sans mt-1.5 max-w-xs text-sm leading-snug text-zinc-900 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
+            Building the systems behind DeFi, agentic trading and autonomous software.
           </h1>
-          <p className="font-sans mt-1.5 text-sm leading-snug text-zinc-400 max-w-xs animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
-            Frontend engineer. DeFi native. Algo trading systems. AI products.
+          <p className="font-sans mt-2 max-w-xs text-sm leading-snug text-zinc-400 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-both">
+            Frontend engineer. Product builder. Based remotely, available anywhere.
           </p>
         </div>
 
@@ -255,7 +258,7 @@ export function Hero() {
             onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
             className="flex items-center justify-center bg-stone-200 py-5 font-mono text-xs tracking-widest text-zinc-600 uppercase hover:bg-stone-300 transition-colors"
           >
-            Scroll down ↓
+            About me
           </button>
         </div>
       </div>
@@ -293,14 +296,21 @@ export function Hero() {
 
           {/* Hello + tagline */}
           <div className="my-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-            <h1
+            <div
               className="font-display font-bold leading-none tracking-tight text-zinc-900"
               style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}
             >
               <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
+            </div>
+            <h1 className="font-sans mt-6 max-w-lg text-3xl leading-tight text-zinc-900 xl:text-4xl">
+              Building the systems behind
+              <br />
+              DeFi, agentic trading and
+              <br />
+              autonomous software.
             </h1>
-            <p className="font-sans mt-6 max-w-sm text-lg leading-relaxed text-zinc-400">
-              Frontend engineer. DeFi native. Algo trading systems. AI products.
+            <p className="font-sans mt-5 max-w-sm text-lg leading-relaxed text-zinc-400">
+              Frontend engineer. Product builder. Based remotely, available anywhere.
             </p>
           </div>
 
@@ -316,7 +326,7 @@ export function Hero() {
               onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
               className="font-mono text-xs tracking-widest text-zinc-400 uppercase transition-colors hover:text-zinc-700"
             >
-              Scroll down ↓
+              About me
             </button>
           </div>
         </div>

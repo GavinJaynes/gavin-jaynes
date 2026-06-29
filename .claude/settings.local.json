@@ -3,7 +3,11 @@
     "allow": [
       "WebFetch(domain:id-preview--9c0a5660-ef54-4f21-a6bf-21fb5d624c66.lovable.app)",
       "PowerShell(Get-Content \"C:\\\\Users\\\\User\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--projects-gavin-jaynes\\\\70bec196-e8ec-48d3-b7bf-dbc80ff5a9a8\\\\tasks\\\\bipvs71c9.output\" -Wait -Tail 10)",
-      "WebFetch(domain:ui.shadcn.com)"
+      "WebFetch(domain:ui.shadcn.com)",
+      "Bash(python C:/Users/User/Downloads/build_resume.py)",
+      "Bash(ls \"C:/projects/clawops/business-plan/\" 2>&1 | head -30)",
+      "Bash(ls \"C:/projects/clawops/business-plan/src/\" && ls \"C:/projects/clawops/apps/docs/\" 2>&1 | head -20 && ls \"C:/projects/clawops/apps/blog/\" 2>&1 | head -20)",
+      "Bash(python build_resume.py)"
     ]
   }
 }
