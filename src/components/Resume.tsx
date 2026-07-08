@@ -12,7 +12,7 @@ const experience = [
   {
     company: "ClawOps",
     role: "Founder",
-    period: "2024 – Present",
+    period: "Feb 2026 – Present",
     location: "Remote",
     intro:
       "Commercial SaaS AI assistant platform. React 19 + Convex monorepo with automated Hetzner VPS provisioning over SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps — checkout to a live personal AI assistant on a dedicated VPS in ~5 minutes, accessible via Telegram and backed by 600+ models.",
@@ -26,7 +26,7 @@ const experience = [
   {
     company: "Brewlabs",
     role: "Co-founder & Lead Engineer",
-    period: "2022 – 2024",
+    period: "2022 – 2025",
     location: "Remote",
     intro:
       "Co-founded and led engineering on a full DeFi product suite — swap, bridge, staking, yield farming, and NFT platform — across Base, Ethereum, BSC, and Arbitrum. $1M+ protocol revenue, community in the thousands. Spun out INDX, an on-chain index protocol: deposit USDC, receive basket exposure to up to 20 tokens via real swaps. No proxies, no synthetics.",

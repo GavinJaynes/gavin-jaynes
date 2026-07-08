@@ -4,14 +4,14 @@ import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const roles = [
   {
-    period: "2024 - Present",
+    period: "2026 - Present",
     role: "Founder",
     company: "ClawOps",
     description:
       "Built a commercial SaaS AI assistant platform on top of OpenClaw. A monorepo: React frontend, Convex backend, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. The key differentiator is the Companions platform — installable AI personality layers with persistent memory, their own data stores, API integrations, and visual dashboard UIs.",
   },
   {
-    period: "2022 - 2024",
+    period: "2022 - 2025",
     role: "Co-founder & Lead Engineer",
     company: "Web3 Product Suite",
     description:
