@@ -7,7 +7,8 @@
       "Bash(python C:/Users/User/Downloads/build_resume.py)",
       "Bash(ls \"C:/projects/clawops/business-plan/\" 2>&1 | head -30)",
       "Bash(ls \"C:/projects/clawops/business-plan/src/\" && ls \"C:/projects/clawops/apps/docs/\" 2>&1 | head -20 && ls \"C:/projects/clawops/apps/blog/\" 2>&1 | head -20)",
-      "Bash(python build_resume.py)"
+      "Bash(python build_resume.py)",
+      "WebFetch(domain:gavinjaynes.xyz)"
     ]
   }
 }

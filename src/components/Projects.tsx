@@ -5,6 +5,17 @@ import { EncryptedText } from "@/components/ui/encrypted-text"
 const projects = [
   {
     index: "01",
+    name: "onchain-ui",
+    type: "Open Source / Design System",
+    description:
+      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first — components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
+    highlights: ["Live registry at onchain-ui.dev", "9 composable primitives and counting", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
+    chains: [],
+    url: "https://onchain-ui.dev",
+  },
+  {
+    index: "02",
     name: "Web3 Product Suite + INDX",
     type: "DeFi Protocol",
     description:
@@ -15,7 +26,7 @@ const projects = [
     url: null,
   },
   {
-    index: "02",
+    index: "03",
     name: "Algo Trading System",
     type: "Systems / Trading",
     description:
@@ -26,7 +37,7 @@ const projects = [
     url: null,
   },
   {
-    index: "03",
+    index: "04",
     name: "ClawOps",
     type: "SaaS / AI",
     description:
