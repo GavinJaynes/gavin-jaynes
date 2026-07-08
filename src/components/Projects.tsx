@@ -8,7 +8,7 @@ const projects = [
     name: "onchain-ui",
     type: "Open Source / Design System",
     description:
-      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first — components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
+      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
     highlights: ["Live registry at onchain-ui.dev", "9 composable primitives and counting", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
     chains: [],
