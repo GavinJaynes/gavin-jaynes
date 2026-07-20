@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+import { AsciiLens } from "@/components/AsciiLens"
 import { Nav } from "@/components/Nav"
 import { Button } from "@/components/ui/button"
 import { EncryptedText } from "@/components/ui/encrypted-text"
@@ -55,10 +56,6 @@ function pickTwo<T>(arr: T[]): T[] {
   const shuffled = [...arr].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, 2)
 }
-
-const PATCH_COLS = 60
-const PATCH_ROWS = 82
-const PATCH_TOTAL = PATCH_COLS * PATCH_ROWS
 
 // Characters that feel like ASCII art noise
 const ASCII_CHARSET = ":-=+*#%@"
@@ -141,65 +138,6 @@ function AsciiReveal({ onComplete, visible }: { onComplete: () => void; visible:
   )
 }
 
-// Tiny pixel-dissolve glitch — direct DOM manipulation, no React re-renders
-function AsciiGlitch({ active }: { active: boolean }) {
-  const cellRefs = useRef<(HTMLDivElement | null)[]>([])
-  const timers = useRef<Map<number, ReturnType<typeof setTimeout>>>(new Map())
-
-  const activateCell = (i: number) => {
-    const el = cellRefs.current[i]
-    if (!el) return
-    const existing = timers.current.get(i)
-    if (existing) clearTimeout(existing)
-    el.style.opacity = String(0.2 + Math.random() * 0.3)
-    timers.current.set(i, setTimeout(() => {
-      if (cellRefs.current[i]) cellRefs.current[i]!.style.opacity = "0"
-      timers.current.delete(i)
-    }, 400))
-  }
-
-  const handlePointer = (x: number, y: number) => {
-    for (let i = 0; i < PATCH_TOTAL; i++) {
-      const col = i % PATCH_COLS
-      const row = Math.floor(i / PATCH_COLS)
-      const cx = (col + 0.5) / PATCH_COLS
-      const cy = (row + 0.5) / PATCH_ROWS
-      const dist = Math.sqrt((cx - x) ** 2 + (cy - y) ** 2)
-      if (dist < 0.18 && Math.random() > 0.94) activateCell(i)
-    }
-  }
-
-  useEffect(() => () => { timers.current.forEach(clearTimeout) }, [])
-
-  if (!active) return null
-
-  return (
-    <div
-      aria-hidden
-      className="absolute inset-0 select-none z-10"
-      style={{ display: "grid", gridTemplateColumns: `repeat(${PATCH_COLS}, 1fr)`, gridTemplateRows: `repeat(${PATCH_ROWS}, 1fr)` }}
-      onMouseMove={(e) => {
-        const r = e.currentTarget.getBoundingClientRect()
-        handlePointer((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height)
-      }}
-      onTouchMove={(e) => {
-        const r = e.currentTarget.getBoundingClientRect()
-        const t = e.touches[0]
-        handlePointer((t.clientX - r.left) / r.width, (t.clientY - r.top) / r.height)
-      }}
-    >
-      {Array.from({ length: PATCH_TOTAL }, (_, i) => (
-        <div
-          key={i}
-          ref={el => { cellRefs.current[i] = el }}
-          className="bg-stone-50"
-          style={{ opacity: 0, transition: "opacity 350ms ease-out" }}
-        />
-      ))}
-    </div>
-  )
-}
-
 export function Hero() {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [asciiComplete, setAsciiComplete] = useState(false)
@@ -243,7 +181,7 @@ export function Hero() {
             onLoad={() => setImageLoaded(true)}
             className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
           />
-          <AsciiGlitch active={showImage} />
+          <AsciiLens src="/me.png" active={showImage} />
         </div>
 
         {/* Buttons */}
@@ -340,8 +278,8 @@ export function Hero() {
             onLoad={() => setImageLoaded(true)}
             className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
           />
-          <AsciiGlitch active={showImage} />
-          <div className="absolute inset-y-0 left-0 z-20 w-32 bg-linear-to-r from-stone-50 to-transparent" />
+          <AsciiLens src="/me.png" active={showImage} />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32 bg-linear-to-r from-stone-50 to-transparent" />
         </div>
       </div>
     </section>
