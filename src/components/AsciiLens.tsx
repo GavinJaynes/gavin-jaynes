@@ -1,26 +1,16 @@
 import { useEffect, useRef } from "react"
-
-// Density ramp, light → dark. Index 0 (space) draws nothing.
-const CHARSET = " .:-=+*#%@"
-const SCRAMBLE = ":-=+*#%@"
-const CELL_W = 7
-const CELL_H = 12
-const BG = "#fafaf9" // stone-50
-const FONT = `${CELL_H}px ui-monospace, SFMono-Regular, Menlo, monospace`
-// zinc-300 → zinc-900, picked by character density
-const SHADES = ["#d4d4d8", "#a1a1aa", "#52525b", "#18181b"]
-
-// Deterministic per-(cell, time-bucket) pseudo-random — keeps flicker
-// stable within a bucket instead of strobing at 60fps
-function hash(i: number, t: number) {
-  let h = (i * 374761393 + t * 668265263) | 0
-  h = (h ^ (h >> 13)) * 1274126177
-  return ((h ^ (h >> 16)) >>> 0) / 4294967296
-}
-
-function shadeFor(ci: number) {
-  return SHADES[ci <= 2 ? 0 : ci <= 4 ? 1 : ci <= 6 ? 2 : 3]
-}
+import {
+  BG,
+  CELL_H,
+  CELL_W,
+  CHARSET,
+  FONT,
+  buildStaticLayer,
+  hash,
+  randomScrambleChar,
+  sampleCells,
+  shadeFor,
+} from "@/components/ascii"
 
 // X-ray hover: entering the photo expands a scramble-edged wipe from the
 // cursor until the whole image "de-renders" into ASCII sampled from its own
@@ -73,51 +63,10 @@ export function AsciiLens({ src, active }: { src: string; active: boolean }) {
       cols = Math.ceil(W / CELL_W)
       rows = Math.ceil(H / CELL_H)
 
-      const off = document.createElement("canvas")
-      off.width = cols
-      off.height = rows
-      const octx = off.getContext("2d")
-      if (!octx) return
-
-      const scale = Math.max(W / img.naturalWidth, H / img.naturalHeight)
-      const sw = W / scale
-      const sh = H / scale
-      const sx = (img.naturalWidth - sw) / 2
-      octx.drawImage(img, sx, 0, sw, sh, 0, 0, cols, rows)
-      const data = octx.getImageData(0, 0, cols, rows).data
-
-      cells = new Uint8Array(cols * rows)
-      for (let i = 0; i < cols * rows; i++) {
-        const lum =
-          (0.2126 * data[i * 4] + 0.7152 * data[i * 4 + 1] + 0.0722 * data[i * 4 + 2]) / 255
-        cells[i] = Math.min(
-          CHARSET.length - 1,
-          Math.round((1 - lum) * (CHARSET.length - 1) * 1.15),
-        )
-      }
+      cells = sampleCells(img, W, H, cols, rows)
+      if (!cells) return
       motion = new Float32Array(cols * rows * 4)
-
-      staticLayer = document.createElement("canvas")
-      staticLayer.width = canvas.width
-      staticLayer.height = canvas.height
-      const sctx = staticLayer.getContext("2d")
-      if (!sctx) return
-      sctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      sctx.font = FONT
-      sctx.textAlign = "center"
-      sctx.textBaseline = "middle"
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const ci = cells[row * cols + col]
-          if (ci === 0) continue
-          sctx.fillStyle = shadeFor(ci)
-          sctx.fillText(
-            ci === 1 ? "." : CHARSET[ci],
-            col * CELL_W + CELL_W / 2,
-            row * CELL_H + CELL_H / 2,
-          )
-        }
-      }
+      staticLayer = buildStaticLayer(cells, cols, rows, canvas.width, canvas.height, dpr)
     }
 
     img.onload = build
@@ -249,7 +198,7 @@ export function AsciiLens({ src, active }: { src: string; active: boolean }) {
               } else if (
                 edge > 0.7 ? hash(i, tb) < ((edge - 0.7) / 0.3) * 0.9 : hash(i, tb) > 0.99
               ) {
-                ch = SCRAMBLE[Math.floor(hash(i, tb * 31 + 7) * SCRAMBLE.length)]
+                ch = randomScrambleChar(i, tb)
               } else {
                 ch = CHARSET[ci]
               }
@@ -284,11 +233,7 @@ export function AsciiLens({ src, active }: { src: string; active: boolean }) {
             ctx.fillStyle = BG
             ctx.fillRect(cx - CELL_W / 2, cy - CELL_H / 2, CELL_W, CELL_H)
             const ch =
-              flicker && !moving
-                ? SCRAMBLE[Math.floor(hash(i, tb * 31 + 7) * SCRAMBLE.length)]
-                : ci === 1
-                  ? "."
-                  : CHARSET[ci]
+              flicker && !moving ? randomScrambleChar(i, tb) : ci === 1 ? "." : CHARSET[ci]
             ctx.fillStyle = shadeFor(ci)
             ctx.fillText(ch, cx + ox, cy + oy)
           }

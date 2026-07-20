@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { AsciiLens } from "@/components/AsciiLens"
+import {
+  CELL_H,
+  CELL_W,
+  SHADES,
+  buildStaticLayer,
+  FONT,
+  hash,
+  randomScrambleChar,
+  sampleCells,
+  shadeFor,
+} from "@/components/ascii"
 import { Nav } from "@/components/Nav"
 import { Button } from "@/components/ui/button"
 import { EncryptedText } from "@/components/ui/encrypted-text"
@@ -17,123 +28,170 @@ const ALL_STATS = [
   { value: "12", label: "Rebrands survived" },
 ]
 
-const ASCII_ART = `...............................................::--:................................................
-...........................................:-=*#**%%+--:............................................
-.........................................:-+#%@@@@@@%%%##*=.........................................
-......................................:--+#%%#%%@%%@@@@@%**=........................................
-......................................-=*%@%%%@@@@%@@@@@@@@%##=:....................................
-.....................................:=*#%%%%%#*++++**#%@@@%#+*+-...................................
-.....................................:+#%%#+--::::::---=+#%@@%%#=...................................
-.....................................-%%%*-::::::::::----=+#%%%#*-..................................
-.....................................=%%*=:::::::::::----==+#%#+-:..................................
-....................................-#%#*-::::::::::::---==+*%@%+:..................................
-...................................:+%@%+-::--==-::::::-==+++#@#-...................................
-....................................=%%*-:::::----::--=++++++#%=....................................
-....................................-+#*-:--=*##**=:-*#*****+*+:....................................
-...................................:--==::::--====-:-=***+***+*=....................................
-....................................--=-:::::::::::::=+++===++*-....................................
-....................................:-=--::::::::::::=++==-=+++:....................................
-.....................................--=-::::::::-===*#*+===++-.....................................
-......................................:---::::--=+*###%%#*+++=:.....................................
-.......................................:=--::-++++++++*###***-......................................
-.......................................:++=---=-:::=+++++**#+:......................................
-.......................................:+#*===--::-=+*++*###-.......................................
-.......................................:-=**++*====+++*#%%*-........................................
-.......................................----+*###*######%%+:.........................................
-.....................................---::--=++*###%##%%#=..........................................
-...................................:-==-:::--========*##*+-:........................................
-.....................................-=-:::---------=+****+=--::....................................
-.......................................:::----------=+***#+------:::................................
-..........................................:-----====+=+*##+--:---:::::::............................
-...........................:...:.....:........:-=***==**=--::::::::::::::::.........................
-.............................:........::...........::::::::::::::::::::::::::.......................
-..........................::..:::.......:..............::::::::::::::.:::.::-:......................
-...........................::..:::......::.........:...::::::::::::::..::..:::......................
-............................::..::.......::....::...:...::::::::.:::::.::..:::-.....................
-`
-
 function pickTwo<T>(arr: T[]): T[] {
   const shuffled = [...arr].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, 2)
 }
 
-// Characters that feel like ASCII art noise
-const ASCII_CHARSET = ":-=+*#%@"
-
-function randomAsciiChar() {
-  return ASCII_CHARSET[Math.floor(Math.random() * ASCII_CHARSET.length)]
-}
-
-// Animates random chars resolving into the real ASCII art face
-function AsciiReveal({ onComplete, visible }: { onComplete: () => void; visible: boolean }) {
-  const preRef = useRef<HTMLPreElement>(null)
+// Load-in reveal using the same pipeline as the hover effect: sparse noise
+// while the image loads, then a scramble-edged wipe expands from the center,
+// resolving into the ASCII portrait sampled from the image's own pixels
+function AsciiReveal({
+  src,
+  onComplete,
+  visible,
+}: {
+  src: string
+  onComplete: () => void
+  visible: boolean
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
 
   useEffect(() => {
-    const chars = ASCII_ART.split("")
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
-    // Start scrambled — dots are background so leave them, only scramble face chars
-    const display = chars.map(c => (c === "\n" || c === " " || c === ".") ? c : randomAsciiChar())
+    let W = 0
+    let H = 0
+    let cols = 0
+    let rows = 0
+    let dpr = 1
+    let cells: Uint8Array | null = null
+    let staticLayer: HTMLCanvasElement | null = null
+    let noise: HTMLCanvasElement | null = null
+    let nctx: CanvasRenderingContext2D | null = null
+    let radius = 0
+    let raf = 0
+    let lastTb = -1
+    let failedMeasures = 0
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
 
-    // Only reveal actual face characters — dots stay as-is throughout
-    const revealable: number[] = []
-    chars.forEach((c, i) => {
-      if (c !== "\n" && c !== " " && c !== ".") revealable.push(i)
-    })
-
-    // Fisher-Yates shuffle for random reveal order
-    for (let i = revealable.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[revealable[i], revealable[j]] = [revealable[j], revealable[i]]
+    // Repaint the scramble layer: everything on `full`, else flip a subset.
+    // Before the image loads, a fixed pseudo-random subset of cells carries
+    // noise; once sampled, noise follows the portrait's real silhouette
+    const paintNoise = (full: boolean) => {
+      if (!nctx) return
+      const tb = Math.floor(performance.now() / 70)
+      if (full) nctx.clearRect(0, 0, W, H)
+      for (let i = 0; i < cols * rows; i++) {
+        const ci = cells ? cells[i] : hash(i, 1) > 0.55 ? 3 : 0
+        if (ci === 0) continue
+        if (!full && (ci === 1 || hash(i, tb) > 0.3)) continue
+        const cx = (i % cols) * CELL_W + CELL_W / 2
+        const cy = ((i / cols) | 0) * CELL_H + CELL_H / 2
+        if (!full) nctx.clearRect(cx - CELL_W / 2, cy - CELL_H / 2, CELL_W, CELL_H)
+        nctx.fillStyle = cells ? shadeFor(ci) : SHADES[1]
+        nctx.fillText(ci === 1 ? "." : randomScrambleChar(i, tb), cx, cy)
+      }
     }
 
-    let revealedCount = 0
-    const REVEAL_PER_FRAME = 28   // ~2s reveal at 60fps for ~3400 chars
-    let lastFlipTime = 0
-    const FLIP_INTERVAL = 40      // ms between random flips of unrevealed chars
-    let rafId: number
+    const img = new Image()
+    img.src = src
 
-    const tick = (now: number) => {
-      // Lock in the next batch of real characters
-      const end = Math.min(revealedCount + REVEAL_PER_FRAME, revealable.length)
-      for (let i = revealedCount; i < end; i++) {
-        const idx = revealable[i]
-        display[idx] = chars[idx]
+    const tryBuild = () => {
+      if (!W || !img.complete || !img.naturalWidth || cells) return
+      cells = sampleCells(img, W, H, cols, rows)
+      if (!cells) return
+      staticLayer = buildStaticLayer(cells, cols, rows, canvas.width, canvas.height, dpr)
+      paintNoise(true)
+    }
+
+    const measure = () => {
+      const rect = canvas.getBoundingClientRect()
+      if (!rect.width || !rect.height) return false
+      W = rect.width
+      H = rect.height
+      dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.round(W * dpr)
+      canvas.height = Math.round(H * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      cols = Math.ceil(W / CELL_W)
+      rows = Math.ceil(H / CELL_H)
+      noise = document.createElement("canvas")
+      noise.width = canvas.width
+      noise.height = canvas.height
+      nctx = noise.getContext("2d")
+      if (nctx) {
+        nctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        nctx.font = FONT
+        nctx.textAlign = "center"
+        nctx.textBaseline = "middle"
       }
-      revealedCount = end
+      paintNoise(true)
+      tryBuild()
+      return true
+    }
 
-      // Keep unrevealed chars flipping
-      if (now - lastFlipTime >= FLIP_INTERVAL) {
-        for (let i = revealedCount; i < revealable.length; i++) {
-          display[revealable[i]] = randomAsciiChar()
-        }
-        lastFlipTime = now
-      }
+    img.onload = tryBuild
 
-      // Direct DOM update — zero React re-renders
-      if (preRef.current) {
-        preRef.current.textContent = display.join("")
-      }
-
-      if (revealedCount >= revealable.length) {
-        onCompleteRef.current()
+    const tick = () => {
+      // hidden layout instance (mobile vs desktop): give up quietly
+      if (!W && !measure()) {
+        if (++failedMeasures > 300) return
+        raf = requestAnimationFrame(tick)
         return
       }
 
-      rafId = requestAnimationFrame(tick)
-    }
+      const tb = Math.floor(performance.now() / 70)
+      if (tb !== lastTb) {
+        paintNoise(false)
+        lastTb = tb
+      }
 
-    rafId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafId)
-  }, []) // intentionally runs once on mount
+      ctx.clearRect(0, 0, W, H)
+      const px = W / 2
+      const py = H / 2
+      const far = Math.hypot(px, py)
+
+      if (cells && staticLayer && noise) {
+        const target = (far / 0.7) * 1.02
+        radius += (target - radius) * (reduceMotion ? 1 : 0.05)
+        const coverR = radius * 0.7
+        // scrambled silhouette outside the resolve front
+        ctx.save()
+        ctx.beginPath()
+        ctx.rect(0, 0, W, H)
+        ctx.arc(px, py, Math.min(coverR, far + 10), 0, Math.PI * 2)
+        ctx.clip("evenodd")
+        ctx.drawImage(noise, 0, 0, W, H)
+        ctx.restore()
+        // resolved portrait inside
+        ctx.save()
+        ctx.beginPath()
+        ctx.arc(px, py, coverR, 0, Math.PI * 2)
+        ctx.clip()
+        ctx.drawImage(staticLayer, 0, 0, W, H)
+        ctx.restore()
+
+        if (coverR >= far) {
+          onCompleteRef.current()
+          return
+        }
+      } else if (noise) {
+        ctx.drawImage(noise, 0, 0, W, H)
+      }
+
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+
+    return () => {
+      cancelAnimationFrame(raf)
+      img.onload = null
+    }
+  }, [src])
 
   return (
-    <pre
-      ref={preRef}
+    <canvas
+      ref={canvasRef}
       aria-hidden
-      className={`absolute top-0 left-1/2 -translate-x-1/2 h-full overflow-hidden font-mono text-zinc-400 leading-[1.15] select-none pointer-events-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
-      style={{ fontSize: "max(1.74cqw, 2.5dvh)" }}
+      className={`pointer-events-none absolute inset-0 h-full w-full select-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
     />
   )
 }
@@ -173,8 +231,8 @@ export function Hero() {
         </div>
 
         {/* Image */}
-        <div className="relative flex-1 min-h-0 overflow-hidden [container-type:inline-size]">
-          <AsciiReveal onComplete={handleAsciiComplete} visible={!showImage} />
+        <div className="relative flex-1 min-h-0 overflow-hidden @container">
+          <AsciiReveal src="/me.png" onComplete={handleAsciiComplete} visible={!showImage} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
@@ -270,8 +328,8 @@ export function Hero() {
         </div>
 
         {/* Right photo */}
-        <div className="relative w-[46%] flex-none overflow-hidden [container-type:inline-size]">
-          <AsciiReveal onComplete={handleAsciiComplete} visible={!showImage} />
+        <div className="relative w-[46%] flex-none overflow-hidden @container">
+          <AsciiReveal src="/me.png" onComplete={handleAsciiComplete} visible={!showImage} />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
