@@ -20,9 +20,9 @@ const experience = [
     period: "Feb 2026 – Present",
     location: "Remote",
     intro:
-      "Commercial SaaS AI assistant platform. React 19 + Convex monorepo with automated Hetzner VPS provisioning over SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps — checkout to a live personal AI assistant on a dedicated VPS in ~5 minutes, accessible via Telegram and backed by 600+ models.",
+      "Commercial SaaS AI assistant platform. React 19 + Convex monorepo with automated Hetzner VPS provisioning over SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps, checkout to a live personal AI assistant on a dedicated VPS in ~5 minutes, accessible via Telegram and backed by 600+ models.",
     bullets: [
-      "Companions platform: installable AI personality layers with domain knowledge, persistent memory, their own data stores, third-party API integrations, and dedicated dashboard UIs — first companion live in alpha",
+      "Companions platform: installable AI personality layers with domain knowledge, persistent memory, their own data stores, third-party API integrations, and dedicated dashboard UIs, first companion live in alpha",
       "Smart Switching: real-time credit monitoring with automatic model fallback across providers",
       "Built on the open-source OpenClaw foundation",
     ],
@@ -34,9 +34,9 @@ const experience = [
     period: "2022 – 2025",
     location: "Remote",
     intro:
-      "Co-founded and led engineering on a full DeFi product suite — swap, bridge, staking, yield farming, and NFT platform — across Base, Ethereum, BSC, and Arbitrum. $1M+ protocol revenue, community in the thousands. Spun out INDX, an on-chain index protocol: deposit USDC, receive basket exposure to up to 20 tokens via real swaps. No proxies, no synthetics.",
+      "Co-founded and led engineering on a full DeFi product suite, swap, bridge, staking, yield farming, and NFT platform, across Base, Ethereum, BSC, and Arbitrum. $1M+ protocol revenue, community in the thousands. Spun out INDX, an on-chain index protocol: deposit USDC, receive basket exposure to up to 20 tokens via real swaps. No proxies, no synthetics.",
     frontendIntro:
-      "Co-founded and led engineering on a full product suite — swap, bridge, staking, yield farming, and an NFT platform — built for real-time data, wallet state, and transaction feedback under sub-second response requirements, deployed across four chains. $1M+ revenue, community in the thousands. Spun out INDX, a novel index protocol in the DeFi space.",
+      "Co-founded and led engineering on a full product suite, swap, bridge, staking, yield farming, and an NFT platform, built for real-time data, wallet state, and transaction feedback under sub-second response requirements, deployed across four chains. $1M+ revenue, community in the thousands. Spun out INDX, a novel index protocol in the DeFi space.",
     bullets: [
       "Performance-critical interfaces: real-time on-chain data, wallet state, and transaction feedback demanding sub-second responsiveness",
       "Next.js SSR with mixed rendering strategies balancing performance, SEO, and live chain data",
@@ -51,7 +51,7 @@ const experience = [
     intro:
       "Seven years on enterprise CMS delivery (Squiz Matrix) for government, university, and healthcare clients, progressing into an international leadership role owning the definition and rollout of development standards across Squiz's globally distributed engineering teams.",
     bullets: [
-      "WCAG AAA-compliant interfaces at government scale; performance as a baseline — render paths, asset loading, and CLS on high-traffic properties",
+      "WCAG AAA-compliant interfaces at government scale; performance as a baseline, render paths, asset loading, and CLS on high-traffic properties",
       "Built and maintained test pipelines from unit to E2E (Jest, Vitest, Cypress, Puppeteer) integrated into CI/CD",
       "Led frontend modernisation: component-driven architecture, TypeScript, Vue, React; sprint facilitation and junior mentoring",
       "As Quality & Standards Manager: audited and standardised development processes across international teams",
@@ -84,11 +84,11 @@ const projects = [
     period: "2026 – Present",
     url: "onchain-ui.dev",
     intro:
-      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows — installed straight into any shadcn app via the shadcn CLI.",
+      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows, installed straight into any shadcn app via the shadcn CLI.",
     frontendIntro:
-      "Open-source shadcn registry: a component distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges) — installed straight into any shadcn app via the shadcn CLI, inspectable and editable in the consumer's own codebase.",
+      "Open-source shadcn registry: a component distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges), installed straight into any shadcn app via the shadcn CLI, inspectable and editable in the consumer's own codebase.",
     bullets: [
-      "Registry-first architecture: components land in the consumer's codebase — inspectable, editable, wired to their own data layer",
+      "Registry-first architecture: components land in the consumer's codebase, inspectable, editable, wired to their own data layer",
       "Registry contract tests; docs site with live demos",
     ],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
@@ -112,7 +112,7 @@ const skills = [
   { label: "Languages", items: "TypeScript, JavaScript, HTML, CSS" },
   {
     label: "Frontend",
-    items: "React, Vue, Next.js, Nuxt, Astro, Vite, Tailwind CSS, shadcn/ui — SSR, i18n",
+    items: "React, Vue, Next.js, Nuxt, Astro, Vite, Tailwind CSS, shadcn/ui, SSR, i18n",
   },
   {
     label: "Design Systems",
@@ -122,7 +122,7 @@ const skills = [
     label: "Web3",
     items: "wagmi, viem, ethers.js, The Graph, Hardhat, smart contract integration",
   },
-  { label: "Testing", items: "Jest, Vitest, Cypress, Puppeteer — unit to E2E, integrated into CI/CD" },
+  { label: "Testing", items: "Jest, Vitest, Cypress, Puppeteer, unit to E2E, integrated into CI/CD" },
   {
     label: "Backend & Infra",
     items: "Node.js, Convex, WebSockets, Hetzner VPS, Nginx, Netlify, CI/CD",
