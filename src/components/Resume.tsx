@@ -1,3 +1,5 @@
+import type { SiteMode } from "@/lib/mode"
+
 const CONTACTS = [
   { label: "gavin.jaynes@gmail.com", href: "mailto:gavin.jaynes@gmail.com" },
   { label: "gavinjaynes.xyz", href: "https://gavinjaynes.xyz" },
@@ -5,8 +7,11 @@ const CONTACTS = [
   { label: "LinkedIn", href: "https://linkedin.com/in/gavin-jaynes-45a0192b" },
 ]
 
-const SUMMARY =
-  "14+ years of production frontend engineering. DeFi native: shipped DeFi protocols with $1M+ revenue, an open-source registry of onchain UI components, commercial AI products, and autonomous trading systems. TypeScript-first."
+const SUMMARY: Record<SiteMode, string> = {
+  web3: "14+ years of production frontend engineering. DeFi native: shipped DeFi protocols with $1M+ revenue, an open-source registry of onchain UI components, commercial AI products, and autonomous trading systems. TypeScript-first.",
+  frontend:
+    "14+ years of production frontend engineering across enterprise, government, and startup products. Shipped performance-critical, real-time interfaces (including four years deep in DeFi), commercial AI products, and enterprise design systems at scale. TypeScript-first.",
+}
 
 const experience = [
   {
@@ -30,6 +35,8 @@ const experience = [
     location: "Remote",
     intro:
       "Co-founded and led engineering on a full DeFi product suite — swap, bridge, staking, yield farming, and NFT platform — across Base, Ethereum, BSC, and Arbitrum. $1M+ protocol revenue, community in the thousands. Spun out INDX, an on-chain index protocol: deposit USDC, receive basket exposure to up to 20 tokens via real swaps. No proxies, no synthetics.",
+    frontendIntro:
+      "Co-founded and led engineering on a full product suite — swap, bridge, staking, yield farming, and an NFT platform — built for real-time data, wallet state, and transaction feedback under sub-second response requirements, deployed across four chains. $1M+ revenue, community in the thousands. Spun out INDX, a novel index protocol in the DeFi space.",
     bullets: [
       "Performance-critical interfaces: real-time on-chain data, wallet state, and transaction feedback demanding sub-second responsiveness",
       "Next.js SSR with mixed rendering strategies balancing performance, SEO, and live chain data",
@@ -78,6 +85,8 @@ const projects = [
     url: "onchain-ui.dev",
     intro:
       "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows — installed straight into any shadcn app via the shadcn CLI.",
+    frontendIntro:
+      "Open-source shadcn registry: a component distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges) — installed straight into any shadcn app via the shadcn CLI, inspectable and editable in the consumer's own codebase.",
     bullets: [
       "Registry-first architecture: components land in the consumer's codebase — inspectable, editable, wired to their own data layer",
       "Registry contract tests; docs site with live demos",
@@ -184,7 +193,16 @@ function EntryHeader({
   )
 }
 
-export function Resume() {
+export function Resume({ mode }: { mode: SiteMode }) {
+  const orderedExperience = experience.map((job) => ({
+    ...job,
+    intro: mode === "frontend" && job.frontendIntro ? job.frontendIntro : job.intro,
+  }))
+  const orderedProjects = projects.map((project) => ({
+    ...project,
+    intro: mode === "frontend" && project.frontendIntro ? project.frontendIntro : project.intro,
+  }))
+
   return (
     <div className="resume-root min-h-svh bg-stone-100 py-10 print:bg-white print:py-0">
       <style>{`
@@ -199,7 +217,7 @@ export function Resume() {
       {/* Screen-only toolbar */}
       <div className="mx-auto mb-6 flex w-[210mm] max-w-full items-center justify-between px-4 print:hidden">
         <a
-          href="/"
+          href={mode === "frontend" ? "/?mode=frontend" : "/"}
           className="font-mono text-xs tracking-widest text-zinc-400 uppercase transition-colors hover:text-zinc-700"
         >
           ← gavinjaynes.xyz
@@ -217,7 +235,7 @@ export function Resume() {
         {/* Header */}
         <header className="border-b border-zinc-200 pb-6">
           <p className="font-mono text-[10px] tracking-[0.3em] text-chart-5 uppercase mb-3">
-            Frontend Engineer · Remote, available anywhere
+            Frontend Engineer · Brisbane, AU
           </p>
           <h1 className="font-display font-bold text-zinc-900 text-[30px] leading-none tracking-tight">
             GAVIN JAYNES
@@ -230,13 +248,13 @@ export function Resume() {
               </span>
             ))}
           </div>
-          <p className="text-[12.5px] leading-relaxed text-zinc-600 mt-5 max-w-[160mm]">{SUMMARY}</p>
+          <p className="text-[12.5px] leading-relaxed text-zinc-600 mt-5 max-w-[160mm]">{SUMMARY[mode]}</p>
         </header>
 
         {/* Experience */}
         <SectionLabel>01: Experience</SectionLabel>
         <div className="space-y-7">
-          {experience.map((job) => (
+          {orderedExperience.map((job) => (
             <div key={job.company} className="break-inside-avoid">
               <EntryHeader title={job.role} subtitle={job.company} period={job.period} location={job.location} />
               <p className="text-[12px] leading-normal text-zinc-600">{job.intro}</p>
@@ -263,7 +281,7 @@ export function Resume() {
         {/* Projects */}
         <SectionLabel>02: Selected Projects</SectionLabel>
         <div className="space-y-7">
-          {projects.map((project) => (
+          {orderedProjects.map((project) => (
             <div key={project.name} className="break-inside-avoid">
               <EntryHeader
                 title={project.name}

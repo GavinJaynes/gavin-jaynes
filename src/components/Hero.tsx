@@ -14,6 +14,7 @@ import {
 import { Nav } from "@/components/Nav"
 import { Button } from "@/components/ui/button"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import type { SiteMode } from "@/lib/mode"
 
 const ALL_STATS = [
   { value: "5,657", label: "Slack messages replied to" },
@@ -22,7 +23,7 @@ const ALL_STATS = [
   { value: "∞", label: "console.logs deleted" },
   { value: "1.4M", label: "Lines of code (net negative)" },
   { value: "847", label: "PRs reviewed on a Friday" },
-  { value: "3am", label: "Mainnet launch time" },
+  { value: "3am", label: "Mainnet launch time", web3Only: true },
   { value: "0", label: "Designs accepted first pass" },
   { value: "404", label: "Bugs marked won't fix" },
   { value: "12", label: "Rebrands survived" },
@@ -31,6 +32,35 @@ const ALL_STATS = [
 function pickTwo<T>(arr: T[]): T[] {
   const shuffled = [...arr].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, 2)
+}
+
+const COPY = {
+  web3: {
+    sidebarLabel: "Frontend · DeFi · Systems",
+    heading: (
+      <>
+        Building the systems behind
+        <br />
+        DeFi, agentic trading and
+        <br />
+        autonomous software.
+      </>
+    ),
+    headingMobile: "Building the systems behind DeFi, agentic trading and autonomous software.",
+  },
+  frontend: {
+    sidebarLabel: "Frontend · Product · Systems",
+    heading: (
+      <>
+        Building fast, accessible
+        <br />
+        frontends for products
+        <br />
+        that run at real scale.
+      </>
+    ),
+    headingMobile: "Building fast, accessible frontends for products that run at real scale.",
+  },
 }
 
 // Load-in reveal using the same pipeline as the hover effect: sparse noise
@@ -196,10 +226,13 @@ function AsciiReveal({
   )
 }
 
-export function Hero() {
+export function Hero({ mode }: { mode: SiteMode }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [asciiComplete, setAsciiComplete] = useState(false)
-  const [stats] = useState(() => pickTwo(ALL_STATS))
+  const [stats] = useState(() =>
+    pickTwo(mode === "frontend" ? ALL_STATS.filter((s) => !s.web3Only) : ALL_STATS)
+  )
+  const copy = COPY[mode]
 
   // Image reveals only after both conditions are met:
   // the ASCII animation has finished AND the image has loaded
@@ -223,10 +256,10 @@ export function Hero() {
             <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
           </div>
           <h1 className="font-sans mt-1.5 max-w-xs text-sm leading-snug text-zinc-900 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
-            Building the systems behind DeFi, agentic trading and autonomous software.
+            {copy.headingMobile}
           </h1>
           <p className="font-sans mt-2 max-w-xs text-sm leading-snug text-zinc-400 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-both">
-            Frontend engineer. Product builder. Based remotely, available anywhere.
+            Frontend engineer. Product builder. Based in Brisbane, AU.
           </p>
         </div>
 
@@ -265,7 +298,7 @@ export function Hero() {
         {/* Sidebar labels */}
         <div className="absolute bottom-0 left-5 top-0 flex flex-col items-center justify-between py-8">
           <span className="font-mono text-[10px] tracking-[0.3em] text-zinc-300 uppercase [writing-mode:vertical-rl] rotate-180">
-            Frontend · DeFi · Systems
+            {copy.sidebarLabel}
           </span>
           <span className="font-mono text-[10px] tracking-[0.3em] text-zinc-300 uppercase [writing-mode:vertical-rl] rotate-180">
             2026
@@ -299,14 +332,10 @@ export function Hero() {
               <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
             </div>
             <h1 className="font-sans mt-6 max-w-lg text-3xl leading-tight text-zinc-900 xl:text-4xl">
-              Building the systems behind
-              <br />
-              DeFi, agentic trading and
-              <br />
-              autonomous software.
+              {copy.heading}
             </h1>
             <p className="font-sans mt-5 max-w-sm text-lg leading-relaxed text-zinc-400">
-              Frontend engineer. Product builder. Based remotely, available anywhere.
+              Frontend engineer. Product builder. Based in Brisbane, AU.
             </p>
           </div>
 

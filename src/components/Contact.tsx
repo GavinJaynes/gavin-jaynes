@@ -53,7 +53,7 @@ export function Contact() {
 
         <div className="flex items-center justify-between mt-16 pt-8 border-t border-zinc-800">
           <span className="font-mono text-xs text-zinc-700 tracking-widest uppercase">Gavin Jaynes</span>
-          <span className="font-mono text-xs text-zinc-700 tracking-widest uppercase">Remote, Anywhere</span>
+          <span className="font-mono text-xs text-zinc-700 tracking-widest uppercase">Brisbane, AU</span>
         </div>
       </div>
     </section>

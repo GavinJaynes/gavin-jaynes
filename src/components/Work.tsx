@@ -1,6 +1,7 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import type { SiteMode } from "@/lib/mode"
 
 const roles = [
   {
@@ -16,6 +17,8 @@ const roles = [
     company: "Web3 Product Suite",
     description:
       "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Built on Next.js with SSR and mixed rendering strategies. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
+    frontendDescription:
+      "Co-founded and led engineering on a full product suite built on Next.js with SSR and mixed rendering strategies, built for real-time data and sub-second responsiveness under load — swap, bridge, staking, yield farming, and an NFT platform, later spun out into a standalone on-chain index protocol in the DeFi space. Shipped across four chains, $1M+ revenue generated, community in the thousands.",
   },
   {
     period: "2013 - 2022",
@@ -25,6 +28,11 @@ const roles = [
       "Nine years across London agencies and Australian enterprise. SSR-first delivery across Next.js, Nuxt, and Astro, test pipelines from unit to E2E, performance-critical government properties, and the component systems and discipline that come from building at institutional scale. The foundation.",
   },
 ]
+
+const roleOrder: Record<SiteMode, string[]> = {
+  web3: ["ClawOps", "Web3 Product Suite", "Enterprise & Agency"],
+  frontend: ["Enterprise & Agency", "ClawOps", "Web3 Product Suite"],
+}
 
 function WorkEntry({
   period,
@@ -63,8 +71,14 @@ function WorkEntry({
   )
 }
 
-export function Work() {
+export function Work({ mode }: { mode: SiteMode }) {
   const { ref: headingRef, inView: headingInView } = useInView(0.3)
+  const orderedRoles = roleOrder[mode]
+    .map((company) => roles.find((r) => r.company === company)!)
+    .map((role) => ({
+      ...role,
+      description: mode === "frontend" && role.frontendDescription ? role.frontendDescription : role.description,
+    }))
 
   return (
     <section id="work" className="bg-zinc-950 px-8 py-28">
@@ -94,7 +108,7 @@ export function Work() {
         <div className="relative">
           <div className="absolute left-1.25 top-2 bottom-2 w-px bg-zinc-800" />
           <div className="space-y-14">
-            {roles.map((role, i) => (
+            {orderedRoles.map((role, i) => (
               <WorkEntry key={role.period} {...role} index={i} />
             ))}
           </div>

@@ -1,6 +1,7 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import type { SiteMode } from "@/lib/mode"
 
 const projects = [
   {
@@ -9,6 +10,8 @@ const projects = [
     type: "Open Source / Design System",
     description:
       "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
+    frontendDescription:
+      "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture — components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
     highlights: ["Live registry at onchain-ui.dev", "9 composable primitives and counting", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
     chains: [],
@@ -20,6 +23,8 @@ const projects = [
     type: "DeFi Protocol",
     description:
       "Co-founded and led a full DeFi product suite: swap, bridge, staking, yield farming, and NFT platform, then spun out INDX, a novel on-chain index protocol. Users send USDC and receive proportional exposure to a basket of up to 20 tokens via real swaps. No proxies, no synthetics.",
+    frontendDescription:
+      "Co-founded and led engineering on a full product suite — swap, bridge, staking, yield farming, and an NFT platform — handling real-time data, wallet state, and transaction feedback under sub-second response requirements. Spun out INDX, a novel index protocol in the DeFi space, built on the same performance-first architecture.",
     highlights: ["$1M+ revenue", "4 chains deployed", "~$50K TVL at peak", "Community in the thousands"],
     tech: ["Next.js", "React", "TypeScript", "Wagmi", "Viem", "TanStack Query", "The Graph", "Moralis", "Solidity"],
     chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
@@ -49,6 +54,11 @@ const projects = [
   },
 ]
 
+const projectOrder: Record<SiteMode, string[]> = {
+  web3: ["onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System", "ClawOps"],
+  frontend: ["ClawOps", "onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System"],
+}
+
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const { ref, inView } = useInView()
 
@@ -67,7 +77,9 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
         {/* Left */}
         <div>
           <div className="flex items-start gap-4 mb-5">
-            <span className="font-mono text-xs text-zinc-300 mt-1 shrink-0">{project.index}</span>
+            <span className="font-mono text-xs text-zinc-300 mt-1 shrink-0">
+              {String(index + 1).padStart(2, "0")}
+            </span>
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-1">
                 <h3 className="font-display font-bold text-zinc-900 text-lg">{project.name}</h3>
@@ -129,8 +141,15 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
   )
 }
 
-export function Projects() {
+export function Projects({ mode }: { mode: SiteMode }) {
   const { ref: headingRef, inView: headingInView } = useInView(0.3)
+  const orderedProjects = projectOrder[mode]
+    .map((name) => projects.find((p) => p.name === name)!)
+    .map((project) => ({
+      ...project,
+      description:
+        mode === "frontend" && project.frontendDescription ? project.frontendDescription : project.description,
+    }))
 
   return (
     <section id="projects" className="bg-stone-50 px-8 py-28">
@@ -156,8 +175,8 @@ export function Projects() {
         </div>
 
         <div className="space-y-4">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.index} project={project} index={i} />
+          {orderedProjects.map((project, i) => (
+            <ProjectCard key={project.name} project={project} index={i} />
           ))}
         </div>
       </div>

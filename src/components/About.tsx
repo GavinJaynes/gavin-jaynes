@@ -1,17 +1,22 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import type { SiteMode } from "@/lib/mode"
 
 const points = [
   { label: "~15 years", detail: "Writing production code" },
-  { label: "4 years", detail: "Deep in DeFi & Web3" },
+  {
+    label: "4 years",
+    detail: "Deep in DeFi & Web3",
+    frontend: { label: "4 years", detail: "Real-time, high-stakes systems (DeFi)" },
+  },
   { label: "Enterprise scale", detail: "Squiz Matrix, gov & higher-ed" },
   { label: "AI engineering", detail: "Builds AI products and codes with AI daily — ships faster because of it" },
   { label: "Standards-driven", detail: "WCAG AAA, design systems, reusable components & craft" },
   { label: "Seen it all", detail: "Flash, jQuery, TypeScript, the AI wave" },
 ]
 
-export function About() {
+export function About({ mode }: { mode: SiteMode }) {
   const { ref: introRef, inView: introInView } = useInView(0.2)
   const { ref: pointsRef, inView: pointsInView } = useInView(0.2)
 
@@ -65,12 +70,15 @@ export function About() {
               : "opacity-0"
           )}
         >
-          {points.map(({ label, detail }) => (
-            <div key={label} className="bg-white p-5">
-              <p className="font-display font-bold text-zinc-900 text-sm">{label}</p>
-              <p className="font-sans text-zinc-400 text-xs mt-1 leading-relaxed">{detail}</p>
-            </div>
-          ))}
+          {points.map((point) => {
+            const { label, detail } = mode === "frontend" && point.frontend ? point.frontend : point
+            return (
+              <div key={label} className="bg-white p-5">
+                <p className="font-display font-bold text-zinc-900 text-sm">{label}</p>
+                <p className="font-sans text-zinc-400 text-xs mt-1 leading-relaxed">{detail}</p>
+              </div>
+            )
+          })}
         </div>
 
       </div>
