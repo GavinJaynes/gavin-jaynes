@@ -45,8 +45,7 @@ export function About({ mode }: { mode: SiteMode }) {
             Real experience is built in the hours nobody sees: the problem you
             sat with for three days, the 2am breakthrough, back at it again by 6.
             The countless cups of coffee. The frustration. And then the moment it works: a release
-            pipeline rolling out to thousands, a transition that finally feels
-            right, an API response shaped exactly the way it should be.
+            pipeline rolling out to thousands, a buttery smooth page transition, an API response shaped exactly the way it should be.
           </p>
           <p
             className="font-sans text-zinc-500 leading-relaxed"
@@ -54,7 +53,7 @@ export function About({ mode }: { mode: SiteMode }) {
           >
             Fifteen years means you've survived enough 'this changes everything'
             moments to have actual perspective on the current one. Flash died.
-            jQuery got mocked. Angular happened twice. Every cycle has believers
+            jQuery came and went. ES5 pushed JS forward. Framework wars. Every cycle has believers
             and casualties, I've made it through enough of them to know how to
             move rather than just react. AI is different in scale, not in kind.
           </p>

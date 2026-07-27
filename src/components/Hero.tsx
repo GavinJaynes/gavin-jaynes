@@ -25,8 +25,9 @@ const ALL_STATS = [
   { value: "847", label: "PRs reviewed on a Friday" },
   { value: "3am", label: "Mainnet launch time", web3Only: true },
   { value: "0", label: "Designs accepted first pass" },
-  { value: "404", label: "Bugs marked won't fix" },
+  { value: "304", label: "Bugs marked won't fix" },
   { value: "12", label: "Rebrands survived" },
+  { value: "62", label: "Webpack configurations" },
 ]
 
 function pickTwo<T>(arr: T[]): T[] {
