@@ -57,6 +57,7 @@ const projects = [
 const projectOrder: Record<SiteMode, string[]> = {
   web3: ["onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System", "ClawOps"],
   frontend: ["ClawOps", "onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System"],
+  ai: ["ClawOps", "Algo Trading System", "Web3 Product Suite + INDX", "onchain-ui"],
 }
 
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {

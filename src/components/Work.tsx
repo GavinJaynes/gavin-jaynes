@@ -32,6 +32,7 @@ const roles = [
 const roleOrder: Record<SiteMode, string[]> = {
   web3: ["ClawOps", "Web3 Product Suite", "Enterprise & Agency"],
   frontend: ["Enterprise & Agency", "ClawOps", "Web3 Product Suite"],
+  ai: ["ClawOps", "Web3 Product Suite", "Enterprise & Agency"],
 }
 
 function WorkEntry({

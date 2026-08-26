@@ -62,6 +62,19 @@ const COPY = {
     ),
     headingMobile: "Building fast, accessible frontends for products that run at real scale.",
   },
+  ai: {
+    sidebarLabel: "AI · Product · Systems",
+    heading: (
+      <>
+        Building production AI
+        <br />
+        products, agent workflows
+        <br />
+        and reliable systems.
+      </>
+    ),
+    headingMobile: "Building production AI products, agent workflows and reliable systems.",
+  },
 }
 
 // Load-in reveal using the same pipeline as the hover effect: sparse noise
@@ -231,7 +244,7 @@ export function Hero({ mode }: { mode: SiteMode }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [asciiComplete, setAsciiComplete] = useState(false)
   const [stats] = useState(() =>
-    pickTwo(mode === "frontend" ? ALL_STATS.filter((s) => !s.web3Only) : ALL_STATS)
+    pickTwo(mode === "web3" ? ALL_STATS : ALL_STATS.filter((s) => !s.web3Only))
   )
   const copy = COPY[mode]
 
