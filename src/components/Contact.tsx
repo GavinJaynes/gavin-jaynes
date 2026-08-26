@@ -1,14 +1,19 @@
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
-const links = [
+import type { SiteMode } from "@/lib/mode"
+
+const baseLinks = [
   { label: "Email", value: "gavin.jaynes@gmail.com", href: "mailto:gavin.jaynes@gmail.com" },
   { label: "LinkedIn", value: "linkedin.com/in/gavin-jaynes", href: "https://www.linkedin.com/in/gavin-jaynes-45a0192b/" },
-  { label: "X / Twitter", value: "@GarlicBl", href: "https://x.com/GarlicBl" },
 ]
 
-export function Contact() {
+export function Contact({ mode }: { mode: SiteMode }) {
   const { ref, inView } = useInView(0.2)
+  const twitterLink = mode === "frontend"
+    ? { label: "X / Twitter", value: "@GavinJaynes", href: "https://x.com/GavinJaynes" }
+    : { label: "X / Twitter", value: "@GarlicBl", href: "https://x.com/GarlicBl" }
+  const links = [...baseLinks, twitterLink]
 
   return (
     <section id="contact" className="bg-zinc-950 px-8 py-28">
