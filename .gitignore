@@ -30,3 +30,7 @@ dist-ssr
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Local scratch — generated resume/cover-letter PDFs and one-off build scripts
+output/
+tmp/
