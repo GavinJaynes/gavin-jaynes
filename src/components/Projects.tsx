@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
@@ -12,10 +13,12 @@ const projects = [
       "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
     frontendDescription:
       "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture — components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
-    highlights: ["Live registry at onchain-ui.dev", "9 composable primitives and counting", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
+    highlights: ["Merged into the official shadcn registry directory", "Live registry at onchain-ui.dev", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
     chains: [],
     url: "https://onchain-ui.dev",
+    video: "/onchain-ui-promo.mp4",
+    poster: "/onchain-ui-promo-poster.jpg",
   },
   {
     index: "02",
@@ -29,6 +32,8 @@ const projects = [
     tech: ["Next.js", "React", "TypeScript", "Wagmi", "Viem", "TanStack Query", "The Graph", "Moralis", "Solidity"],
     chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
     url: null,
+    video: null,
+    poster: null,
   },
   {
     index: "03",
@@ -40,6 +45,8 @@ const projects = [
     tech: ["Python", "HyperLiquid SDK", "cron", "Hetzner VPS", "Telegram Bot API"],
     chains: ["HyperLiquid"],
     url: null,
+    video: null,
+    poster: null,
   },
   {
     index: "04",
@@ -51,6 +58,8 @@ const projects = [
     tech: ["React", "Vite", "Convex", "TypeScript", "Stripe", "Hetzner API", "OpenRouter", "Telegram Bot API", "QMD"],
     chains: [],
     url: "https://clawops.io",
+    video: null,
+    poster: null,
   },
 ]
 
@@ -58,6 +67,53 @@ const projectOrder: Record<SiteMode, string[]> = {
   web3: ["onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System", "ClawOps"],
   frontend: ["ClawOps", "onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System"],
   ai: ["ClawOps", "Algo Trading System", "Web3 Product Suite + INDX", "onchain-ui"],
+}
+
+function ProjectVideo({
+  src,
+  poster,
+  name,
+}: {
+  src: string
+  poster: string
+  name: string
+}) {
+  const { ref, inView } = useInView(0.4)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (inView) videoRef.current?.play().catch(() => {})
+  }, [inView])
+
+  return (
+    <div ref={ref} className="mt-8 border border-zinc-200 bg-zinc-950">
+      <video
+        ref={videoRef}
+        src={src}
+        poster={poster}
+        muted
+        loop
+        playsInline
+        preload="none"
+        controls
+        aria-label={`${name} — promo video`}
+        className="block w-full"
+      />
+      <div className="flex items-center justify-between gap-4 border-t border-zinc-800 px-4 py-2.5">
+        <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
+          {name} · shadcn registry
+        </span>
+        <a
+          href="https://ui.shadcn.com/docs/directory?q=onchain"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-mono text-[10px] tracking-[0.2em] text-chart-1 uppercase transition-opacity hover:opacity-70"
+        >
+          Directory ↗
+        </a>
+      </div>
+    </div>
+  )
 }
 
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
@@ -138,6 +194,10 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
           )}
         </div>
       </div>
+
+      {project.video && project.poster && (
+        <ProjectVideo src={project.video} poster={project.poster} name={project.name} />
+      )}
     </div>
   )
 }
