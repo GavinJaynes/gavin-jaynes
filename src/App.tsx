@@ -5,9 +5,7 @@ import { About } from "@/components/About"
 import { Showcase } from "@/components/Showcase"
 import { Contact } from "@/components/Contact"
 import { Resume } from "@/components/Resume"
-import { CoverLetter } from "@/components/CoverLetter"
 import { getSiteMode } from "@/lib/mode"
-import { coverLetters } from "@/lib/coverLetters"
 
 export function App() {
   const mode = getSiteMode()
@@ -15,12 +13,6 @@ export function App() {
 
   if (pathname === "/resume") {
     return <Resume mode={mode} />
-  }
-
-  if (pathname === "/cover-letter" || pathname.startsWith("/cover-letter/")) {
-    const slug = pathname === "/cover-letter" ? "nhvr" : pathname.split("/")[2]
-    const letter = coverLetters[slug] ?? coverLetters.nhvr
-    return <CoverLetter letter={letter} />
   }
 
   return (

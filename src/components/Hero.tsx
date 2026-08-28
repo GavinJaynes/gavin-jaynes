@@ -240,6 +240,19 @@ function AsciiReveal({
   )
 }
 
+function LatestLink({ className }: { className?: string }) {
+  return (
+    <a
+      href="#projects"
+      className={`font-mono inline-flex items-center gap-2.5 text-[10px] tracking-[0.2em] uppercase text-zinc-500 transition-colors hover:text-zinc-800 ${className ?? ""}`}
+    >
+      <span className="size-1.5 shrink-0 rounded-full bg-chart-1" />
+      Latest — onchain-ui merged into the shadcn registry
+      <span aria-hidden>→</span>
+    </a>
+  )
+}
+
 export function Hero({ mode }: { mode: SiteMode }) {
   const [imageLoaded, setImageLoaded] = useState(false)
   const [asciiComplete, setAsciiComplete] = useState(false)
@@ -275,6 +288,7 @@ export function Hero({ mode }: { mode: SiteMode }) {
           <p className="font-sans mt-2 max-w-xs text-sm leading-snug text-zinc-400 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-both">
             Frontend engineer. Product builder. Based in Brisbane, AU.
           </p>
+          <LatestLink className="mt-3 animate-in fade-in duration-700 delay-300 fill-mode-both" />
         </div>
 
         {/* Image */}
@@ -351,6 +365,7 @@ export function Hero({ mode }: { mode: SiteMode }) {
             <p className="font-sans mt-5 max-w-sm text-lg leading-relaxed text-zinc-400">
               Frontend engineer. Product builder. Based in Brisbane, AU.
             </p>
+            <LatestLink className="mt-6" />
           </div>
 
           {/* CTAs */}
