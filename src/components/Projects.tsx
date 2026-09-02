@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
@@ -110,54 +110,6 @@ async function playFullscreen(video: HTMLVideoElement | null) {
   }
 }
 
-function ProjectVideo({
-  src,
-  poster,
-  name,
-  videoRef,
-}: {
-  src: string
-  poster: string
-  name: string
-  videoRef: React.RefObject<HTMLVideoElement | null>
-}) {
-  const { ref, inView } = useInView(0.4)
-
-  useEffect(() => {
-    if (inView) videoRef.current?.play().catch(() => {})
-  }, [inView, videoRef])
-
-  return (
-    <div ref={ref} className="mt-8 border border-zinc-200 bg-zinc-950">
-      <video
-        ref={videoRef}
-        src={src}
-        poster={poster}
-        muted
-        loop
-        playsInline
-        preload="none"
-        controls
-        aria-label={`${name} — promo video`}
-        className="block w-full"
-      />
-      <div className="flex items-center justify-between gap-4 border-t border-zinc-800 px-4 py-2.5">
-        <span className="font-mono text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
-          {name} · shadcn registry
-        </span>
-        <a
-          href="https://ui.shadcn.com/docs/directory?q=onchain"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-[10px] tracking-[0.2em] text-chart-1 uppercase transition-opacity hover:opacity-70"
-        >
-          Directory ↗
-        </a>
-      </div>
-    </div>
-  )
-}
-
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const { ref, inView } = useInView()
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -241,10 +193,10 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
                 <button
                   type="button"
                   onClick={() => playFullscreen(videoRef.current)}
-                  aria-label={`Play ${project.name} promo video fullscreen`}
-                  className="inline-flex items-center gap-1.5 border border-chart-5/40 px-2.5 py-1 font-mono text-[11px] tracking-widest text-chart-5 uppercase transition-colors hover:bg-chart-5/10 lg:hidden"
+                  aria-label={`Watch ${project.name} promo video`}
+                  className="inline-flex items-center gap-1.5 border border-chart-5/40 px-2.5 py-1 font-mono text-[11px] tracking-widest text-chart-5 uppercase transition-colors hover:bg-chart-5/10"
                 >
-                  <span aria-hidden>▶</span> Fullscreen
+                  <span aria-hidden>▶</span> Watch video
                 </button>
               )}
             </div>
@@ -252,12 +204,18 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
         </div>
       </div>
 
-      {project.video && project.poster && (
-        <ProjectVideo
+      {project.video && (
+        <video
+          ref={videoRef}
           src={project.video}
-          poster={project.poster}
-          name={project.name}
-          videoRef={videoRef}
+          poster={project.poster ?? undefined}
+          loop
+          playsInline
+          preload="none"
+          controls
+          aria-label={`${project.name} — promo video`}
+          tabIndex={-1}
+          className="pointer-events-none absolute h-0 w-0"
         />
       )}
     </div>
