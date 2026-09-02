@@ -69,21 +69,63 @@ const projectOrder: Record<SiteMode, string[]> = {
   ai: ["ClawOps", "Algo Trading System", "Web3 Product Suite + INDX", "onchain-ui"],
 }
 
+async function playFullscreen(video: HTMLVideoElement | null) {
+  if (!video) return
+
+  const restore = () => {
+    video.muted = true
+    void (screen.orientation as unknown as { unlock?: () => void })?.unlock?.()
+    document.removeEventListener("fullscreenchange", onChange)
+  }
+  const onChange = () => {
+    if (!document.fullscreenElement) restore()
+  }
+
+  video.muted = false
+  video.play().catch(() => {})
+
+  const el = video as HTMLVideoElement & {
+    webkitEnterFullscreen?: () => void
+    webkitRequestFullscreen?: () => void
+  }
+
+  try {
+    if (el.requestFullscreen) {
+      await el.requestFullscreen()
+      document.addEventListener("fullscreenchange", onChange)
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen()
+      document.addEventListener("fullscreenchange", onChange)
+    } else if (el.webkitEnterFullscreen) {
+      // iOS Safari — native player handles landscape rotation itself
+      el.webkitEnterFullscreen()
+      video.addEventListener("webkitendfullscreen", () => (video.muted = true), { once: true })
+      return
+    }
+    await (
+      screen.orientation as unknown as { lock?: (o: string) => Promise<void> }
+    )?.lock?.("landscape")
+  } catch {
+    /* orientation lock unsupported or fullscreen denied — video still plays */
+  }
+}
+
 function ProjectVideo({
   src,
   poster,
   name,
+  videoRef,
 }: {
   src: string
   poster: string
   name: string
+  videoRef: React.RefObject<HTMLVideoElement | null>
 }) {
   const { ref, inView } = useInView(0.4)
-  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     if (inView) videoRef.current?.play().catch(() => {})
-  }, [inView])
+  }, [inView, videoRef])
 
   return (
     <div ref={ref} className="mt-8 border border-zinc-200 bg-zinc-950">
@@ -118,6 +160,7 @@ function ProjectVideo({
 
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const { ref, inView } = useInView()
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   return (
     <div
@@ -182,21 +225,40 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
             </div>
           )}
 
-          {project.url && (
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 mt-4 font-mono text-xs text-chart-5 hover:opacity-70 tracking-wide transition-opacity"
-            >
-              Visit site ↗
-            </a>
+          {(project.url || project.video) && (
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              {project.url && (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs text-chart-5 hover:opacity-70 tracking-wide transition-opacity"
+                >
+                  Visit site ↗
+                </a>
+              )}
+              {project.video && (
+                <button
+                  type="button"
+                  onClick={() => playFullscreen(videoRef.current)}
+                  aria-label={`Play ${project.name} promo video fullscreen`}
+                  className="inline-flex items-center gap-1.5 border border-chart-5/40 px-2.5 py-1 font-mono text-[11px] tracking-widest text-chart-5 uppercase transition-colors hover:bg-chart-5/10 lg:hidden"
+                >
+                  <span aria-hidden>▶</span> Fullscreen
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>
 
       {project.video && project.poster && (
-        <ProjectVideo src={project.video} poster={project.poster} name={project.name} />
+        <ProjectVideo
+          src={project.video}
+          poster={project.poster}
+          name={project.name}
+          videoRef={videoRef}
+        />
       )}
     </div>
   )
