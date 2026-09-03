@@ -1,8 +1,10 @@
+import { useEffect, useRef, useState } from "react"
 import { useInView } from "@/hooks/useInView"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const shots = [
+  { src: "/onchain-ui-homepage.png",         alt: "onchain-ui — Homepage" },
   { src: "/clawops-screenshot-1.png",        alt: "ClawOps — Smart model switching" },
   { src: "/indx-screenshot-1.jpg",           alt: "INDX — Top Performers dashboard" },
   { src: "/indx-screenshot-3.jpg",           alt: "INDX — Mobile app" },
@@ -17,6 +19,29 @@ const doubled = [...shots, ...shots]
 
 export function Showcase() {
   const { ref, inView } = useInView(0.1)
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
+
+  // Track which slide is snapped into view on mobile
+  useEffect(() => {
+    const el = scrollerRef.current
+    if (!el) return
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const slide = el.firstElementChild as HTMLElement | null
+        if (!slide) return
+        const step = slide.offsetWidth + parseFloat(getComputedStyle(el).columnGap || "0")
+        setActive(Math.round(el.scrollLeft / step))
+      })
+    }
+    el.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      el.removeEventListener("scroll", onScroll)
+      cancelAnimationFrame(raf)
+    }
+  }, [])
 
   return (
     <section className="bg-zinc-950 pt-20 pb-24 overflow-hidden">
@@ -30,6 +55,13 @@ export function Showcase() {
         }
         .marquee-track:hover {
           animation-play-state: paused;
+        }
+        .snap-scroller {
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        .snap-scroller::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
 
@@ -51,8 +83,47 @@ export function Showcase() {
         </p>
       </div>
 
-      {/* Marquee strip */}
-      <div className="relative">
+      {/* Mobile: one-at-a-time scroll-snap carousel */}
+      <div className="md:hidden">
+        <div
+          ref={scrollerRef}
+          className="snap-scroller flex gap-4 overflow-x-auto snap-x snap-mandatory px-8 scroll-px-8"
+          aria-label="Selected shots carousel"
+        >
+          {shots.map((shot) => (
+            <figure
+              key={shot.src}
+              className="w-full flex-none snap-start snap-always"
+            >
+              <img
+                src={shot.src}
+                alt={shot.alt}
+                draggable={false}
+                className="aspect-[3/2] w-full rounded-sm object-cover select-none bg-zinc-900"
+              />
+              <figcaption className="mt-3 font-mono text-[11px] tracking-wider text-zinc-500 uppercase">
+                {shot.alt}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {/* Position dots */}
+        <div className="mt-5 flex items-center justify-center gap-2" aria-hidden="true">
+          {shots.map((shot, i) => (
+            <span
+              key={shot.src}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                i === active ? "w-5 bg-chart-1" : "w-1.5 bg-zinc-700"
+              )}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: marquee strip */}
+      <div className="relative hidden md:block">
         {/* Edge fades */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-linear-to-r from-zinc-950 to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-linear-to-l from-zinc-950 to-transparent" />
@@ -64,6 +135,7 @@ export function Showcase() {
               src={shot.src}
               alt={shot.alt}
               draggable={false}
+              loading="lazy"
               className="h-72 w-auto flex-none rounded-sm object-cover select-none"
             />
           ))}
