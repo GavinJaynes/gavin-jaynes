@@ -49,23 +49,30 @@ function WorkEntry({
       className={cn(
         "relative pl-10 transition-none",
         inView
-          ? "animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+          ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-4"
           : "opacity-0"
       )}
       style={{ animationDelay: `${index * 120}ms` }}
     >
       {/* Dot */}
-      <div className="absolute left-0 top-1.5 size-2.75 rounded-full bg-chart-1" />
+      <div className="absolute top-1.5 left-0 size-2.75 rounded-full bg-chart-1" />
 
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-3">
+      <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <span className="font-sans font-semibold text-white text-lg">{role}</span>
-          <span className="font-sans text-zinc-500 text-lg"> · {company}</span>
+          <span className="font-sans text-lg font-semibold text-white">
+            {role}
+          </span>
+          <span className="font-sans text-lg text-copy-subtle-inverse">
+            {" "}
+            · {company}
+          </span>
         </div>
-        <span className="font-mono text-sm text-chart-1 shrink-0 sm:pt-0.5">{period}</span>
+        <span className="shrink-0 font-mono text-sm text-chart-1 sm:pt-0.5">
+          {period}
+        </span>
       </div>
 
-      <p className="font-sans text-zinc-400 leading-relaxed text-sm max-w-2xl">
+      <p className="max-w-2xl font-sans text-sm leading-relaxed text-zinc-400">
         {description}
       </p>
     </div>
@@ -78,7 +85,10 @@ export function Work({ mode }: { mode: SiteMode }) {
     .map((company) => roles.find((r) => r.company === company)!)
     .map((role) => ({
       ...role,
-      description: mode === "frontend" && role.frontendDescription ? role.frontendDescription : role.description,
+      description:
+        mode === "frontend" && role.frontendDescription
+          ? role.frontendDescription
+          : role.description,
     }))
 
   return (
@@ -90,15 +100,20 @@ export function Work({ mode }: { mode: SiteMode }) {
           className={cn(
             "mb-20",
             headingInView
-              ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both"
+              ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-3"
               : "opacity-0"
           )}
         >
-          <p className="font-mono text-xs tracking-[0.25em] text-chart-1 uppercase mb-6">
-            <EncryptedText text="02: Selected Work" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
+          <p className="mb-6 font-mono text-xs tracking-[0.25em] text-chart-1 uppercase">
+            <EncryptedText
+              text="02: Selected Work"
+              revealDelayMs={80}
+              flipDelayMs={40}
+              charset="@#%*=+-:."
+            />
           </p>
           <h2
-            className="font-display font-bold text-white leading-tight"
+            className="font-display leading-tight font-bold text-white"
             style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
           >
             A decade of shipping interfaces people actually use.
@@ -107,7 +122,7 @@ export function Work({ mode }: { mode: SiteMode }) {
 
         {/* Timeline */}
         <div className="relative">
-          <div className="absolute left-1.25 top-2 bottom-2 w-px bg-zinc-800" />
+          <div className="absolute top-2 bottom-2 left-1.25 w-px bg-zinc-800" />
           <div className="space-y-14">
             {orderedRoles.map((role, i) => (
               <WorkEntry key={role.period} {...role} index={i} />

@@ -1,6 +1,11 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Menu01Icon } from "@hugeicons/core-free-icons"
 
@@ -25,8 +30,11 @@ export function Nav() {
       <div className="flex items-center gap-8">
         <a
           href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }) }}
-          className="font-display font-bold tracking-tight text-zinc-900 text-xl leading-none"
+          onClick={(e) => {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: "smooth" })
+          }}
+          className="font-display text-xl leading-none font-bold tracking-tight text-zinc-900"
         >
           GJ
         </a>
@@ -36,7 +44,7 @@ export function Nav() {
             <button
               key={href}
               onClick={() => scrollTo(href)}
-              className="font-sans text-sm text-zinc-400 transition-colors hover:text-zinc-900"
+              className="font-sans text-sm text-copy-subtle transition-colors hover:text-zinc-900"
             >
               {label}
             </button>
@@ -48,7 +56,7 @@ export function Nav() {
       <Button
         variant="outline"
         size="sm"
-        className="hidden md:flex rounded-none border-zinc-300 bg-transparent font-mono text-xs tracking-widest text-zinc-500 uppercase hover:border-zinc-600 hover:bg-transparent hover:text-zinc-900"
+        className="hidden rounded-none border-zinc-300 bg-transparent font-mono text-xs tracking-widest text-zinc-500 uppercase hover:border-zinc-600 hover:bg-transparent hover:text-zinc-900 md:flex"
         asChild
       >
         <a href="mailto:gavin.jaynes@gmail.com">Get in touch ↗</a>
@@ -60,29 +68,38 @@ export function Nav() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden text-zinc-500 hover:text-zinc-900 hover:bg-transparent"
+            className="text-zinc-500 hover:bg-transparent hover:text-zinc-900 md:hidden"
           >
-            <HugeiconsIcon icon={Menu01Icon} size={20} />
+            <HugeiconsIcon icon={Menu01Icon} size={20} aria-hidden />
+            <span className="sr-only">Open navigation</span>
           </Button>
         </SheetTrigger>
 
-        <SheetContent side="right" className="bg-zinc-950 border-zinc-800 w-72 flex flex-col pt-16">
+        <SheetContent
+          side="right"
+          aria-describedby={undefined}
+          className="flex w-72 flex-col border-zinc-800 bg-zinc-950 pt-16"
+        >
+          <SheetTitle className="sr-only">Site navigation</SheetTitle>
           <nav className="flex flex-col gap-1">
             {links.map(({ label, href }) => (
               <button
                 key={href}
-                onClick={() => { scrollTo(href); setOpen(false) }}
-                className="font-display text-left text-2xl font-bold text-white/60 hover:text-white py-3 px-4 transition-colors"
+                onClick={() => {
+                  scrollTo(href)
+                  setOpen(false)
+                }}
+                className="px-4 py-3 text-left font-display text-2xl font-bold text-white/60 transition-colors hover:text-white"
               >
                 {label}
               </button>
             ))}
           </nav>
 
-          <div className="mt-auto pb-8 px-4">
+          <div className="mt-auto px-4 pb-8">
             <a
               href="mailto:gavin.jaynes@gmail.com"
-              className="font-mono text-xs tracking-widest text-zinc-600 uppercase hover:text-white transition-colors"
+              className="font-mono text-xs tracking-widest text-copy-subtle-inverse uppercase transition-colors hover:text-white"
             >
               gavin.jaynes@gmail.com ↗
             </a>

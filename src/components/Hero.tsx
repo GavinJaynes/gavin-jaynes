@@ -47,7 +47,8 @@ const COPY = {
         autonomous software.
       </>
     ),
-    headingMobile: "Building the systems behind DeFi, agentic trading and autonomous software.",
+    headingMobile:
+      "Building the systems behind DeFi, agentic trading and autonomous software.",
   },
   frontend: {
     sidebarLabel: "Frontend · Product · Systems",
@@ -60,7 +61,8 @@ const COPY = {
         that run at real scale.
       </>
     ),
-    headingMobile: "Building fast, accessible frontends for products that run at real scale.",
+    headingMobile:
+      "Building fast, accessible frontends for products that run at real scale.",
   },
   ai: {
     sidebarLabel: "AI · Product · Systems",
@@ -73,7 +75,8 @@ const COPY = {
         and reliable systems.
       </>
     ),
-    headingMobile: "Building production AI products, agent workflows and reliable systems.",
+    headingMobile:
+      "Building production AI products, agent workflows and reliable systems.",
   },
 }
 
@@ -114,7 +117,9 @@ function AsciiReveal({
     let raf = 0
     let lastTb = -1
     let failedMeasures = 0
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
 
     // Repaint the scramble layer: everything on `full`, else flip a subset.
     // Before the image loads, a fixed pseudo-random subset of cells carries
@@ -129,7 +134,8 @@ function AsciiReveal({
         if (!full && (ci === 1 || hash(i, tb) > 0.3)) continue
         const cx = (i % cols) * CELL_W + CELL_W / 2
         const cy = ((i / cols) | 0) * CELL_H + CELL_H / 2
-        if (!full) nctx.clearRect(cx - CELL_W / 2, cy - CELL_H / 2, CELL_W, CELL_H)
+        if (!full)
+          nctx.clearRect(cx - CELL_W / 2, cy - CELL_H / 2, CELL_W, CELL_H)
         nctx.fillStyle = cells ? shadeFor(ci) : SHADES[1]
         nctx.fillText(ci === 1 ? "." : randomScrambleChar(i, tb), cx, cy)
       }
@@ -142,7 +148,14 @@ function AsciiReveal({
       if (!W || !img.complete || !img.naturalWidth || cells) return
       cells = sampleCells(img, W, H, cols, rows)
       if (!cells) return
-      staticLayer = buildStaticLayer(cells, cols, rows, canvas.width, canvas.height, dpr)
+      staticLayer = buildStaticLayer(
+        cells,
+        cols,
+        rows,
+        canvas.width,
+        canvas.height,
+        dpr
+      )
       paintNoise(true)
     }
 
@@ -235,7 +248,7 @@ function AsciiReveal({
     <canvas
       ref={canvasRef}
       aria-hidden
-      className={`pointer-events-none absolute inset-0 h-full w-full select-none transition-opacity duration-700 ${visible ? "opacity-100" : "opacity-0"}`}
+      className={`pointer-events-none absolute inset-0 h-full w-full transition-opacity duration-700 select-none ${visible ? "opacity-100" : "opacity-0"}`}
     />
   )
 }
@@ -244,7 +257,7 @@ function LatestLink({ className }: { className?: string }) {
   return (
     <a
       href="#projects"
-      className={`font-mono inline-flex items-center gap-2.5 text-[10px] tracking-[0.2em] uppercase text-zinc-500 transition-colors hover:text-zinc-800 ${className ?? ""}`}
+      className={`inline-flex items-center gap-2.5 font-mono text-[10px] tracking-[0.2em] text-copy-subtle uppercase transition-colors hover:text-zinc-800 ${className ?? ""}`}
     >
       <span className="size-1.5 shrink-0 rounded-full bg-chart-1" />
       Latest, onchain-ui merged into the shadcn registry
@@ -273,47 +286,59 @@ export function Hero({ mode }: { mode: SiteMode }) {
 
       {/* ── Mobile layout ── */}
       <div className="flex flex-1 flex-col justify-between lg:hidden">
-
         {/* Hello + tagline */}
         <div className="px-6 pt-2 pb-2">
           <div
-            className="font-display font-bold leading-none tracking-tight text-zinc-900 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+            className="animate-in font-display leading-none font-bold tracking-tight text-zinc-900 duration-700 fill-mode-both fade-in slide-in-from-bottom-4"
             style={{ fontSize: "clamp(4rem, 19vw, 7rem)" }}
           >
-            <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
+            <EncryptedText
+              text="Hello"
+              revealDelayMs={120}
+              flipDelayMs={40}
+              charset="@#%*=+-:."
+            />
           </div>
-          <h1 className="font-sans mt-1.5 max-w-xs text-sm leading-snug text-zinc-900 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
+          <h1 className="mt-1.5 max-w-xs animate-in font-sans text-sm leading-snug text-zinc-900 delay-150 duration-700 fill-mode-both fade-in slide-in-from-bottom-3">
             {copy.headingMobile}
           </h1>
-          <p className="font-sans mt-2 max-w-xs text-sm leading-snug text-zinc-400 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-200 fill-mode-both">
+          <p className="mt-2 max-w-xs animate-in font-sans text-sm leading-snug text-copy-subtle delay-200 duration-700 fill-mode-both fade-in slide-in-from-bottom-3">
             Frontend engineer. Product builder. Based in Brisbane, AU.
           </p>
-          <LatestLink className="mt-3 animate-in fade-in duration-700 delay-300 fill-mode-both" />
+          <LatestLink className="mt-3 animate-in delay-300 duration-700 fill-mode-both fade-in" />
         </div>
 
         {/* Image */}
-        <div className="relative flex-1 min-h-0 overflow-hidden @container">
-          <AsciiReveal src="/me.png" onComplete={handleAsciiComplete} visible={!showImage} />
+        <div className="@container relative min-h-0 flex-1 overflow-hidden">
+          <AsciiReveal
+            src="/me.png"
+            onComplete={handleAsciiComplete}
+            visible={!showImage}
+          />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
             onLoad={() => setImageLoaded(true)}
-            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
+            className={`absolute inset-0 h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "opacity-100 grayscale-0" : "opacity-0 grayscale"}`}
           />
           <AsciiLens src="/me.png" active={showImage} />
         </div>
 
         {/* Buttons */}
-        <div className="grid grid-cols-2 animate-in fade-in duration-700 delay-500 fill-mode-both">
+        <div className="grid animate-in grid-cols-2 delay-500 duration-700 fill-mode-both fade-in">
           <a
             href="#projects"
-            className="flex items-center justify-center bg-zinc-900 py-5 font-mono text-xs tracking-widest text-white uppercase hover:bg-zinc-700 transition-colors"
+            className="flex items-center justify-center bg-zinc-900 py-5 font-mono text-xs tracking-widest text-white uppercase transition-colors hover:bg-zinc-700"
           >
             View work
           </a>
           <button
-            onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-            className="flex items-center justify-center bg-stone-200 py-5 font-mono text-xs tracking-widest text-zinc-600 uppercase hover:bg-stone-300 transition-colors"
+            onClick={() =>
+              document
+                .getElementById("about")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="flex items-center justify-center bg-stone-200 py-5 font-mono text-xs tracking-widest text-zinc-600 uppercase transition-colors hover:bg-stone-300"
           >
             About me
           </button>
@@ -322,54 +347,62 @@ export function Hero({ mode }: { mode: SiteMode }) {
 
       {/* ── Desktop layout ── */}
       <div className="relative hidden flex-1 lg:flex lg:flex-row">
-
         {/* Sidebar labels */}
-        <div className="absolute bottom-0 left-5 top-0 flex flex-col items-center justify-between py-8">
-          <span className="font-mono text-[10px] tracking-[0.3em] text-zinc-300 uppercase [writing-mode:vertical-rl] rotate-180">
+        <div className="absolute top-0 bottom-0 left-5 flex flex-col items-center justify-between py-8">
+          <span className="rotate-180 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase [writing-mode:vertical-rl]">
             {copy.sidebarLabel}
           </span>
-          <span className="font-mono text-[10px] tracking-[0.3em] text-zinc-300 uppercase [writing-mode:vertical-rl] rotate-180">
+          <span className="rotate-180 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase [writing-mode:vertical-rl]">
             2026
           </span>
         </div>
-        <div className="absolute bottom-0 left-14 top-0 w-px bg-zinc-200" />
+        <div className="absolute top-0 bottom-0 left-14 w-px bg-zinc-200" />
 
         {/* Left content */}
-        <div className="flex flex-1 flex-col justify-between pl-24 pr-12 py-10">
+        <div className="flex flex-1 flex-col justify-between py-10 pr-12 pl-24">
           {/* Stats */}
-          <div className="animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both">
+          <div className="animate-in delay-150 duration-700 fill-mode-both fade-in slide-in-from-bottom-3">
             <div className="flex flex-wrap gap-x-10 gap-y-4">
               {stats.map(({ value, label }) => (
                 <div key={label}>
-                  <p className="font-display text-3xl font-bold text-zinc-900">{value}</p>
-                  <p className="font-mono mt-1 text-[10px] tracking-[0.2em] text-zinc-400 uppercase">{label}</p>
+                  <p className="font-display text-3xl font-bold text-zinc-900">
+                    {value}
+                  </p>
+                  <p className="mt-1 font-mono text-[10px] tracking-[0.2em] text-copy-subtle uppercase">
+                    {label}
+                  </p>
                 </div>
               ))}
             </div>
-            <p className="font-mono mt-5 text-[10px] tracking-[0.2em] text-zinc-400">
+            <p className="mt-5 font-mono text-[10px] tracking-[0.2em] text-copy-subtle">
               * figures unaudited
             </p>
           </div>
 
           {/* Hello + tagline */}
-          <div className="my-auto py-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
+          <div className="my-auto animate-in py-10 delay-300 duration-700 fill-mode-both fade-in slide-in-from-bottom-4">
             <div
-              className="font-display font-bold leading-none tracking-tight text-zinc-900"
+              className="font-display leading-none font-bold tracking-tight text-zinc-900"
               style={{ fontSize: "clamp(3.5rem, 9vw, 7.5rem)" }}
             >
-              <EncryptedText text="Hello" revealDelayMs={120} flipDelayMs={40} charset="@#%*=+-:." />
+              <EncryptedText
+                text="Hello"
+                revealDelayMs={120}
+                flipDelayMs={40}
+                charset="@#%*=+-:."
+              />
             </div>
-            <h1 className="font-sans mt-6 max-w-lg text-3xl leading-tight text-zinc-900 xl:text-4xl">
+            <h1 className="mt-6 max-w-lg font-sans text-3xl leading-tight text-zinc-900 xl:text-4xl">
               {copy.heading}
             </h1>
-            <p className="font-sans mt-5 max-w-sm text-lg leading-relaxed text-zinc-400">
+            <p className="mt-5 max-w-sm font-sans text-lg leading-relaxed text-copy-subtle">
               Frontend engineer. Product builder. Based in Brisbane, AU.
             </p>
             <LatestLink className="mt-6" />
           </div>
 
           {/* CTAs */}
-          <div className="flex items-center gap-5 animate-in fade-in slide-in-from-bottom-3 duration-700 delay-700 fill-mode-both">
+          <div className="flex animate-in items-center gap-5 delay-700 duration-700 fill-mode-both fade-in slide-in-from-bottom-3">
             <Button
               className="rounded-none bg-zinc-900 font-mono text-xs tracking-widest text-white uppercase hover:bg-zinc-700"
               asChild
@@ -377,8 +410,12 @@ export function Hero({ mode }: { mode: SiteMode }) {
               <a href="#projects">View work</a>
             </Button>
             <button
-              onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-              className="font-mono text-xs tracking-widest text-zinc-400 uppercase transition-colors hover:text-zinc-700"
+              onClick={() =>
+                document
+                  .getElementById("about")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="font-mono text-xs tracking-widest text-copy-subtle uppercase transition-colors hover:text-zinc-800"
             >
               About me
             </button>
@@ -386,13 +423,17 @@ export function Hero({ mode }: { mode: SiteMode }) {
         </div>
 
         {/* Right photo */}
-        <div className="relative w-[46%] flex-none overflow-hidden @container">
-          <AsciiReveal src="/me.png" onComplete={handleAsciiComplete} visible={!showImage} />
+        <div className="@container relative w-[46%] flex-none overflow-hidden">
+          <AsciiReveal
+            src="/me.png"
+            onComplete={handleAsciiComplete}
+            visible={!showImage}
+          />
           <img
             src="/me.png"
             alt="Gavin Jaynes"
             onLoad={() => setImageLoaded(true)}
-            className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "grayscale-0 opacity-100" : "grayscale opacity-0"}`}
+            className={`h-full w-full object-cover object-top transition-[filter,opacity] duration-1000 ${showImage ? "opacity-100 grayscale-0" : "opacity-0 grayscale"}`}
           />
           <AsciiLens src="/me.png" active={showImage} />
           <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-32 bg-linear-to-r from-stone-50 to-transparent" />

@@ -8,12 +8,28 @@ const points = [
   {
     label: "4 years",
     detail: "Deep in DeFi & Web3",
-    frontend: { label: "4 years", detail: "Real-time, high-stakes systems (DeFi)" },
+    frontend: {
+      label: "4 years",
+      detail: "Real-time, high-stakes systems (DeFi)",
+    },
   },
-  { label: "Enterprise scale", detail: "Squiz Matrix, engineered the CMS, not just sites on it" },
-  { label: "AI engineering", detail: "Builds AI products and codes with AI daily, ships faster because of it" },
-  { label: "Standards-driven", detail: "WCAG AAA, design systems, reusable components & craft" },
-  { label: "Founder", detail: "ClawOps built end to end, product decisions, not just tickets" },
+  {
+    label: "Enterprise scale",
+    detail: "Squiz Matrix, engineered the CMS, not just sites on it",
+  },
+  {
+    label: "AI engineering",
+    detail:
+      "Builds AI products and codes with AI daily, ships faster because of it",
+  },
+  {
+    label: "Standards-driven",
+    detail: "WCAG AAA, design systems, reusable components & craft",
+  },
+  {
+    label: "Founder",
+    detail: "ClawOps built end to end, product decisions, not just tickets",
+  },
 ]
 
 export function About({ mode }: { mode: SiteMode }) {
@@ -23,8 +39,13 @@ export function About({ mode }: { mode: SiteMode }) {
   return (
     <section id="about" className="bg-white px-8 py-28">
       <div className="mx-auto max-w-4xl">
-        <p className="font-mono text-xs tracking-[0.25em] text-zinc-400 uppercase mb-6">
-          <EncryptedText text="01: About" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
+        <p className="mb-6 font-mono text-xs tracking-[0.25em] text-copy-subtle uppercase">
+          <EncryptedText
+            text="01: About"
+            revealDelayMs={80}
+            flipDelayMs={40}
+            charset="@#%*=+-:."
+          />
         </p>
 
         {/* Intro — the emotional pitch */}
@@ -33,12 +54,12 @@ export function About({ mode }: { mode: SiteMode }) {
           className={cn(
             "mb-16",
             introInView
-              ? "animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+              ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-4"
               : "opacity-0"
           )}
         >
           <p
-            className="font-sans text-zinc-900 leading-relaxed mb-6"
+            className="mb-6 font-sans leading-relaxed text-zinc-900"
             style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}
           >
             A CV tells you where I've worked. It doesn't show you everything
@@ -52,7 +73,7 @@ export function About({ mode }: { mode: SiteMode }) {
             should be.
           </p>
           <p
-            className="font-sans text-zinc-500 leading-relaxed"
+            className="font-sans leading-relaxed text-zinc-500"
             style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
           >
             Before I wrote a line of code, I trained as a chef. It turned out to
@@ -68,23 +89,27 @@ export function About({ mode }: { mode: SiteMode }) {
         <div
           ref={pointsRef}
           className={cn(
-            "grid grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100",
+            "grid grid-cols-2 gap-px bg-zinc-100 lg:grid-cols-3",
             pointsInView
-              ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both"
+              ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-3"
               : "opacity-0"
           )}
         >
           {points.map((point) => {
-            const { label, detail } = mode === "frontend" && point.frontend ? point.frontend : point
+            const { label, detail } =
+              mode === "frontend" && point.frontend ? point.frontend : point
             return (
               <div key={label} className="bg-white p-5">
-                <p className="font-display font-bold text-zinc-900 text-sm">{label}</p>
-                <p className="font-sans text-zinc-400 text-xs mt-1 leading-relaxed">{detail}</p>
+                <p className="font-display text-sm font-bold text-zinc-900">
+                  {label}
+                </p>
+                <p className="mt-1 font-sans text-xs leading-relaxed text-copy-subtle">
+                  {detail}
+                </p>
               </div>
             )
           })}
         </div>
-
       </div>
     </section>
   )

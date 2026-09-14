@@ -13,8 +13,21 @@ const projects = [
       "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
     frontendDescription:
       "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
-    highlights: ["Merged into the official shadcn registry directory", "Live registry at onchain-ui.dev", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
-    tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
+    highlights: [
+      "Merged into the official shadcn registry directory",
+      "Live registry at onchain-ui.dev",
+      "One-line install via the shadcn CLI",
+      "Registry contract tests, docs with live demos",
+    ],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn",
+      "wagmi",
+      "viem",
+      "Fumadocs",
+    ],
     chains: [],
     url: "https://onchain-ui.dev",
     video: "/onchain-ui-promo.mp4",
@@ -28,8 +41,23 @@ const projects = [
       "Co-founded and led a full DeFi product suite: swap, bridge, staking, yield farming, and NFT platform, then spun out INDX, a novel on-chain index protocol. Users send USDC and receive proportional exposure to a basket of up to 20 tokens via real swaps. No proxies, no synthetics.",
     frontendDescription:
       "Co-founded and led engineering on a full product suite, including swap, bridge, staking, yield farming, and an NFT platform, handling real-time data, wallet state, and transaction feedback under sub-second response requirements. Spun out INDX, a novel index protocol in the DeFi space, built on the same performance-first architecture.",
-    highlights: ["$1M+ revenue", "4 chains deployed", "~$50K TVL at peak", "Community in the thousands"],
-    tech: ["Next.js", "React", "TypeScript", "Wagmi", "Viem", "TanStack Query", "The Graph", "Moralis", "Solidity"],
+    highlights: [
+      "$1M+ revenue",
+      "4 chains deployed",
+      "~$50K TVL at peak",
+      "Community in the thousands",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Wagmi",
+      "Viem",
+      "TanStack Query",
+      "The Graph",
+      "Moralis",
+      "Solidity",
+    ],
     chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
     url: null,
     video: null,
@@ -41,8 +69,19 @@ const projects = [
     type: "Systems / Trading",
     description:
       "Autonomous trading system for HyperLiquid perpetual futures, and the MVP prototype for a future ClawOps Trading Companion. Trade via natural language through Telegram, or let it run: every 4 hours it scores RSI, funding, and momentum signals alongside a DBRCI breakout scanner, then decides whether to act. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket management.",
-    highlights: ["Natural language trading via Telegram", "Autonomous 4-hour signal cycle", "Full execution layer on HyperLiquid", "ClawOps Trading Companion prototype"],
-    tech: ["Python", "HyperLiquid SDK", "cron", "Hetzner VPS", "Telegram Bot API"],
+    highlights: [
+      "Natural language trading via Telegram",
+      "Autonomous 4-hour signal cycle",
+      "Full execution layer on HyperLiquid",
+      "ClawOps Trading Companion prototype",
+    ],
+    tech: [
+      "Python",
+      "HyperLiquid SDK",
+      "cron",
+      "Hetzner VPS",
+      "Telegram Bot API",
+    ],
     chains: ["HyperLiquid"],
     url: null,
     video: null,
@@ -54,8 +93,23 @@ const projects = [
     type: "SaaS / AI",
     description:
       "Commercial SaaS AI assistant platform built on OpenClaw. Each customer gets a personal Telegram bot on a dedicated Hetzner VPS, live in minutes. The Companions platform is the real differentiator, with installable AI personality layers, domain-specific knowledge, QMD-indexed persistent memory, their own data stores, third-party API integrations, and dedicated visual dashboard UIs. First companion: Entertainment Buddy (alpha), tracking taste profiles, artists, movies, gig history, and SoundCloud sets with smart recommendations.",
-    highlights: ["Companions: installable AI skill layers", "End-to-end automated provisioning", "Smart model switching across 600+ models", "Entertainment Buddy companion in alpha"],
-    tech: ["React", "Vite", "Convex", "TypeScript", "Stripe", "Hetzner API", "OpenRouter", "Telegram Bot API", "QMD"],
+    highlights: [
+      "Companions: installable AI skill layers",
+      "End-to-end automated provisioning",
+      "Smart model switching across 600+ models",
+      "Entertainment Buddy companion in alpha",
+    ],
+    tech: [
+      "React",
+      "Vite",
+      "Convex",
+      "TypeScript",
+      "Stripe",
+      "Hetzner API",
+      "OpenRouter",
+      "Telegram Bot API",
+      "QMD",
+    ],
     chains: [],
     url: "https://clawops.io",
     video: null,
@@ -64,9 +118,24 @@ const projects = [
 ]
 
 const projectOrder: Record<SiteMode, string[]> = {
-  web3: ["onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System", "ClawOps"],
-  frontend: ["ClawOps", "onchain-ui", "Web3 Product Suite + INDX", "Algo Trading System"],
-  ai: ["ClawOps", "Algo Trading System", "Web3 Product Suite + INDX", "onchain-ui"],
+  web3: [
+    "onchain-ui",
+    "Web3 Product Suite + INDX",
+    "Algo Trading System",
+    "ClawOps",
+  ],
+  frontend: [
+    "ClawOps",
+    "onchain-ui",
+    "Web3 Product Suite + INDX",
+    "Algo Trading System",
+  ],
+  ai: [
+    "ClawOps",
+    "Algo Trading System",
+    "Web3 Product Suite + INDX",
+    "onchain-ui",
+  ],
 }
 
 async function playFullscreen(video: HTMLVideoElement | null) {
@@ -99,7 +168,11 @@ async function playFullscreen(video: HTMLVideoElement | null) {
     } else if (el.webkitEnterFullscreen) {
       // iOS Safari — native player handles landscape rotation itself
       el.webkitEnterFullscreen()
-      video.addEventListener("webkitendfullscreen", () => (video.muted = true), { once: true })
+      video.addEventListener(
+        "webkitendfullscreen",
+        () => (video.muted = true),
+        { once: true }
+      )
       return
     }
     await (
@@ -110,7 +183,13 @@ async function playFullscreen(video: HTMLVideoElement | null) {
   }
 }
 
-function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof projects)[0]
+  index: number
+}) {
   const { ref, inView } = useInView()
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -120,35 +199,40 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
       className={cn(
         "border border-zinc-200 bg-white p-8 lg:p-10",
         inView
-          ? "animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+          ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-4"
           : "opacity-0"
       )}
       style={{ animationDelay: `${index * 150}ms` }}
     >
-      <div className="grid lg:grid-cols-[1fr_280px] gap-8">
+      <div className="grid gap-8 lg:grid-cols-[1fr_280px]">
         {/* Left */}
         <div>
-          <div className="flex items-start gap-4 mb-5">
-            <span className="font-mono text-xs text-zinc-300 mt-1 shrink-0">
+          <div className="mb-5 flex items-start gap-4">
+            <span className="mt-1 shrink-0 font-mono text-xs text-copy-subtle">
               {String(index + 1).padStart(2, "0")}
             </span>
             <div>
-              <div className="flex flex-wrap items-center gap-3 mb-1">
-                <h3 className="font-display font-bold text-zinc-900 text-lg">{project.name}</h3>
-                <span className="font-mono text-[10px] text-chart-5 border border-chart-5/40 px-2 py-0.5 tracking-widest uppercase rounded-sm">
+              <div className="mb-1 flex flex-wrap items-center gap-3">
+                <h3 className="font-display text-lg font-bold text-zinc-900">
+                  {project.name}
+                </h3>
+                <span className="rounded-sm border border-chart-5/40 px-2 py-0.5 font-mono text-[10px] tracking-widest text-chart-5 uppercase">
                   {project.type}
                 </span>
               </div>
             </div>
           </div>
 
-          <p className="font-sans text-zinc-500 leading-relaxed text-sm mb-6 max-w-xl">
+          <p className="mb-6 max-w-xl font-sans text-sm leading-relaxed text-zinc-500">
             {project.description}
           </p>
 
           <div className="flex flex-wrap gap-2">
             {project.tech.map((t) => (
-              <span key={t} className="font-mono text-[11px] text-zinc-400 bg-zinc-100 px-2.5 py-1 tracking-wide">
+              <span
+                key={t}
+                className="bg-zinc-100 px-2.5 py-1 font-mono text-[11px] tracking-wide text-copy-subtle"
+              >
                 {t}
               </span>
             ))}
@@ -157,11 +241,13 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
 
         {/* Right — highlights */}
         <div className="lg:border-l lg:border-zinc-100 lg:pl-8">
-          <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-zinc-300 mb-4">Highlights</p>
-          <ul className="space-y-3 mb-6">
+          <p className="mb-4 font-mono text-[10px] tracking-[0.25em] text-copy-subtle uppercase">
+            Highlights
+          </p>
+          <ul className="mb-6 space-y-3">
             {project.highlights.map((h) => (
               <li key={h} className="flex items-start gap-3">
-                <span className="text-chart-5 mt-1 text-xs shrink-0">▸</span>
+                <span className="mt-1 shrink-0 text-xs text-chart-5">▸</span>
                 <span className="font-sans text-sm text-zinc-500">{h}</span>
               </li>
             ))}
@@ -170,7 +256,10 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
           {project.chains.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {project.chains.map((c) => (
-                <span key={c} className="font-mono text-[10px] text-zinc-400 bg-zinc-100 px-2 py-1 tracking-wide">
+                <span
+                  key={c}
+                  className="bg-zinc-100 px-2 py-1 font-mono text-[10px] tracking-wide text-copy-subtle"
+                >
                   {c}
                 </span>
               ))}
@@ -184,7 +273,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 font-mono text-xs text-chart-5 hover:opacity-70 tracking-wide transition-opacity"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs tracking-wide text-chart-5 transition-opacity hover:opacity-70"
                 >
                   Visit site ↗
                 </a>
@@ -229,7 +318,9 @@ export function Projects({ mode }: { mode: SiteMode }) {
     .map((project) => ({
       ...project,
       description:
-        mode === "frontend" && project.frontendDescription ? project.frontendDescription : project.description,
+        mode === "frontend" && project.frontendDescription
+          ? project.frontendDescription
+          : project.description,
     }))
 
   return (
@@ -240,18 +331,25 @@ export function Projects({ mode }: { mode: SiteMode }) {
           className={cn(
             "mb-14",
             headingInView
-              ? "animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both"
+              ? "animate-in duration-700 fill-mode-both fade-in slide-in-from-bottom-3"
               : "opacity-0"
           )}
         >
-          <p className="font-mono text-xs tracking-[0.25em] uppercase text-zinc-400 mb-6">
-            <EncryptedText text="03: Projects" revealDelayMs={80} flipDelayMs={40} charset="@#%*=+-:." />
+          <p className="mb-6 font-mono text-xs tracking-[0.25em] text-copy-subtle uppercase">
+            <EncryptedText
+              text="03: Projects"
+              revealDelayMs={80}
+              flipDelayMs={40}
+              charset="@#%*=+-:."
+            />
           </p>
           <h2
-            className="font-display font-bold text-zinc-900 leading-tight"
+            className="font-display leading-tight font-bold text-zinc-900"
             style={{ fontSize: "clamp(1.75rem, 4vw, 2.75rem)" }}
           >
-            Things I've built<br />and shipped.
+            Things I've built
+            <br />
+            and shipped.
           </h2>
         </div>
 
