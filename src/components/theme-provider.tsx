@@ -84,6 +84,7 @@ export function ThemeProvider({
   disableTransitionOnChange = true,
   ...props
 }: ThemeProviderProps) {
+  const hasAppliedTheme = React.useRef(false)
   const [theme, setThemeState] = React.useState<Theme>(() => {
     const storedTheme = localStorage.getItem(storageKey)
     if (isTheme(storedTheme)) {
@@ -102,11 +103,11 @@ export function ThemeProvider({
   )
 
   const applyTheme = React.useCallback(
-    (nextTheme: Theme) => {
+    (nextTheme: Theme, guardTransitions = disableTransitionOnChange) => {
       const root = document.documentElement
       const resolvedTheme =
         nextTheme === "system" ? getSystemTheme() : nextTheme
-      const restoreTransitions = disableTransitionOnChange
+      const restoreTransitions = guardTransitions
         ? disableTransitionsTemporarily()
         : null
 
@@ -121,7 +122,10 @@ export function ThemeProvider({
   )
 
   React.useEffect(() => {
-    applyTheme(theme)
+    // The first render has no previous theme to transition from. Skipping the
+    // transition guard here also avoids a forced style/layout flush on startup.
+    applyTheme(theme, hasAppliedTheme.current)
+    hasAppliedTheme.current = true
 
     if (theme !== "system") {
       return undefined

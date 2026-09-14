@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react"
-import { motion, useInView, useReducedMotion } from "motion/react"
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion"
 
 type EncryptedTextProps = {
   text: string
@@ -55,13 +55,30 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
   revealedClassName,
 }) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const isInView = useInView(ref, { once: true })
-  const prefersReducedMotion = useReducedMotion()
+  const [isInView, setIsInView] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   const [revealCount, setRevealCount] = useState<number>(0)
   const [displayText, setDisplayText] = useState<string>(() =>
     text ? generateGibberishPreservingSpaces(text, charset) : ""
   )
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        setIsInView(true)
+        observer.disconnect()
+      },
+      { threshold: 0.15 }
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     if (!isInView || prefersReducedMotion) return
@@ -145,7 +162,7 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
   if (!text) return null
 
   return (
-    <motion.span ref={ref} className={cn(className)}>
+    <span ref={ref} className={cn(className)}>
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
         {text.split("").map((char, index) => {
@@ -166,6 +183,6 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
           )
         })}
       </span>
-    </motion.span>
+    </span>
   )
 }

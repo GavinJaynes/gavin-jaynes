@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
-import { useReducedMotion } from "motion/react"
 import { useInView } from "@/hooks/useInView"
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion"
 import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
 
@@ -26,7 +26,7 @@ export function Showcase() {
   const scrollerRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
   const [marqueePaused, setMarqueePaused] = useState(false)
-  const prefersReducedMotion = useReducedMotion()
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   // Track which slide is snapped into view on mobile
   useEffect(() => {
@@ -135,6 +135,8 @@ export function Showcase() {
                 src={shot.src}
                 alt={shot.alt}
                 draggable={false}
+                loading="lazy"
+                decoding="async"
                 className="aspect-[3/2] w-full rounded-sm bg-zinc-900 object-cover select-none"
               />
               <figcaption className="mt-3 font-mono text-[11px] tracking-wider text-copy-subtle-inverse uppercase">
@@ -179,6 +181,7 @@ export function Showcase() {
               aria-hidden={i >= shots.length ? true : undefined}
               draggable={false}
               loading="lazy"
+              decoding="async"
               className="h-72 w-auto flex-none rounded-sm object-cover select-none"
             />
           ))}
