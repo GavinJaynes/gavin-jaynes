@@ -10,10 +10,10 @@ const points = [
     detail: "Deep in DeFi & Web3",
     frontend: { label: "4 years", detail: "Real-time, high-stakes systems (DeFi)" },
   },
-  { label: "Enterprise scale", detail: "Squiz Matrix, gov & higher-ed" },
+  { label: "Enterprise scale", detail: "Squiz Matrix — engineered the CMS, not just sites on it" },
   { label: "AI engineering", detail: "Builds AI products and codes with AI daily — ships faster because of it" },
   { label: "Standards-driven", detail: "WCAG AAA, design systems, reusable components & craft" },
-  { label: "Seen it all", detail: "Flash, jQuery, TypeScript, the AI wave" },
+  { label: "Founder", detail: "ClawOps built end to end — product decisions, not just tickets" },
 ]
 
 export function About({ mode }: { mode: SiteMode }) {
@@ -41,21 +41,26 @@ export function About({ mode }: { mode: SiteMode }) {
             className="font-sans text-zinc-900 leading-relaxed mb-6"
             style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)" }}
           >
-            Anyone who has been at this a while knows it's about more than a CV.
-            Real experience is built in the hours nobody sees: the problem you
-            sat with for three days, the 2am breakthrough, back at it again by 6.
-            The countless cups of coffee. The frustration. And then the moment it works: a release
-            pipeline rolling out to thousands, a buttery smooth page transition, an API response shaped exactly the way it should be.
+            A CV tells you where I've worked. It doesn't show you everything
+            between the idea and the release: sprint planning, T-shirt sizing,
+            the ticket that looked simple until you picked it up, and the days
+            spent turning a complex system into an interface that feels obvious.
+            The frustration. The breakthrough. The satisfaction when it all
+            comes together: a versioned build moving cleanly through the release
+            pipeline and out to thousands of users, a page transition that
+            finally feels right, an API response shaped exactly the way it
+            should be.
           </p>
           <p
             className="font-sans text-zinc-500 leading-relaxed"
             style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
           >
-            Fifteen years means you've survived enough 'this changes everything'
-            moments to have actual perspective on the current one. Flash died.
-            jQuery came and went. ES5 pushed JS forward. Framework wars. Every cycle has believers
-            and casualties, I've made it through enough of them to know how to
-            move rather than just react. AI is different in scale, not in kind.
+            Before I wrote a line of code, I trained as a chef. It turned out to
+            be less of a leap than you might think. Both demand preparation,
+            precision, a willingness to keep improving, and a clear head when
+            something goes wrong. Those lessons have stayed with me through
+            fifteen years of building software. The tools have changed. The way
+            I approach the work hasn't.
           </p>
         </div>
 
