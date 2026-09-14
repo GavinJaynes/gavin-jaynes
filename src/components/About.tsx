@@ -10,10 +10,10 @@ const points = [
     detail: "Deep in DeFi & Web3",
     frontend: { label: "4 years", detail: "Real-time, high-stakes systems (DeFi)" },
   },
-  { label: "Enterprise scale", detail: "Squiz Matrix — engineered the CMS, not just sites on it" },
-  { label: "AI engineering", detail: "Builds AI products and codes with AI daily — ships faster because of it" },
+  { label: "Enterprise scale", detail: "Squiz Matrix, engineered the CMS, not just sites on it" },
+  { label: "AI engineering", detail: "Builds AI products and codes with AI daily, ships faster because of it" },
   { label: "Standards-driven", detail: "WCAG AAA, design systems, reusable components & craft" },
-  { label: "Founder", detail: "ClawOps built end to end — product decisions, not just tickets" },
+  { label: "Founder", detail: "ClawOps built end to end, product decisions, not just tickets" },
 ]
 
 export function About({ mode }: { mode: SiteMode }) {

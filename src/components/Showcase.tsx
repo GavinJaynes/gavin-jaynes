@@ -4,14 +4,14 @@ import { cn } from "@/lib/utils"
 import { EncryptedText } from "@/components/ui/encrypted-text"
 
 const shots = [
-  { src: "/onchain-ui-homepage.png",         alt: "onchain-ui — Homepage" },
-  { src: "/clawops-screenshot-1.png",        alt: "ClawOps — Smart model switching" },
-  { src: "/indx-screenshot-1.jpg",           alt: "INDX — Top Performers dashboard" },
-  { src: "/indx-screenshot-3.jpg",           alt: "INDX — Mobile app" },
-  { src: "/clawops-screenshot-2.png",        alt: "ClawOps — Every frontier model" },
-  { src: "/crypto-genesis-screenshot-1.jpg", alt: "Crypto Genesis — Wallet app" },
-  { src: "/indx-screenshot-2.jpg",           alt: "INDX — Crypto Traded Funds listing" },
-  { src: "/indx-screenshot-4.jpg",           alt: "INDX — Index detail view" },
+  { src: "/onchain-ui-homepage.png",         alt: "onchain-ui, Homepage" },
+  { src: "/clawops-screenshot-1.png",        alt: "ClawOps, Smart model switching" },
+  { src: "/indx-screenshot-1.jpg",           alt: "INDX, Top Performers dashboard" },
+  { src: "/indx-screenshot-3.jpg",           alt: "INDX, Mobile app" },
+  { src: "/clawops-screenshot-2.png",        alt: "ClawOps, Every frontier model" },
+  { src: "/crypto-genesis-screenshot-1.jpg", alt: "Crypto Genesis, Wallet app" },
+  { src: "/indx-screenshot-2.jpg",           alt: "INDX, Crypto Traded Funds listing" },
+  { src: "/indx-screenshot-4.jpg",           alt: "INDX, Index detail view" },
 ]
 
 // Doubled for seamless marquee loop

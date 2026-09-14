@@ -103,7 +103,7 @@ export function RealTalk() {
             </div>
             <div>
               <p className="font-sans font-medium text-white text-base lg:text-lg">
-                Algorithmic trading system — running right now.
+                Algorithmic trading system, running right now.
               </p>
               <p className="font-sans text-zinc-400 text-sm mt-1 leading-relaxed">
                 Perpetual futures on HyperLiquid. Real capital. Real risk management. Not a side project.

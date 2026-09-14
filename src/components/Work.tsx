@@ -9,7 +9,7 @@ const roles = [
     role: "Founder",
     company: "ClawOps",
     description:
-      "Built a commercial SaaS AI assistant platform on top of OpenClaw. A monorepo: React frontend, Convex backend, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. The key differentiator is the Companions platform — installable AI personality layers with persistent memory, their own data stores, API integrations, and visual dashboard UIs.",
+      "Built a commercial SaaS AI assistant platform on top of OpenClaw. A monorepo: React frontend, Convex backend, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. The key differentiator is the Companions platform, with installable AI personality layers, persistent memory, their own data stores, API integrations, and visual dashboard UIs.",
   },
   {
     period: "2022 - 2025",
@@ -18,7 +18,7 @@ const roles = [
     description:
       "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Built on Next.js with SSR and mixed rendering strategies. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
     frontendDescription:
-      "Co-founded and led engineering on a full product suite built on Next.js with SSR and mixed rendering strategies, built for real-time data and sub-second responsiveness under load — swap, bridge, staking, yield farming, and an NFT platform, later spun out into a standalone on-chain index protocol in the DeFi space. Shipped across four chains, $1M+ revenue generated, community in the thousands.",
+      "Co-founded and led engineering on a full product suite built on Next.js with SSR and mixed rendering strategies, built for real-time data and sub-second responsiveness under load, including swap, bridge, staking, yield farming, and an NFT platform, later spun out into a standalone on-chain index protocol in the DeFi space. Shipped across four chains, $1M+ revenue generated, community in the thousands.",
   },
   {
     period: "2013 - 2022",

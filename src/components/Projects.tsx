@@ -12,7 +12,7 @@ const projects = [
     description:
       "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
     frontendDescription:
-      "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture — components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
+      "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
     highlights: ["Merged into the official shadcn registry directory", "Live registry at onchain-ui.dev", "One-line install via the shadcn CLI", "Registry contract tests, docs with live demos"],
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "shadcn", "wagmi", "viem", "Fumadocs"],
     chains: [],
@@ -27,7 +27,7 @@ const projects = [
     description:
       "Co-founded and led a full DeFi product suite: swap, bridge, staking, yield farming, and NFT platform, then spun out INDX, a novel on-chain index protocol. Users send USDC and receive proportional exposure to a basket of up to 20 tokens via real swaps. No proxies, no synthetics.",
     frontendDescription:
-      "Co-founded and led engineering on a full product suite — swap, bridge, staking, yield farming, and an NFT platform — handling real-time data, wallet state, and transaction feedback under sub-second response requirements. Spun out INDX, a novel index protocol in the DeFi space, built on the same performance-first architecture.",
+      "Co-founded and led engineering on a full product suite, including swap, bridge, staking, yield farming, and an NFT platform, handling real-time data, wallet state, and transaction feedback under sub-second response requirements. Spun out INDX, a novel index protocol in the DeFi space, built on the same performance-first architecture.",
     highlights: ["$1M+ revenue", "4 chains deployed", "~$50K TVL at peak", "Community in the thousands"],
     tech: ["Next.js", "React", "TypeScript", "Wagmi", "Viem", "TanStack Query", "The Graph", "Moralis", "Solidity"],
     chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
@@ -53,7 +53,7 @@ const projects = [
     name: "ClawOps",
     type: "SaaS / AI",
     description:
-      "Commercial SaaS AI assistant platform built on OpenClaw. Each customer gets a personal Telegram bot on a dedicated Hetzner VPS, live in minutes. The Companions platform is the real differentiator — installable AI personality layers with domain-specific knowledge, QMD-indexed persistent memory, their own data stores, third-party API integrations, and dedicated visual dashboard UIs. First companion: Entertainment Buddy (alpha), tracking taste profiles, artists, movies, gig history, and SoundCloud sets with smart recommendations.",
+      "Commercial SaaS AI assistant platform built on OpenClaw. Each customer gets a personal Telegram bot on a dedicated Hetzner VPS, live in minutes. The Companions platform is the real differentiator, with installable AI personality layers, domain-specific knowledge, QMD-indexed persistent memory, their own data stores, third-party API integrations, and dedicated visual dashboard UIs. First companion: Entertainment Buddy (alpha), tracking taste profiles, artists, movies, gig history, and SoundCloud sets with smart recommendations.",
     highlights: ["Companions: installable AI skill layers", "End-to-end automated provisioning", "Smart model switching across 600+ models", "Entertainment Buddy companion in alpha"],
     tech: ["React", "Vite", "Convex", "TypeScript", "Stripe", "Hetzner API", "OpenRouter", "Telegram Bot API", "QMD"],
     chains: [],
@@ -213,7 +213,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
           playsInline
           preload="none"
           controls
-          aria-label={`${project.name} — promo video`}
+          aria-label={`${project.name}, promo video`}
           tabIndex={-1}
           className="pointer-events-none absolute h-0 w-0"
         />

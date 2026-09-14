@@ -247,7 +247,7 @@ function LatestLink({ className }: { className?: string }) {
       className={`font-mono inline-flex items-center gap-2.5 text-[10px] tracking-[0.2em] uppercase text-zinc-500 transition-colors hover:text-zinc-800 ${className ?? ""}`}
     >
       <span className="size-1.5 shrink-0 rounded-full bg-chart-1" />
-      Latest — onchain-ui merged into the shadcn registry
+      Latest, onchain-ui merged into the shadcn registry
       <span aria-hidden>→</span>
     </a>
   )
