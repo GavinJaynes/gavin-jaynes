@@ -1,0 +1,94 @@
+---
+import "@/index.css"
+import type { SiteMode } from "@/lib/mode"
+
+interface Props {
+  title?: string
+  description?: string
+  mode?: SiteMode
+  preloadPortrait?: boolean
+}
+
+const {
+  title = "Gavin Jaynes, Frontend Engineer",
+  description = "Frontend engineer with 15 years of production experience. DeFi native, algo trading systems, AI products. Based remotely, available anywhere.",
+  mode = "frontend",
+  preloadPortrait = false,
+} = Astro.props
+
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const socialImage = new URL("/me.png", Astro.site)
+---
+
+<!doctype html>
+<html lang="en" data-mode={mode}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fafaf9" />
+    <link rel="icon" type="image/svg+xml" href="/gavicon.svg" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Gavin Jaynes" />
+
+    {
+      preloadPortrait && (
+        <>
+          <link
+            rel="preload"
+            as="image"
+            href="/me-640.jpg"
+            media="(max-width: 1023px)"
+            fetchpriority="high"
+          />
+          <link
+            rel="preload"
+            as="image"
+            href="/me-1280.jpg"
+            media="(min-width: 1024px)"
+            fetchpriority="high"
+          />
+        </>
+      )
+    }
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <!-- Preserve old shared links while serving canonical static routes. -->
+    <script is:inline>
+      const mode = new URLSearchParams(window.location.search).get("mode")
+      if (mode === "ai" || mode === "web3") {
+        const resume =
+          window.location.pathname.replace(/\/+$/, "") === "/resume"
+        window.location.replace(`/${mode}${resume ? "/resume" : ""}/`)
+      }
+    </script>
+
+    <script
+      is:inline
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="7bb4b014-b5d8-4c6f-a181-f24733c220e9"></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

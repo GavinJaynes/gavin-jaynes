@@ -35,7 +35,7 @@ export function sampleCells(
   W: number,
   H: number,
   cols: number,
-  rows: number,
+  rows: number
 ): Uint8Array | null {
   const off = document.createElement("canvas")
   off.width = cols
@@ -53,8 +53,14 @@ export function sampleCells(
   const cells = new Uint8Array(cols * rows)
   for (let i = 0; i < cols * rows; i++) {
     const lum =
-      (0.2126 * data[i * 4] + 0.7152 * data[i * 4 + 1] + 0.0722 * data[i * 4 + 2]) / 255
-    cells[i] = Math.min(CHARSET.length - 1, Math.round((1 - lum) * (CHARSET.length - 1) * 1.15))
+      (0.2126 * data[i * 4] +
+        0.7152 * data[i * 4 + 1] +
+        0.0722 * data[i * 4 + 2]) /
+      255
+    cells[i] = Math.min(
+      CHARSET.length - 1,
+      Math.round((1 - lum) * (CHARSET.length - 1) * 1.15)
+    )
   }
   return cells
 }
@@ -66,7 +72,7 @@ export function buildStaticLayer(
   rows: number,
   pixelW: number,
   pixelH: number,
-  dpr: number,
+  dpr: number
 ): HTMLCanvasElement | null {
   const layer = document.createElement("canvas")
   layer.width = pixelW
@@ -85,7 +91,7 @@ export function buildStaticLayer(
       sctx.fillText(
         ci === 1 ? "." : CHARSET[ci],
         col * CELL_W + CELL_W / 2,
-        row * CELL_H + CELL_H / 2,
+        row * CELL_H + CELL_H / 2
       )
     }
   }

@@ -1,0 +1,91 @@
+---
+interface Props {
+  text: string
+  revealDelayMs?: number
+  flipDelayMs?: number
+  charset?: string
+}
+
+const {
+  text,
+  revealDelayMs = 80,
+  flipDelayMs = 40,
+  charset = "@#%*=+-:.",
+} = Astro.props
+---
+
+<span
+  data-encrypted-text
+  data-text={text}
+  data-reveal-delay={revealDelayMs}
+  data-flip-delay={flipDelayMs}
+  data-charset={charset}
+  aria-label={text}
+  ><span data-encrypted-output aria-hidden="true">{text}</span></span
+>
+
+<script>
+  const startEncryptedText = (element: HTMLElement) => {
+    if (element.dataset.started === "true") return
+    element.dataset.started = "true"
+
+    const text = element.dataset.text ?? element.textContent ?? ""
+    const charset = element.dataset.charset ?? "@#%*=+-:."
+    const revealDelay = Number(element.dataset.revealDelay ?? 80)
+    const flipDelay = Number(element.dataset.flipDelay ?? 40)
+    const output = element.querySelector<HTMLElement>("[data-encrypted-output]")
+    if (!output || !text) return
+
+    const totalDuration = revealDelay + text.length * flipDelay
+    const startTime = performance.now()
+
+    const draw = (now: number) => {
+      const elapsed = now - startTime
+      if (elapsed < revealDelay) {
+        requestAnimationFrame(draw)
+        return
+      }
+
+      const revealed = Math.min(
+        text.length,
+        Math.floor((elapsed - revealDelay) / flipDelay)
+      )
+      const frame = Math.floor(elapsed / 45)
+      output.textContent = [...text]
+        .map((character, index) => {
+          if (character === " " || index < revealed) return character
+          return charset[(frame + index * 7) % charset.length]
+        })
+        .join("")
+
+      if (elapsed < totalDuration) requestAnimationFrame(draw)
+      else output.textContent = text
+    }
+
+    requestAnimationFrame(draw)
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-encrypted-text]")
+    .forEach((element) => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+      const section = element.closest<HTMLElement>("[data-lazy-section]")
+      if (
+        !section ||
+        section.getBoundingClientRect().top < window.innerHeight * 1.1
+      ) {
+        startEncryptedText(element)
+        return
+      }
+
+      section.addEventListener(
+        "contentvisibilityautostatechange",
+        (event) => {
+          const stateEvent = event as Event & { skipped?: boolean }
+          if (stateEvent.skipped === false) startEncryptedText(element)
+        },
+        { passive: true }
+      )
+    })
+</script>

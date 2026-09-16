@@ -1,0 +1,16 @@
+---
+import Resume from "@/components/Resume.astro"
+import { alternateModes, type SiteMode } from "@/lib/mode"
+
+export function getStaticPaths() {
+  return alternateModes.map((mode) => ({ params: { mode }, props: { mode } }))
+}
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+---
+
+<Resume mode={mode} />

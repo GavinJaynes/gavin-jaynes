@@ -1,0 +1,265 @@
+---
+import { earlier, getResumeContent, summaries } from "@/data/resume"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import { homePath, type SiteMode } from "@/lib/mode"
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+const content = getResumeContent(mode)
+const title =
+  mode === "ai"
+    ? "Gavin Jaynes - AI / Founding Engineer"
+    : "Gavin Jaynes - Frontend Engineer"
+---
+
+<BaseLayout title={title} description={summaries[mode]} mode={mode}>
+  <main
+    class="resume-root min-h-svh bg-stone-100 py-10 print:bg-white print:py-0"
+  >
+    <div
+      class="mx-auto mb-6 flex w-[210mm] max-w-full items-center justify-between px-4 print:hidden"
+    >
+      <a
+        href={homePath(mode)}
+        class="font-mono text-xs tracking-widest text-copy-subtle uppercase transition-colors hover:text-zinc-800"
+      >
+        ← gavinjaynes.xyz
+      </a>
+      <button
+        type="button"
+        data-print-resume
+        class="bg-zinc-900 px-5 py-2.5 font-mono text-xs tracking-widest text-white uppercase transition-colors hover:bg-zinc-700"
+      >
+        Download PDF
+      </button>
+    </div>
+
+    <div
+      class="resume-sheet mx-auto mb-8 min-h-[297mm] w-[210mm] max-w-full bg-white px-[16mm] py-[11mm] shadow-lg print:mb-0"
+    >
+      <header class="border-b border-zinc-200 pb-6">
+        <p
+          class="mb-3 font-mono text-[10px] tracking-[0.3em] text-chart-5 uppercase"
+        >
+          {content.profileTitle} · Brisbane, AU
+        </p>
+        <h1
+          class="font-display text-[30px] leading-none font-bold tracking-tight text-zinc-900"
+        >
+          GAVIN JAYNES
+        </h1>
+        <div class="mt-4 flex flex-wrap items-baseline gap-y-1.5">
+          {
+            content.contacts.map(({ label, href }, index) => (
+              <span class="font-mono text-[10px] text-zinc-500">
+                {index > 0 && <span class="mx-3 text-zinc-300">·</span>}
+                <a href={href} class="hover:text-zinc-900">
+                  {label}
+                </a>
+              </span>
+            ))
+          }
+        </div>
+        <p
+          class="mt-5 max-w-[160mm] text-[12.5px] leading-relaxed text-zinc-600"
+        >
+          {summaries[mode]}
+        </p>
+      </header>
+
+      <p
+        class="mt-7 mb-5 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase"
+      >
+        01: Experience
+      </p>
+      <div class="space-y-7">
+        {
+          content.experience.map((job) => (
+            <article class="break-inside-avoid">
+              <div class="mb-2 flex items-baseline justify-between gap-4">
+                <p class="text-[14px] leading-tight">
+                  <span class="font-semibold text-zinc-900">{job.role}</span>
+                  <span class="text-zinc-500">{` · ${job.company}`}</span>
+                </p>
+                <p class="shrink-0 text-right font-mono text-[10px] tracking-wide text-copy-subtle">
+                  {job.period} · {job.location}
+                </p>
+              </div>
+              <p class="text-[12px] leading-normal text-zinc-600">
+                {job.intro}
+              </p>
+              <ul class="mt-2.5 space-y-1.5">
+                {job.bullets.map((bullet) => (
+                  <li class="flex items-start gap-2 text-[12px] leading-normal text-zinc-600">
+                    <span class="mt-[3px] shrink-0 text-[10px] text-chart-5">
+                      ▸
+                    </span>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+              {job.tech.length > 0 && (
+                <div class="mt-3 flex flex-wrap gap-1.5">
+                  {job.tech.map((technology) => (
+                    <span class="bg-zinc-100 px-1.5 py-0.5 font-mono text-[9.5px] tracking-wide text-copy-subtle">
+                      {technology}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      class="resume-sheet mx-auto min-h-[297mm] w-[210mm] max-w-full bg-white px-[16mm] py-[11mm] shadow-lg"
+    >
+      <p
+        class="mt-7 mb-5 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase"
+      >
+        Earlier
+      </p>
+      <div class="space-y-4">
+        {
+          earlier.map((job) => (
+            <article class="break-inside-avoid">
+              <div class="mb-2 flex items-baseline justify-between gap-4">
+                <p class="text-[14px] leading-tight">
+                  <span class="font-semibold text-zinc-900">{job.role}</span>
+                  <span class="text-zinc-500">{` · ${job.company}`}</span>
+                </p>
+                <p class="shrink-0 text-right font-mono text-[10px] tracking-wide text-copy-subtle">
+                  {job.period} · {job.location}
+                </p>
+              </div>
+              <p class="text-[12px] leading-normal text-zinc-600">
+                {job.detail}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+
+      <p
+        class="mt-7 mb-5 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase"
+      >
+        02: Selected Projects
+      </p>
+      <div class="space-y-7">
+        {
+          content.projects.map((project) => (
+            <article class="break-inside-avoid">
+              <div class="mb-2 flex items-baseline justify-between gap-4">
+                <p class="text-[14px] leading-tight">
+                  <span class="font-semibold text-zinc-900">
+                    {project.name}
+                  </span>
+                  <span class="text-zinc-500">{` · ${project.type}`}</span>
+                </p>
+                <p class="shrink-0 text-right font-mono text-[10px] tracking-wide text-copy-subtle">
+                  {project.period}
+                  {project.url ? ` · ${project.url}` : ""}
+                </p>
+              </div>
+              <p class="text-[12px] leading-normal text-zinc-600">
+                {project.intro}
+              </p>
+              <ul class="mt-2.5 space-y-1.5">
+                {project.bullets.map((bullet) => (
+                  <li class="flex items-start gap-2 text-[12px] leading-normal text-zinc-600">
+                    <span class="mt-[3px] shrink-0 text-[10px] text-chart-5">
+                      ▸
+                    </span>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                {project.tech.map((technology) => (
+                  <span class="bg-zinc-100 px-1.5 py-0.5 font-mono text-[9.5px] tracking-wide text-copy-subtle">
+                    {technology}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <p
+        class="mt-7 mb-5 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase"
+      >
+        03: Skills
+      </p>
+      <div class="grid grid-cols-[120px_1fr] gap-x-6 gap-y-2.5">
+        {
+          content.skills.map(({ label, items }) => (
+            <>
+              <p class="pt-0.5 font-mono text-[10px] tracking-wide text-copy-subtle uppercase">
+                {label}
+              </p>
+              <p class="text-[12px] leading-normal text-zinc-600">{items}</p>
+            </>
+          ))
+        }
+      </div>
+
+      <p
+        class="mt-7 mb-5 font-mono text-[10px] tracking-[0.3em] text-copy-subtle uppercase"
+      >
+        04: Education
+      </p>
+      <div class="mb-2 flex items-baseline justify-between gap-4">
+        <p class="text-[14px] leading-tight">
+          <span class="font-semibold text-zinc-900">Bachelor of Multimedia</span
+          >
+          <span class="text-zinc-500"> · Griffith University</span>
+        </p>
+        <p
+          class="shrink-0 text-right font-mono text-[10px] tracking-wide text-copy-subtle"
+        >
+          2006 – 2009 · Brisbane, AU
+        </p>
+      </div>
+
+      <p
+        class="mt-6 font-mono text-[9.5px] tracking-[0.2em] text-copy-subtle uppercase print:hidden"
+      >
+        Generated from gavinjaynes.xyz/resume
+      </p>
+    </div>
+  </main>
+</BaseLayout>
+
+<style is:global>
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @media print {
+    .resume-root {
+      background: white;
+    }
+
+    .resume-sheet {
+      margin: 0 auto !important;
+      box-shadow: none !important;
+    }
+
+    .resume-sheet:first-of-type {
+      break-after: page;
+    }
+  }
+</style>
+
+<script>
+  document
+    .querySelector<HTMLButtonElement>("[data-print-resume]")
+    ?.addEventListener("click", () => window.print())
+</script>

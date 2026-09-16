@@ -1,0 +1,323 @@
+---
+import EncryptedText from "@/components/EncryptedText.astro"
+import type { SiteMode } from "@/lib/mode"
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+const projects = [
+  {
+    name: "onchain-ui",
+    type: "Open Source / Design System",
+    description:
+      "Open-source shadcn registry of copy-paste web3 components for teams building onchain interfaces: address display and ENS/Base identity, token logos, prices, balances, network badges, and portfolio asset rows. Registry-first, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer.",
+    frontendDescription:
+      "Open-source shadcn registry: a component library and distribution model for teams building modern web interfaces, currently focused on web3 primitives (address display, token logos, prices, balances, network badges). Registry-first architecture, components install straight into your codebase via the shadcn CLI, inspectable and wired to your own data layer, not hidden behind a package boundary.",
+    highlights: [
+      "Merged into the official shadcn registry directory",
+      "Live registry at onchain-ui.dev",
+      "One-line install via the shadcn CLI",
+      "Registry contract tests, docs with live demos",
+    ],
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "shadcn",
+      "wagmi",
+      "viem",
+      "Fumadocs",
+    ],
+    chains: [],
+    url: "https://onchain-ui.dev",
+    video: "/onchain-ui-promo.mp4",
+    poster: "/onchain-ui-promo-poster.jpg",
+  },
+  {
+    name: "Web3 Product Suite + INDX",
+    type: "DeFi Protocol",
+    description:
+      "Co-founded and led a full DeFi product suite: swap, bridge, staking, yield farming, and NFT platform, then spun out INDX, a novel on-chain index protocol. Users send USDC and receive proportional exposure to a basket of up to 20 tokens via real swaps. No proxies, no synthetics.",
+    frontendDescription:
+      "Co-founded and led engineering on a full product suite, including swap, bridge, staking, yield farming, and an NFT platform, handling real-time data, wallet state, and transaction feedback under sub-second response requirements. Spun out INDX, a novel index protocol in the DeFi space, built on the same performance-first architecture.",
+    highlights: [
+      "$1M+ revenue",
+      "4 chains deployed",
+      "~$50K TVL at peak",
+      "Community in the thousands",
+    ],
+    tech: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Wagmi",
+      "Viem",
+      "TanStack Query",
+      "The Graph",
+      "Moralis",
+      "Solidity",
+    ],
+    chains: ["Base", "Ethereum", "BSC", "Arbitrum"],
+    url: null,
+    video: null,
+    poster: null,
+  },
+  {
+    name: "Algo Trading System",
+    type: "Systems / Trading",
+    description:
+      "Autonomous trading system for HyperLiquid perpetual futures, and the MVP prototype for a future ClawOps Trading Companion. Trade via natural language through Telegram, or let it run: every 4 hours it scores RSI, funding, and momentum signals alongside a DBRCI breakout scanner, then decides whether to act. Full execution layer with leverage, GTC limit orders, fill polling, and TP/SL bracket management.",
+    highlights: [
+      "Natural language trading via Telegram",
+      "Autonomous 4-hour signal cycle",
+      "Full execution layer on HyperLiquid",
+      "ClawOps Trading Companion prototype",
+    ],
+    tech: [
+      "Python",
+      "HyperLiquid SDK",
+      "cron",
+      "Hetzner VPS",
+      "Telegram Bot API",
+    ],
+    chains: ["HyperLiquid"],
+    url: null,
+    video: null,
+    poster: null,
+  },
+  {
+    name: "ClawOps",
+    type: "SaaS / AI",
+    description:
+      "Commercial SaaS AI assistant platform built on OpenClaw. Each customer gets a personal Telegram bot on a dedicated Hetzner VPS, live in minutes. The Companions platform is the real differentiator, with installable AI personality layers, domain-specific knowledge, QMD-indexed persistent memory, their own data stores, third-party API integrations, and dedicated visual dashboard UIs. First companion: Entertainment Buddy (alpha), tracking taste profiles, artists, movies, gig history, and SoundCloud sets with smart recommendations.",
+    highlights: [
+      "Companions: installable AI skill layers",
+      "End-to-end automated provisioning",
+      "Smart model switching across 600+ models",
+      "Entertainment Buddy companion in alpha",
+    ],
+    tech: [
+      "React",
+      "Vite",
+      "Convex",
+      "TypeScript",
+      "Stripe",
+      "Hetzner API",
+      "OpenRouter",
+      "Telegram Bot API",
+      "QMD",
+    ],
+    chains: [],
+    url: "https://clawops.io",
+    video: null,
+    poster: null,
+  },
+]
+
+const projectOrder: Record<SiteMode, string[]> = {
+  web3: [
+    "onchain-ui",
+    "Web3 Product Suite + INDX",
+    "Algo Trading System",
+    "ClawOps",
+  ],
+  frontend: [
+    "ClawOps",
+    "onchain-ui",
+    "Web3 Product Suite + INDX",
+    "Algo Trading System",
+  ],
+  ai: [
+    "ClawOps",
+    "Algo Trading System",
+    "Web3 Product Suite + INDX",
+    "onchain-ui",
+  ],
+}
+
+const orderedProjects = projectOrder[mode]
+  .map((name) => projects.find((project) => project.name === name)!)
+  .map((project) => ({
+    ...project,
+    description:
+      mode === "frontend" && project.frontendDescription
+        ? project.frontendDescription
+        : project.description,
+  }))
+---
+
+<section id="projects" data-lazy-section class="bg-stone-50 px-8 py-28">
+  <div class="mx-auto max-w-4xl">
+    <div class="reveal-on-scroll mb-14">
+      <p
+        class="mb-6 font-mono text-xs tracking-[0.25em] text-copy-subtle uppercase"
+      >
+        <EncryptedText text="03: Projects" />
+      </p>
+      <h2
+        class="font-display [font-size:clamp(1.75rem,4vw,2.75rem)] leading-tight font-bold text-zinc-900"
+      >
+        Things I've built<br />and shipped.
+      </h2>
+    </div>
+
+    <div class="space-y-4">
+      {
+        orderedProjects.map((project, index) => (
+          <article class="reveal-on-scroll border border-zinc-200 bg-white p-8 lg:p-10">
+            <div class="grid gap-8 lg:grid-cols-[1fr_280px]">
+              <div>
+                <div class="mb-5 flex items-start gap-4">
+                  <span class="mt-1 shrink-0 font-mono text-xs text-copy-subtle">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div class="mb-1 flex flex-wrap items-center gap-3">
+                    <h3 class="font-display text-lg font-bold text-zinc-900">
+                      {project.name}
+                    </h3>
+                    <span class="rounded-sm border border-chart-5/40 px-2 py-0.5 font-mono text-[10px] tracking-widest text-chart-5 uppercase">
+                      {project.type}
+                    </span>
+                  </div>
+                </div>
+
+                <p class="mb-6 max-w-xl font-sans text-sm leading-relaxed text-zinc-500">
+                  {project.description}
+                </p>
+
+                <div class="flex flex-wrap gap-2">
+                  {project.tech.map((tech) => (
+                    <span class="bg-zinc-100 px-2.5 py-1 font-mono text-[11px] tracking-wide text-copy-subtle">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="lg:border-l lg:border-zinc-100 lg:pl-8">
+                <p class="mb-4 font-mono text-[10px] tracking-[0.25em] text-copy-subtle uppercase">
+                  Highlights
+                </p>
+                <ul class="mb-6 space-y-3">
+                  {project.highlights.map((highlight) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-1 shrink-0 text-xs text-chart-5">▸</span>
+                      <span class="font-sans text-sm text-zinc-500">
+                        {highlight}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {project.chains.length > 0 && (
+                  <div class="flex flex-wrap gap-2">
+                    {project.chains.map((chain) => (
+                      <span class="bg-zinc-100 px-2 py-1 font-mono text-[10px] tracking-wide text-copy-subtle">
+                        {chain}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {(project.url || project.video) && (
+                  <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    {project.url && (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 font-mono text-xs tracking-wide text-chart-5 transition-opacity hover:opacity-70"
+                      >
+                        Visit site ↗
+                      </a>
+                    )}
+                    {project.video && (
+                      <button
+                        type="button"
+                        data-play-project-video
+                        aria-label={`Watch ${project.name} promo video`}
+                        class="inline-flex items-center gap-1.5 border border-chart-5/40 px-2.5 py-1 font-mono text-[11px] tracking-widest text-chart-5 uppercase transition-colors hover:bg-chart-5/10"
+                      >
+                        <span aria-hidden="true">▶</span> Watch video
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {project.video && (
+              <video
+                data-project-video
+                src={project.video}
+                poster={project.poster ?? undefined}
+                loop
+                playsinline
+                preload="none"
+                controls
+                aria-label={`${project.name}, promo video`}
+                tabindex="-1"
+                class="pointer-events-none absolute h-0 w-0"
+              />
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  async function playFullscreen(video: HTMLVideoElement) {
+    const orientation = screen.orientation as ScreenOrientation & {
+      lock?: (orientation: string) => Promise<void>
+      unlock?: () => void
+    }
+    const restore = () => {
+      video.muted = true
+      orientation.unlock?.()
+      document.removeEventListener("fullscreenchange", onFullscreenChange)
+    }
+    const onFullscreenChange = () => {
+      if (!document.fullscreenElement) restore()
+    }
+
+    video.muted = false
+    void video.play().catch(() => {})
+
+    const safariVideo = video as HTMLVideoElement & {
+      webkitEnterFullscreen?: () => void
+      webkitRequestFullscreen?: () => void
+    }
+
+    try {
+      if (video.requestFullscreen) {
+        await video.requestFullscreen()
+        document.addEventListener("fullscreenchange", onFullscreenChange)
+      } else if (safariVideo.webkitRequestFullscreen) {
+        safariVideo.webkitRequestFullscreen()
+        document.addEventListener("fullscreenchange", onFullscreenChange)
+      } else if (safariVideo.webkitEnterFullscreen) {
+        safariVideo.webkitEnterFullscreen()
+        video.addEventListener("webkitendfullscreen", restore, { once: true })
+        return
+      }
+      await orientation.lock?.("landscape")
+    } catch {
+      // Fullscreen or orientation lock can be denied while playback continues.
+    }
+  }
+
+  document
+    .querySelectorAll<HTMLButtonElement>("[data-play-project-video]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const video = button
+          .closest("article")
+          ?.querySelector<HTMLVideoElement>("[data-project-video]")
+        if (video) void playFullscreen(video)
+      })
+    })
+</script>

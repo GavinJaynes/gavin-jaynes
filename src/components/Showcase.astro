@@ -1,0 +1,214 @@
+---
+import EncryptedText from "@/components/EncryptedText.astro"
+import clawOpsModels from "@/assets/clawops-screenshot-2.png"
+import clawOpsSwitching from "@/assets/clawops-screenshot-1.png"
+import cryptoGenesis from "@/assets/crypto-genesis-screenshot-1.jpg"
+import indxFunds from "@/assets/indx-screenshot-2.jpg"
+import indxIndex from "@/assets/indx-screenshot-4.jpg"
+import indxMobile from "@/assets/indx-screenshot-3.jpg"
+import indxPerformers from "@/assets/indx-screenshot-1.jpg"
+import onchainHomepage from "@/assets/onchain-ui-homepage.png"
+import { Image } from "astro:assets"
+
+const shots = [
+  { src: onchainHomepage, alt: "onchain-ui, Homepage" },
+  { src: clawOpsSwitching, alt: "ClawOps, Smart model switching" },
+  { src: indxPerformers, alt: "INDX, Top Performers dashboard" },
+  { src: indxMobile, alt: "INDX, Mobile app" },
+  { src: clawOpsModels, alt: "ClawOps, Every frontier model" },
+  {
+    src: cryptoGenesis,
+    alt: "Crypto Genesis, Wallet app",
+  },
+  { src: indxFunds, alt: "INDX, Crypto Traded Funds listing" },
+  { src: indxIndex, alt: "INDX, Index detail view" },
+]
+
+const doubledShots = [...shots, ...shots]
+---
+
+<section
+  data-lazy-section
+  data-showcase
+  class="overflow-hidden bg-zinc-950 pt-20 pb-24"
+>
+  <div class="reveal-on-scroll mb-10 flex items-end justify-between gap-6 px-8">
+    <div>
+      <p
+        class="mb-3 font-mono text-xs tracking-[0.25em] text-chart-1 uppercase"
+      >
+        <EncryptedText text="Selected shots" />
+      </p>
+      <p class="font-sans text-sm text-copy-subtle-inverse">
+        All built and designed by me.
+      </p>
+    </div>
+    <button
+      type="button"
+      data-marquee-toggle
+      aria-pressed="false"
+      class="hidden shrink-0 border border-zinc-700 px-3 py-2 font-mono text-[10px] tracking-widest text-copy-subtle-inverse uppercase transition-colors hover:border-chart-1 hover:text-chart-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-chart-1 motion-reduce:hidden md:inline-flex"
+    >
+      <span data-marquee-icon aria-hidden="true">Ⅱ</span>
+      <span data-marquee-label class="ml-2">Pause shots</span>
+    </button>
+  </div>
+
+  <div class="md:hidden">
+    <div
+      data-snap-scroller
+      class="snap-scroller flex snap-x snap-mandatory scroll-px-8 gap-4 overflow-x-auto px-8"
+      aria-label="Selected shots carousel"
+    >
+      {
+        shots.map((shot) => (
+          <figure class="w-full flex-none snap-start snap-always">
+            <Image
+              src={shot.src}
+              alt={shot.alt}
+              draggable="false"
+              loading="lazy"
+              decoding="async"
+              widths={[360, 720, 1080]}
+              sizes="calc(100vw - 4rem)"
+              class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
+            />
+            <figcaption class="mt-3 font-mono text-[11px] tracking-wider text-copy-subtle-inverse uppercase">
+              {shot.alt}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="mt-5 flex items-center justify-center gap-2" aria-hidden="true">
+      {
+        shots.map((_, index) => (
+          <span
+            data-carousel-dot={index}
+            class:list={[
+              "h-1.5 rounded-full transition-all duration-300",
+              index === 0 ? "w-5 bg-chart-1" : "w-1.5 bg-zinc-700",
+            ]}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="relative hidden md:block">
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-linear-to-r from-zinc-950 to-transparent"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-linear-to-l from-zinc-950 to-transparent"
+    >
+    </div>
+
+    <div data-marquee-track class="marquee-track flex w-max gap-4">
+      {
+        doubledShots.map((shot, index) => (
+          <Image
+            src={shot.src}
+            alt={index < shots.length ? shot.alt : ""}
+            aria-hidden={index >= shots.length ? "true" : undefined}
+            draggable="false"
+            loading="lazy"
+            decoding="async"
+            widths={[480, 720, 960]}
+            sizes="480px"
+            class="h-72 w-auto flex-none rounded-sm object-cover select-none"
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee-scroll 40s linear infinite;
+  }
+
+  .marquee-track:hover,
+  .marquee-track[data-paused="true"] {
+    animation-play-state: paused;
+  }
+
+  .snap-scroller {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .snap-scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-showcase]")
+    .forEach((showcase) => {
+      const scroller = showcase.querySelector<HTMLElement>(
+        "[data-snap-scroller]"
+      )
+      const dots = [
+        ...showcase.querySelectorAll<HTMLElement>("[data-carousel-dot]"),
+      ]
+      let animationFrame = 0
+
+      scroller?.addEventListener(
+        "scroll",
+        () => {
+          cancelAnimationFrame(animationFrame)
+          animationFrame = requestAnimationFrame(() => {
+            const slide = scroller.firstElementChild as HTMLElement | null
+            if (!slide) return
+            const step =
+              slide.offsetWidth +
+              Number.parseFloat(getComputedStyle(scroller).columnGap || "0")
+            const active = Math.round(scroller.scrollLeft / step)
+            dots.forEach((dot, index) => {
+              dot.classList.toggle("w-5", index === active)
+              dot.classList.toggle("bg-chart-1", index === active)
+              dot.classList.toggle("w-1.5", index !== active)
+              dot.classList.toggle("bg-zinc-700", index !== active)
+            })
+          })
+        },
+        { passive: true }
+      )
+
+      const toggle = showcase.querySelector<HTMLButtonElement>(
+        "[data-marquee-toggle]"
+      )
+      const track = showcase.querySelector<HTMLElement>("[data-marquee-track]")
+      const label = toggle?.querySelector<HTMLElement>("[data-marquee-label]")
+      const icon = toggle?.querySelector<HTMLElement>("[data-marquee-icon]")
+
+      toggle?.addEventListener("click", () => {
+        const paused = toggle.getAttribute("aria-pressed") !== "true"
+        toggle.setAttribute("aria-pressed", String(paused))
+        if (track) track.dataset.paused = String(paused)
+        if (label) label.textContent = paused ? "Play shots" : "Pause shots"
+        if (icon) icon.textContent = paused ? "▶" : "Ⅱ"
+      })
+    })
+</script>

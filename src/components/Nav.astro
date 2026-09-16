@@ -1,0 +1,123 @@
+---
+const links = [
+  { label: "About", href: "#about" },
+  { label: "Work", href: "#work" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+]
+---
+
+<header
+  class="relative z-20 flex items-center justify-between px-4 py-4 lg:px-12 lg:py-8"
+>
+  <div class="flex items-center gap-8">
+    <a
+      href="#top"
+      class="font-display text-xl leading-none font-bold tracking-tight text-zinc-900"
+    >
+      GJ
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Main navigation">
+      {
+        links.map(({ label, href }) => (
+          <a
+            href={href}
+            class="font-sans text-sm text-copy-subtle transition-colors hover:text-zinc-900"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+
+  <a
+    href="mailto:gavin.jaynes@gmail.com"
+    class="hidden border border-zinc-300 bg-transparent px-3 py-2 font-mono text-xs tracking-widest text-zinc-500 uppercase transition-colors hover:border-zinc-600 hover:text-zinc-900 md:flex"
+  >
+    Get in touch ↗
+  </a>
+
+  <button
+    type="button"
+    data-nav-open
+    class="inline-flex size-10 items-center justify-center text-zinc-500 transition-colors hover:text-zinc-900 md:hidden"
+    aria-label="Open navigation"
+    aria-haspopup="dialog"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      aria-hidden="true"
+    >
+      <path d="M4 7h16M4 12h16M4 17h16"></path>
+    </svg>
+  </button>
+
+  <dialog
+    data-mobile-nav
+    aria-labelledby="mobile-nav-title"
+    class="mobile-nav fixed inset-y-0 right-0 left-auto m-0 h-dvh max-h-none w-72 max-w-[85vw] border-0 border-l border-zinc-800 bg-zinc-950 p-0 text-white backdrop:bg-zinc-950/60 open:flex open:flex-col"
+  >
+    <h2 id="mobile-nav-title" class="sr-only">Site navigation</h2>
+    <form method="dialog" class="absolute top-4 right-4">
+      <button
+        class="inline-flex size-10 items-center justify-center text-zinc-500 transition-colors hover:text-white"
+        aria-label="Close navigation"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path d="m6 6 12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+    </form>
+
+    <nav class="flex flex-col gap-1 px-4 pt-20" aria-label="Mobile navigation">
+      {
+        links.map(({ label, href }) => (
+          <a
+            data-nav-link
+            href={href}
+            class="py-3 font-display text-2xl font-bold text-white/60 transition-colors hover:text-white"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="mt-auto px-4 pb-8">
+      <a
+        href="mailto:gavin.jaynes@gmail.com"
+        class="font-mono text-xs tracking-widest text-copy-subtle-inverse uppercase transition-colors hover:text-white"
+      >
+        gavin.jaynes@gmail.com ↗
+      </a>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("[data-mobile-nav]")
+  const trigger = document.querySelector<HTMLButtonElement>("[data-nav-open]")
+
+  trigger?.addEventListener("click", () => dialog?.showModal())
+  dialog?.querySelectorAll("[data-nav-link]").forEach((link) => {
+    link.addEventListener("click", () => dialog.close())
+  })
+  dialog?.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close()
+  })
+</script>

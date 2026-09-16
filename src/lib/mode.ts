@@ -1,8 +1,11 @@
 export type SiteMode = "web3" | "frontend" | "ai"
 
-export function getSiteMode(): SiteMode {
-  if (typeof window === "undefined") return "frontend"
-  const mode = new URLSearchParams(window.location.search).get("mode")
-  if (mode === "web3" || mode === "frontend" || mode === "ai") return mode
-  return "frontend"
+export const alternateModes = ["web3", "ai"] as const
+
+export function homePath(mode: SiteMode) {
+  return mode === "frontend" ? "/" : `/${mode}/`
+}
+
+export function resumePath(mode: SiteMode) {
+  return mode === "frontend" ? "/resume/" : `/${mode}/resume/`
 }

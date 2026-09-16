@@ -1,21 +1,13 @@
-# React + TypeScript + Vite + shadcn/ui
+# gavinjaynes.xyz
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
-
-## Adding components
-
-To add components to your app, run the following command:
+Static-first portfolio and resume built with Astro, TypeScript, and Tailwind CSS.
 
 ```bash
-npx shadcn@latest add button
+pnpm install
+pnpm dev
+pnpm build
 ```
 
-This will place the ui components in the `src/components` directory.
-
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button"
-```
+Astro renders the site to HTML at build time. Small, framework-free TypeScript
+modules provide the canvas portrait, navigation dialog, carousel controls, and
+fullscreen video behaviour.
