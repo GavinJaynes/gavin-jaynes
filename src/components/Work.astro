@@ -66,7 +66,11 @@ const orderedRoles = roleOrder[mode]
     </div>
 
     <div class="relative">
-      <div class="absolute top-2 bottom-2 left-1.25 w-px bg-zinc-800"></div>
+      <div
+        aria-hidden="true"
+        class="absolute top-2 bottom-2 left-1.25 w-px bg-zinc-800"
+      >
+      </div>
       <div class="space-y-14">
         {
           orderedRoles.map(({ period, role, company, description }, index) => (
@@ -75,19 +79,20 @@ const orderedRoles = roleOrder[mode]
               style={`--reveal-delay: ${index * 120}ms`}
               class="relative pl-10"
             >
-              <div class="absolute top-1.5 left-0 size-2.75 rounded-full bg-chart-1" />
+              <div
+                aria-hidden="true"
+                class="absolute top-1.5 left-0 size-2.75 rounded-full bg-chart-1"
+              />
               <div class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <span class="font-sans text-lg font-semibold text-white">
-                    {role}
-                  </span>
-                  <span class="font-sans text-lg text-copy-subtle-inverse">
+                <h3 class="font-sans text-lg font-semibold text-white">
+                  {role}
+                  <span class="font-normal text-copy-subtle-inverse">
                     {` · ${company}`}
                   </span>
-                </div>
-                <span class="shrink-0 font-mono text-sm text-chart-1 sm:pt-0.5">
+                </h3>
+                <p class="shrink-0 font-mono text-sm text-chart-1 sm:pt-0.5">
                   {period}
-                </span>
+                </p>
               </div>
               <p class="max-w-2xl font-sans text-sm leading-relaxed text-zinc-400">
                 {description}

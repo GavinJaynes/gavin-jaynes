@@ -55,31 +55,33 @@ const doubledShots = [...shots, ...shots]
   </div>
 
   <div class="md:hidden">
-    <div
+    <ul
       data-snap-scroller
       class="snap-scroller flex snap-x snap-mandatory scroll-px-8 gap-4 overflow-x-auto px-8"
       aria-label="Selected shots carousel"
     >
       {
         shots.map((shot) => (
-          <figure class="w-full flex-none snap-start snap-always">
-            <Image
-              src={shot.src}
-              alt={shot.alt}
-              draggable="false"
-              loading="lazy"
-              decoding="async"
-              widths={[360, 720, 1080]}
-              sizes="calc(100vw - 4rem)"
-              class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
-            />
-            <figcaption class="mt-3 font-mono text-[11px] tracking-wider text-copy-subtle-inverse uppercase">
-              {shot.alt}
-            </figcaption>
-          </figure>
+          <li class="w-full flex-none snap-start snap-always">
+            <figure>
+              <Image
+                src={shot.src}
+                alt={shot.alt}
+                draggable="false"
+                loading="lazy"
+                decoding="async"
+                widths={[360, 720, 1080]}
+                sizes="calc(100vw - 4rem)"
+                class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
+              />
+              <figcaption class="mt-3 font-mono text-[11px] tracking-wider text-copy-subtle-inverse uppercase">
+                {shot.alt}
+              </figcaption>
+            </figure>
+          </li>
         ))
       }
-    </div>
+    </ul>
 
     <div class="mt-5 flex items-center justify-center gap-2" aria-hidden="true">
       {

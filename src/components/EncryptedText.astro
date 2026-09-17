@@ -20,8 +20,10 @@ const {
   data-reveal-delay={revealDelayMs}
   data-flip-delay={flipDelayMs}
   data-charset={charset}
-  aria-label={text}
-  ><span data-encrypted-output aria-hidden="true">{text}</span></span
+  ><span class="sr-only">{text}</span><span
+    data-encrypted-output
+    aria-hidden="true">{text}</span
+  ></span
 >
 
 <script>
