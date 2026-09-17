@@ -25,6 +25,8 @@ const {
 >
 
 <script>
+  import { prefersReducedMotion, whenInView } from "@/scripts/in-view"
+
   const startEncryptedText = (element: HTMLElement) => {
     if (element.dataset.started === "true") return
     element.dataset.started = "true"
@@ -65,27 +67,14 @@ const {
     requestAnimationFrame(draw)
   }
 
-  document
-    .querySelectorAll<HTMLElement>("[data-encrypted-text]")
-    .forEach((element) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-      const section = element.closest<HTMLElement>("[data-lazy-section]")
-      if (
-        !section ||
-        section.getBoundingClientRect().top < window.innerHeight * 1.1
-      ) {
-        startEncryptedText(element)
-        return
-      }
-
-      section.addEventListener(
-        "contentvisibilityautostatechange",
-        (event) => {
-          const stateEvent = event as Event & { skipped?: boolean }
-          if (stateEvent.skipped === false) startEncryptedText(element)
-        },
-        { passive: true }
-      )
-    })
+  // Scrambling text nobody can see is wasted work, so each label waits for
+  // the same IntersectionObserver the section reveals run on. The plain text
+  // is already in the DOM, so nothing depends on this running at all.
+  if (!prefersReducedMotion()) {
+    document
+      .querySelectorAll<HTMLElement>("[data-encrypted-text]")
+      .forEach((element) => {
+        whenInView(element, () => startEncryptedText(element))
+      })
+  }
 </script>

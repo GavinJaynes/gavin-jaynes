@@ -28,10 +28,55 @@ export function randomScrambleChar(i: number, tb: number) {
   return SCRAMBLE[Math.floor(hash(i, tb * 31 + 7) * SCRAMBLE.length)]
 }
 
-// Sample an image into a character-density grid, replicating the display
+// A decoded portrait plus its true pixel dimensions.
+//
+// `naturalWidth` on the rendered <img> is density-corrected: with a `srcset`
+// of `w` descriptors the browser divides the real 1280px bitmap by the
+// selected density, reporting ~588. `drawImage` source coordinates are in
+// real pixels, so sampling against that number crops a sliver of the photo
+// instead of the whole frame. Re-loading the resolved URL into a bare Image
+// (no srcset, so no correction, and already in cache) gives honest numbers.
+export interface PortraitSource {
+  image: CanvasImageSource
+  url: string
+  width: number
+  height: number
+}
+
+export function loadPortraitSource(
+  img: HTMLImageElement
+): Promise<PortraitSource | null> {
+  const url = img.currentSrc || img.src
+  if (!url) return Promise.resolve(null)
+
+  const source = new Image()
+  source.src = url
+
+  // `decode()` looks like the tidier wait, but Chromium leaves it pending
+  // indefinitely for an already-complete cached image, which strands the
+  // portrait behind the reveal. The load event always settles.
+  const settle = (): PortraitSource | null =>
+    source.naturalWidth && source.naturalHeight
+      ? {
+          image: source,
+          url,
+          width: source.naturalWidth,
+          height: source.naturalHeight,
+        }
+      : null
+
+  if (source.complete) return Promise.resolve(settle())
+
+  return new Promise((resolve) => {
+    source.addEventListener("load", () => resolve(settle()), { once: true })
+    source.addEventListener("error", () => resolve(null), { once: true })
+  })
+}
+
+// Sample a portrait into a character-density grid, replicating the display
 // crop of `object-cover object-top` for a W×H container
 export function sampleCells(
-  img: HTMLImageElement,
+  source: PortraitSource,
   W: number,
   H: number,
   cols: number,
@@ -40,14 +85,14 @@ export function sampleCells(
   const off = document.createElement("canvas")
   off.width = cols
   off.height = rows
-  const octx = off.getContext("2d")
+  const octx = off.getContext("2d", { willReadFrequently: true })
   if (!octx) return null
 
-  const scale = Math.max(W / img.naturalWidth, H / img.naturalHeight)
-  const sw = W / scale
-  const sh = H / scale
-  const sx = (img.naturalWidth - sw) / 2
-  octx.drawImage(img, sx, 0, sw, sh, 0, 0, cols, rows)
+  const scale = Math.max(W / source.width, H / source.height)
+  const sw = Math.min(source.width, W / scale)
+  const sh = Math.min(source.height, H / scale)
+  const sx = (source.width - sw) / 2
+  octx.drawImage(source.image, sx, 0, sw, sh, 0, 0, cols, rows)
   const data = octx.getImageData(0, 0, cols, rows).data
 
   const cells = new Uint8Array(cols * rows)

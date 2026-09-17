@@ -52,7 +52,7 @@ const orderedRoles = roleOrder[mode]
 
 <section id="work" data-lazy-section class="bg-zinc-950 px-8 py-28">
   <div class="mx-auto max-w-4xl">
-    <div class="reveal-on-scroll mb-20">
+    <div data-reveal class="mb-20">
       <p
         class="mb-6 font-mono text-xs tracking-[0.25em] text-chart-1 uppercase"
       >
@@ -69,8 +69,12 @@ const orderedRoles = roleOrder[mode]
       <div class="absolute top-2 bottom-2 left-1.25 w-px bg-zinc-800"></div>
       <div class="space-y-14">
         {
-          orderedRoles.map(({ period, role, company, description }) => (
-            <article class="reveal-on-scroll relative pl-10">
+          orderedRoles.map(({ period, role, company, description }, index) => (
+            <article
+              data-reveal
+              style={`--reveal-delay: ${index * 120}ms`}
+              class="relative pl-10"
+            >
               <div class="absolute top-1.5 left-0 size-2.75 rounded-full bg-chart-1" />
               <div class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
                 <div>

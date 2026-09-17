@@ -45,7 +45,7 @@ const points = [
       <EncryptedText text="01: About" />
     </p>
 
-    <div class="reveal-on-scroll mb-16">
+    <div data-reveal class="mb-16">
       <p
         class="mb-6 font-sans [font-size:clamp(1.1rem,2vw,1.35rem)] leading-relaxed text-zinc-900"
       >
@@ -71,7 +71,9 @@ const points = [
     </div>
 
     <div
-      class="reveal-on-scroll grid grid-cols-2 gap-px bg-zinc-100 lg:grid-cols-3"
+      data-reveal
+      style="--reveal-delay: 120ms"
+      class="grid grid-cols-2 gap-px bg-zinc-100 lg:grid-cols-3"
     >
       {
         points.map((point) => {

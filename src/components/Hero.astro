@@ -163,7 +163,7 @@ const copy = {
       <canvas
         data-ascii-reveal
         aria-hidden="true"
-        class="pointer-events-none absolute inset-0 z-10 h-full w-full select-none"
+        class="pointer-events-none absolute inset-0 z-10 h-full w-full transition-opacity duration-700 select-none"
       ></canvas>
       <img
         data-portrait-image
@@ -177,6 +177,14 @@ const copy = {
         decoding="async"
         class="absolute inset-0 h-full w-full object-cover object-top opacity-0 grayscale transition-[filter,opacity] duration-1000"
       />
+      <noscript>
+        <style>
+          [data-portrait-image] {
+            opacity: 1;
+            filter: none;
+          }
+        </style>
+      </noscript>
       <canvas
         data-ascii-lens
         aria-hidden="true"
