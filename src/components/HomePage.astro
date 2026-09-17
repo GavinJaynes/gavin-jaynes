@@ -1,0 +1,45 @@
+---
+import About from "@/components/About.astro"
+import Contact from "@/components/Contact.astro"
+import Hero from "@/components/Hero.astro"
+import Projects from "@/components/Projects.astro"
+import Showcase from "@/components/Showcase.astro"
+import Work from "@/components/Work.astro"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import type { SiteMode } from "@/lib/mode"
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+
+const descriptions: Record<SiteMode, string> = {
+  frontend:
+    "Frontend engineer with 15 years of production experience building fast, accessible products at scale.",
+  web3: "Frontend engineer building DeFi, agentic trading, and autonomous software systems.",
+  ai: "Founder and product engineer building production AI products, agent workflows, and reliable systems.",
+}
+
+const titles: Record<SiteMode, string> = {
+  frontend: "Gavin Jaynes, Frontend Engineer",
+  web3: "Gavin Jaynes, DeFi Frontend Engineer",
+  ai: "Gavin Jaynes, Founder & AI Product Engineer",
+}
+---
+
+<BaseLayout
+  title={titles[mode]}
+  mode={mode}
+  description={descriptions[mode]}
+  preloadPortrait
+>
+  <main>
+    <Hero mode={mode} />
+    <About mode={mode} />
+    <Work mode={mode} />
+    <Projects mode={mode} />
+    <Showcase />
+    <Contact mode={mode} />
+  </main>
+</BaseLayout>

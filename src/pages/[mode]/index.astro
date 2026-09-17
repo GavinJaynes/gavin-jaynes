@@ -1,0 +1,16 @@
+---
+import HomePage from "@/components/HomePage.astro"
+import { alternateModes, type SiteMode } from "@/lib/mode"
+
+export function getStaticPaths() {
+  return alternateModes.map((mode) => ({ params: { mode }, props: { mode } }))
+}
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+---
+
+<HomePage mode={mode} />

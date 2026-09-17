@@ -1,0 +1,82 @@
+---
+import EncryptedText from "@/components/EncryptedText.astro"
+import type { SiteMode } from "@/lib/mode"
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+const links = [
+  {
+    label: "Email",
+    value: "gavin.jaynes@gmail.com",
+    href: "mailto:gavin.jaynes@gmail.com",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/gavin-jaynes",
+    href: "https://www.linkedin.com/in/gavin-jaynes-45a0192b/",
+  },
+  mode === "frontend"
+    ? {
+        label: "X / Twitter",
+        value: "@GavinJaynes",
+        href: "https://x.com/GavinJaynes",
+      }
+    : {
+        label: "X / Twitter",
+        value: "@GarlicBl",
+        href: "https://x.com/GarlicBl",
+      },
+]
+---
+
+<section id="contact" data-lazy-section class="bg-zinc-950 px-8 py-28">
+  <div data-reveal class="mx-auto max-w-4xl">
+    <p class="mb-6 font-mono text-xs tracking-[0.25em] text-chart-1 uppercase">
+      <EncryptedText text="04: Contact" />
+    </p>
+
+    <h2
+      class="mb-16 font-display [font-size:clamp(2.5rem,7vw,5.5rem)] leading-none font-bold text-white"
+    >
+      <EncryptedText text="Let's talk." revealDelayMs={120} />
+    </h2>
+
+    <div class="grid gap-px bg-zinc-800 sm:grid-cols-3">
+      {
+        links.map(({ label, value, href }) => (
+          <a
+            href={href}
+            target={href.startsWith("http") ? "_blank" : undefined}
+            rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+            class="group flex flex-col gap-1 bg-zinc-950 p-6 transition-colors hover:bg-zinc-900"
+          >
+            <span class="font-mono text-[10px] tracking-[0.25em] text-copy-subtle-inverse uppercase transition-colors group-hover:text-chart-1">
+              {label}
+            </span>
+            <span class="font-sans text-sm text-white transition-colors group-hover:text-chart-1">
+              {value}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div
+      class="mt-16 flex items-center justify-between border-t border-zinc-800 pt-8"
+    >
+      <span
+        class="font-mono text-xs tracking-widest text-copy-subtle-inverse uppercase"
+      >
+        Gavin Jaynes
+      </span>
+      <span
+        class="font-mono text-xs tracking-widest text-copy-subtle-inverse uppercase"
+      >
+        Brisbane, AU
+      </span>
+    </div>
+  </div>
+</section>

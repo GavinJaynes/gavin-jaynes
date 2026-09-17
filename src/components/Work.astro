@@ -1,0 +1,101 @@
+---
+import EncryptedText from "@/components/EncryptedText.astro"
+import type { SiteMode } from "@/lib/mode"
+
+interface Props {
+  mode: SiteMode
+}
+
+const { mode } = Astro.props
+const roles = [
+  {
+    period: "2026 - Present",
+    role: "Founder",
+    company: "ClawOps",
+    description:
+      "Built a commercial SaaS AI assistant platform on top of OpenClaw. A monorepo: React frontend, Convex backend, automated Hetzner VPS provisioning via SSH, Stripe subscriptions, and per-customer OpenRouter API keys with spending caps. The key differentiator is the Companions platform, with installable AI personality layers, persistent memory, their own data stores, API integrations, and visual dashboard UIs.",
+  },
+  {
+    period: "2022 - 2025",
+    role: "Co-founder & Lead Engineer",
+    company: "Web3 Product Suite",
+    description:
+      "Co-founded and led engineering on a full DeFi product suite: swap, bridge, staking, yield farming, NFT platform, then spun out a standalone on-chain index protocol. Built on Next.js with SSR and mixed rendering strategies. Shipped across Base, Ethereum, BSC, and Arbitrum. $1M+ revenue generated, community in the thousands.",
+    frontendDescription:
+      "Co-founded and led engineering on a full product suite built on Next.js with SSR and mixed rendering strategies, built for real-time data and sub-second responsiveness under load, including swap, bridge, staking, yield farming, and an NFT platform, later spun out into a standalone on-chain index protocol in the DeFi space. Shipped across four chains, $1M+ revenue generated, community in the thousands.",
+  },
+  {
+    period: "2013 - 2022",
+    role: "Frontend Engineer → Senior",
+    company: "Enterprise & Agency",
+    description:
+      "Nine years across London agencies and Australian enterprise. SSR-first delivery across Next.js, Nuxt, and Astro, test pipelines from unit to E2E, performance-critical government properties, and the component systems and discipline that come from building at institutional scale. The foundation.",
+  },
+]
+
+const roleOrder: Record<SiteMode, string[]> = {
+  web3: ["ClawOps", "Web3 Product Suite", "Enterprise & Agency"],
+  frontend: ["Enterprise & Agency", "ClawOps", "Web3 Product Suite"],
+  ai: ["ClawOps", "Web3 Product Suite", "Enterprise & Agency"],
+}
+
+const orderedRoles = roleOrder[mode]
+  .map((company) => roles.find((role) => role.company === company)!)
+  .map((role) => ({
+    ...role,
+    description:
+      mode === "frontend" && role.frontendDescription
+        ? role.frontendDescription
+        : role.description,
+  }))
+---
+
+<section id="work" data-lazy-section class="bg-zinc-950 px-8 py-28">
+  <div class="mx-auto max-w-4xl">
+    <div data-reveal class="mb-20">
+      <p
+        class="mb-6 font-mono text-xs tracking-[0.25em] text-chart-1 uppercase"
+      >
+        <EncryptedText text="02: Selected Work" />
+      </p>
+      <h2
+        class="font-display [font-size:clamp(1.75rem,4vw,2.75rem)] leading-tight font-bold text-white"
+      >
+        A decade of shipping interfaces people actually use.
+      </h2>
+    </div>
+
+    <div class="relative">
+      <div class="absolute top-2 bottom-2 left-1.25 w-px bg-zinc-800"></div>
+      <div class="space-y-14">
+        {
+          orderedRoles.map(({ period, role, company, description }, index) => (
+            <article
+              data-reveal
+              style={`--reveal-delay: ${index * 120}ms`}
+              class="relative pl-10"
+            >
+              <div class="absolute top-1.5 left-0 size-2.75 rounded-full bg-chart-1" />
+              <div class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <span class="font-sans text-lg font-semibold text-white">
+                    {role}
+                  </span>
+                  <span class="font-sans text-lg text-copy-subtle-inverse">
+                    {` · ${company}`}
+                  </span>
+                </div>
+                <span class="shrink-0 font-mono text-sm text-chart-1 sm:pt-0.5">
+                  {period}
+                </span>
+              </div>
+              <p class="max-w-2xl font-sans text-sm leading-relaxed text-zinc-400">
+                {description}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
