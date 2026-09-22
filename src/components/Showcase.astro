@@ -3,6 +3,7 @@ import EncryptedText from "@/components/EncryptedText.astro"
 import clawOpsModels from "@/assets/clawops-screenshot-2.png"
 import clawOpsSwitching from "@/assets/clawops-screenshot-1.png"
 import cryptoGenesis from "@/assets/crypto-genesis-screenshot-1.jpg"
+import fewerParts from "@/assets/fewer-parts.png"
 import indxFunds from "@/assets/indx-screenshot-2.jpg"
 import indxIndex from "@/assets/indx-screenshot-4.jpg"
 import indxMobile from "@/assets/indx-screenshot-3.jpg"
@@ -10,8 +11,17 @@ import indxPerformers from "@/assets/indx-screenshot-1.jpg"
 import onchainHomepage from "@/assets/onchain-ui-homepage.png"
 import { Image } from "astro:assets"
 
-const shots = [
+const shots: Array<{
+  src: typeof onchainHomepage
+  alt: string
+  href?: string
+}> = [
   { src: onchainHomepage, alt: "onchain-ui, Homepage" },
+  {
+    src: fewerParts,
+    alt: "Fewer Parts, Homepage",
+    href: "https://fewerparts.dev/",
+  },
   { src: clawOpsSwitching, alt: "ClawOps, Smart model switching" },
   { src: indxPerformers, alt: "INDX, Top Performers dashboard" },
   { src: indxMobile, alt: "INDX, Mobile app" },
@@ -63,16 +73,36 @@ const doubledShots = [...shots, ...shots]
       {
         shots.map((shot) => (
           <figure class="w-full flex-none snap-start snap-always">
-            <Image
-              src={shot.src}
-              alt={shot.alt}
-              draggable="false"
-              loading="lazy"
-              decoding="async"
-              widths={[360, 720, 1080]}
-              sizes="calc(100vw - 4rem)"
-              class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
-            />
+            {
+              shot.href ? (
+                <a
+                  href={shot.href}
+                  class="block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-chart-1"
+                >
+                  <Image
+                    src={shot.src}
+                    alt={shot.alt}
+                    draggable="false"
+                    loading="lazy"
+                    decoding="async"
+                    widths={[360, 720, 1080]}
+                    sizes="calc(100vw - 4rem)"
+                    class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
+                  />
+                </a>
+              ) : (
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  draggable="false"
+                  loading="lazy"
+                  decoding="async"
+                  widths={[360, 720, 1080]}
+                  sizes="calc(100vw - 4rem)"
+                  class="aspect-3/2 w-full rounded-sm bg-zinc-900 object-cover select-none"
+                />
+              )
+            }
             <figcaption class="mt-3 font-mono text-[11px] tracking-wider text-copy-subtle-inverse uppercase">
               {shot.alt}
             </figcaption>
@@ -108,19 +138,37 @@ const doubledShots = [...shots, ...shots]
 
     <div data-marquee-track class="marquee-track flex w-max gap-4">
       {
-        doubledShots.map((shot, index) => (
-          <Image
-            src={shot.src}
-            alt={index < shots.length ? shot.alt : ""}
-            aria-hidden={index >= shots.length ? "true" : undefined}
-            draggable="false"
-            loading="lazy"
-            decoding="async"
-            widths={[480, 720, 960]}
-            sizes="480px"
-            class="h-72 w-auto flex-none rounded-sm object-cover select-none"
-          />
-        ))
+        doubledShots.map((shot, index) =>
+          shot.href && index < shots.length ? (
+            <a
+              href={shot.href}
+              class="h-72 flex-none rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-chart-1"
+            >
+              <Image
+                src={shot.src}
+                alt={shot.alt}
+                draggable="false"
+                loading="lazy"
+                decoding="async"
+                widths={[480, 720, 960]}
+                sizes="480px"
+                class="h-full w-auto rounded-sm object-cover select-none"
+              />
+            </a>
+          ) : (
+            <Image
+              src={shot.src}
+              alt={index < shots.length ? shot.alt : ""}
+              aria-hidden={index >= shots.length ? "true" : undefined}
+              draggable="false"
+              loading="lazy"
+              decoding="async"
+              widths={[480, 720, 960]}
+              sizes="480px"
+              class="h-72 w-auto flex-none rounded-sm object-cover select-none"
+            />
+          )
+        )
       }
     </div>
   </div>
